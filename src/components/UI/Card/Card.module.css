@@ -1,0 +1,10 @@
+.card{
+    margin: 40px;
+    background-color: beige;
+}
+
+@media (max-width: 1024px) {
+    .card{
+      margin: 10px;
+    }
+  }

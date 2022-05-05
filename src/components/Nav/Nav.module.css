@@ -1,0 +1,24 @@
+.main_nav{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.main_nav__element{
+    list-style: none;
+    font-size: 1.25rem;
+
+}
+
+.main_nav__element a {
+    text-decoration: none;
+    color: white;
+    padding: .3rem;
+}
+
+.active,
+.main_nav__element a:hover,
+.main_nav__element a:active {
+    font-weight: 600;
+    border-bottom: .3rem white solid;
+}
