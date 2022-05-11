@@ -1,0 +1,36 @@
+.controls{
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.checkin, .checkout {
+    border: none;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    border-radius: .6rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.checkin {
+    margin-top: .9rem;
+    background-color: #150958;
+
+}
+
+.checkin:disabled{
+    background-color: #15095864;
+    cursor: not-allowed;
+}
+
+.checkout {
+    margin-bottom: .9rem;
+    background-color: #862354;
+}
+
+.checkout:disabled {
+    background-color: #86235455;
+    cursor: not-allowed;
+}

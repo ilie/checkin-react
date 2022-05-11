@@ -1,10 +1,13 @@
 .card{
     margin: 40px;
-    background-color: beige;
+    padding: 40px 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: .6rem;
 }
 
 @media (max-width: 1024px) {
     .card{
-      margin: 10px;
+      margin: 20px;
+      padding: 20px;
     }
   }

@@ -1,0 +1,76 @@
+.burger, .burger__nav {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .burger, .burger__nav {
+    display: block;
+  }
+}
+.burger {
+  z-index: 1;
+  position: relative;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.burger span {
+  display: block;
+  width: 30px;
+  height: 2px;
+  background: #eee;
+  margin-bottom: 5px;
+}
+
+.burger__nav {
+  background-color: #09053b;
+  z-index: 0;
+  top: 0;
+  padding: 20px;
+  padding-top: 80px;
+  height: 100%;
+  box-sizing: border-box;
+  width: 250px;
+  right: 0px;
+  position: absolute;
+  display: none;
+}
+
+.burger__nav__element{
+  list-style: none;
+  font-size: 1.4rem;
+  padding: .5rem;
+}
+.burger__nav__element_a {
+  text-decoration: none;
+  color: white;
+  margin-left: .3rem;
+}
+.burger__nav__element_a:hover,
+.burger__nav__element_a:active,
+.burger__nav__element_a.active{
+  border-left: .5rem white solid;
+  padding-left: .3rem;
+  margin-left: -.5rem;
+}
+
+
+/* open state */
+
+.burger__nav.open {
+  display: block;
+}
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg) translateY(10px);
+}
+.burger.open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-10px);
+}
+
+/* transitions */
+.burger span {
+  transition: all ease-in 0.3s;
+}

@@ -1,0 +1,82 @@
+.login {
+  margin: 0 auto;
+  width: 95%;
+  padding: 1.8rem 1rem;
+  text-align: center;
+}
+
+.login h1 {
+  color: #3b3b3b;
+  font-family: inherit;
+  font-weight: 900;
+  text-align: left;
+  font-size: 1.45rem;
+  margin-bottom: 1.4rem;
+}
+
+.formgroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.formgroup label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 9rem;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  color: #3b3b3b;
+}
+
+.formgroup input,
+.loginBtn {
+  font: inherit;
+  border-radius: 0.3rem;
+  width: 100%;
+  font-size: 1.15rem;
+  padding: 0.8rem;
+}
+
+.formgroup input {
+  border: 1px solid #150958;
+  text-align: left;
+}
+
+.formgroup:last-child {
+  flex-direction: column;
+}
+
+.formgroup:nth-child(2){
+  position: relative;
+  margin-top: 3.5rem;
+}
+
+.pswlabel, .pswlink{
+  position: absolute;
+}
+.pswlabel{
+  bottom: 3.4rem;
+}
+
+.pswlink{
+  bottom: 3.95rem;
+  right: 0;
+  color: #150958;
+  text-decoration: none;
+}
+
+.loginBtn {
+  background-color: #150958;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.loginBtn:hover {
+  background-color: #150958da;
+  border-color: #150958da;
+}
+
