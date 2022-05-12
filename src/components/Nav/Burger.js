@@ -44,6 +44,9 @@ function Burger(props) {
               </li>
             );
           })}
+          <li className="burger__nav__element__logout" onClick={props.logOut}>
+            Sign Out
+          </li>
         </ul>
       </nav>
     </Fragment>

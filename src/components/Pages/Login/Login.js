@@ -1,47 +1,56 @@
-import { Link } from "react-router-dom";
-import classes from "./Login.module.css";
+import axios from "axios";
+import LoginForm from "./LoginForm";
+import { useRef, useState, useContext } from "react";
+import AuthContext from "../../../store/auth-context";
 
 function Login() {
-  const loginHandler = (e) => {
-    e.preventDefault();
-    console.log("Submitted");
+  const authCtx = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const emailInputRef = useRef();
+  const passInputRef = useRef();
+
+  const api = axios.create({
+    baseURL: `https://api.checkin.virginialyons.com/api`,
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+
+  const loginHandler = (event) => {
+    event.preventDefault();
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPassword = passInputRef.current.value;
+
+    //Make http request
+    setIsLoading(true);
+    api
+      .post("/login", {
+        email: enteredEmail,
+        password: enteredPassword,
+      })
+      .then((res) => {
+        setIsLoading(false);
+        authCtx.login(res.data.attributes.token);
+        authCtx.setAdmin(res.data.attributes.is_admin);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setLoginFailed(true);
+        setLoginError(error.response.data.error);
+      });
   };
+
   return (
-    <div className={classes.login}>
-      <h1>Sign in to your account</h1>
-      <form className={classes.loginform} onSubmit={loginHandler}>
-        <div className={classes.formgroup}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            placeholder="Email"
-            autoComplete="off"
-          />
-        </div>
-        <div className={classes.formgroup}>
-          <label className={classes.pswlabel} htmlFor="password">
-            Password
-          </label>
-          <Link className={classes.pswlink} to="forgot-password">
-            {" "}
-            Forgotten your password ?
-          </Link>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-          />
-        </div>
-        <div className={classes.formgroup}>
-          <button className={classes.loginBtn} type="submit">
-            Login
-          </button>
-        </div>
-      </form>
-    </div>
+    <LoginForm
+      onSubmit={loginHandler}
+      loginFailed={loginFailed}
+      loginError={loginError}
+      isLoading={isLoading}
+      emailInputRef={emailInputRef}
+      passInputRef={passInputRef}
+    />
   );
 }
 

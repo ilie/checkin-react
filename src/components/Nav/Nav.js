@@ -1,10 +1,15 @@
+import Burger from "./Burger";
+import { useContext } from "react";
 import classes from "./Nav.module.css";
 import { NavLink } from "react-router-dom";
-import Burger from "./Burger";
-const Nav = (props) => {
+import svg from "../../assets/img/turn-off.svg";
+import AuthContext from "../../store/auth-context";
+
+const Nav = () => {
+  const authCtx = useContext(AuthContext);
   const linkIsActive = (navData) => (navData.isActive ? classes.active : "");
-  const isLoggedIn = false;
-  const currentUserisAdmin = false; // Remove me later this should be passed by props
+  const logoutButton = <img src={svg} alt="Logout" onClick={authCtx.logout} />;
+
   let navElements = [
     {
       id: 1,
@@ -17,13 +22,8 @@ const Nav = (props) => {
       link: "/checkins",
     },
   ];
-  if (isLoggedIn) {
-    navElements.push({ id: 4, label: "Logout", link: "/logout" });
-  } else {
-    navElements.push({ id: 4, label: "Login", link: "/login" });
-  }
 
-  if (currentUserisAdmin) {
+  if (authCtx.isAdmin) {
     navElements[1].label = "Checkins";
     navElements.push({ id: 4, label: "Users", link: "/users" });
   }
@@ -40,9 +40,10 @@ const Nav = (props) => {
               </li>
             );
           })}
+          <li className={classes.logoutButton}>{logoutButton}</li>
         </ul>
       </nav>
-      <Burger navElements={navElements} />
+      <Burger navElements={navElements} logOut={authCtx.logout} />
     </div>
   );
 };

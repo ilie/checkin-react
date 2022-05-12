@@ -44,6 +44,9 @@
   text-align: left;
 }
 
+.formgroup:first-child {
+  margin-top: 0.6rem;
+}
 .formgroup:last-child {
   flex-direction: column;
 }
@@ -80,3 +83,9 @@
   border-color: #150958da;
 }
 
+.error{
+  background-color: #ff00002a;
+  color: red;
+  padding: 0.5rem 4.7rem;
+  margin-bottom: 3rem;
+}

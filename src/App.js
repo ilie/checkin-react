@@ -1,14 +1,17 @@
-import React, { Fragment } from "react";
-import { Routes, Route } from "react-router-dom";
+import "./App.css";
 import Auth from "./auth/Auth";
+import AuthContext from "./store/auth-context";
 import Header from "./components/Header/Header";
 import Home from "./components/Pages/Home/Home";
-import Checkins from "./components/Pages/Checkins/Checkins";
+import { Routes, Route } from "react-router-dom";
 import Users from "./components/Pages/Users/Users";
-import Modal from "./components/UI/Modal/Modal";
-import "./App.css";
-const isAuth = false;
+import React, { Fragment, useContext } from "react";
+import Checkins from "./components/Pages/Checkins/Checkins";
+
 function App() {
+  const authCtx = useContext(AuthContext);
+  const isAuth = authCtx.isLoggedIn;
+
   let app = (
     <Fragment>
       <Header />

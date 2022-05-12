@@ -4,14 +4,16 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./store/auth-context";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <AuthContextProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </AuthContextProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -38,6 +38,7 @@
 .burger__nav__element{
   list-style: none;
   font-size: 1.4rem;
+  margin-top: 1rem;
   padding: .5rem;
 }
 .burger__nav__element_a {
@@ -53,6 +54,22 @@
   margin-left: -.5rem;
 }
 
+.burger__nav__element__logout{
+  list-style: none;
+  margin-left: 0.8rem;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  border: 1px solid white;
+  width: 6rem;
+  text-align: center;
+  border-radius: 0.4rem;
+}
+.burger__nav__element__logout:hover,
+.burger__nav__element__logout:active{
+  background-color: white;
+  color: #09053b;
+}
 
 /* open state */
 
