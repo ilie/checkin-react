@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import classes from "./Checkin.module.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Checkin() {
   const [isLoading, setIsLoading] = useState(true);
   const [checkinStatus, setCheckinStatus] = useState("");
   const [checkinStatusId, setCheckinStatusId] = useState(null);
-  const [error, setError] = useState("");
   const { Axios } = useAxios();
 
-  const getStatus = () => {
+  useEffect(() => {
+    getStatus();
+  }, [])
+
+  const getStatus =  () => {
     return Axios.get("/checkins/status")
       .then((result) => {
         setIsLoading(false);
@@ -18,7 +23,8 @@ function Checkin() {
       })
       .catch((err) => {
         setIsLoading(false);
-        setError(err.message);
+        toast.error(err.message);
+        console.log(err.message);
       });
   };
 
@@ -30,19 +36,10 @@ function Checkin() {
       })
       .catch((err) => {
         setIsLoading(false);
-        setError(err.response.data.message);
-        console.log(err.response.data.message);
+        toast.error(err.response.data.message);
+        getStatus();
       });
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    getStatus();
-    const dismissError = setTimeout(()=>{
-      if(error !== ''){setError('') }
-    }, 5000);
-    return () => clearTimeout(dismissError);
-  }, [checkinStatus, error]);
 
   const checkinHandler = () => {
     sendPostRequest("/checkins", { type: "checkin", checkin_id: null });
@@ -52,14 +49,8 @@ function Checkin() {
       type: "checkout",
       checkin_id: checkinStatusId,
     });
-
-
   };
 
-  let errorMessage = ''
-  if(error !== ''){
-    errorMessage = <p className={classes.errorMessage}>{error}</p>
-  }
 
   let content = <p className={classes.loading}>Loading ...</p>;
   if (!isLoading) {
@@ -78,11 +69,10 @@ function Checkin() {
     }
   }
 
-  return (
-    <div>
-      {!!error ? errorMessage : content}
-    </div>
-  );
+  return (<div>
+    <ToastContainer style={{top: '6rem', right: '0.4rem'}}/>
+    { content}
+    </div>);
 }
 
 export default Checkin;

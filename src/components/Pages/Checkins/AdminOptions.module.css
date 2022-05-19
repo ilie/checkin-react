@@ -1,0 +1,28 @@
+.options{
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 0.3rem;
+}
+.create::before,
+.remove::before,
+.edit::before{
+    margin-right: 0.2rem;
+    font-size: 1.2rem;
+}
+.create::before {
+    content: '\2295';
+
+}
+.remove::before {
+    content: '\2296';
+}
+.edit::before {
+    content: '\2299';
+}

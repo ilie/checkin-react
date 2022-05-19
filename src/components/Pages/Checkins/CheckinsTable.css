@@ -1,0 +1,60 @@
+.rows-per-page {
+  margin-right: 0.5rem;
+}
+
+.checkins-table {
+  width: 100%;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  background-color: white;
+  padding: 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 0.3rem;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.checkins-table thead {
+  background-color: aquamarine;
+}
+
+.checkins-table thead th {
+  padding: 0.5rem;
+}
+
+.checkins-table tbody {
+  height: 500px;
+  overflow-y: scroll;
+}
+.checkins-table tbody tr td {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid #e6e5e5;
+}
+.checkins-table thead tr th:first-child,
+.checkins-table tbody tr td:first-child {
+  min-width: 10rem;
+}
+.checkins-table thead tr th:nth-child(2),
+.checkins-table tbody tr td:nth-child(2) {
+  max-width: 3.2rem;
+  text-align: left;
+}
+.checkins-table thead tr th:nth-child(3),
+.checkins-table tbody tr td:nth-child(3),
+.checkins-table thead tr th:nth-child(4),
+.checkins-table tbody tr td:nth-child(4) {
+  max-width: 3.2rem;
+  text-align: center;
+}
+.checkins-table thead tr th:last-child,
+.checkins-table tbody tr td:last-child {
+  text-align: right;
+  max-width: 5rem;
+}
+
+@media (max-width: 700px) {
+  .checkins-table thead tr th:first-child,
+  .checkins-table tbody tr td:first-child {
+    min-width: auto;
+  }
+}
