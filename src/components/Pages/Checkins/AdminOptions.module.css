@@ -3,12 +3,21 @@
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: 1rem;
     margin-top: 0.8rem;
     margin-bottom: 0.8rem;
     padding: 0.8rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 0.3rem;
+}
+.left_options,
+.right_options {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
 }
 .create::before,
 .remove::before,
@@ -26,3 +35,9 @@
 .edit::before {
     content: '\2299';
 }
+
+@media (max-width: 700px) {
+    .left_options {
+      display: none;
+    }
+  }

@@ -6,26 +6,27 @@ import { useState, useEffect, useContext } from "react";
 import AdminOptions from "./AdminOptions";
 import RecordsPerPage from "./RecordsPerPage";
 import CheckinsTable from "./CheckinsTable";
-import Pagination from "./Pagination";
+import Pagination from "../../UI/Pagination";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
   const isAdmin = ctx.isAdmin;
   const [data, setData] = useState([]);
   const [meta, setMeta] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(15);
   const [pageNumber, setPageNumber] = useState(1);
-  const [sortDateAsc, setSortDateAsc] = useState(false);
-  const [sortUserAsc, setSortUserAsc] = useState(true);
-  const [sort, setSort] = useState(["-created_at", "user_id"]);
+  const [selctedUserValue, setSelectedUserValue] = useState(0);
+  const [filter, setFilter] = useState("");
   const { Axios } = useAxios();
 
-  let url = `/checkins?page[size]=${pageSize}&page[number]=${pageNumber}&sort=${sort}`;
+  let url = `/checkins?page[size]=${pageSize}&page[number]=${pageNumber}&sort=-created_at${filter}`;
 
   useEffect(() => {
     getData();
-  }, [pageNumber, pageSize]);
+    getUsers();
+  }, [pageNumber, pageSize, filter]);
 
   const getData = () => {
     setIsLoading(true);
@@ -34,42 +35,61 @@ function Checkins() {
         setIsLoading(false);
         setData(deserialize(result.data));
         setMeta(result.data.meta);
-        console.log("URL ", url);
-        //console.log("Data ", deserialize(result.data));
-        console.log("Meta ", result.data.meta);
+        console.log('Meta: ', result.data.meta);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoading(false);
-        //console.log(err);
       });
+  };
+
+  const getUsers = () => {
+    return Axios.get("/users").then((result) => {
+      const data = deserialize(result.data);
+       setUsers(data);
+    });
+  };
+
+  const selectOnChangeHandler = (e) => {
+    setSelectedUserValue(e.target.value);
+    const filter = e.target.value == 0 ? "" : "&filter[user]=" + e.target.value;
+    setFilter(filter);
   };
 
   const perPageHandler = (e) => {
     setPageSize(e.target.value);
   };
   const previousPageHandler = () => {
-    if(pageNumber <= 1) return;
-    setPageNumber((prevState) => prevState -1);
+    if (pageNumber <= 1) return;
+    setPageNumber((prevState) => prevState - 1);
     console.log(pageNumber);
   };
   const nextPageHandeler = () => {
-    if(pageNumber >= meta.last_page) return ;
-    setPageNumber((prevState) => prevState +1);
+    if (pageNumber >= meta.last_page) return;
+    setPageNumber((prevState) => prevState + 1);
     console.log(pageNumber);
   };
   return (
     <div className="container">
       <div className={classes.body}>
         <h1>{isAdmin ? "All Checkins" : "My checkins"}</h1>
-        {isAdmin && <AdminOptions />}
+        {isAdmin && (
+          <AdminOptions
+            users={users}
+            selectOnChange={selectOnChangeHandler}
+            selectedUser={selctedUserValue}
+          />
+        )}
         <RecordsPerPage pageSize={pageSize} perPage={perPageHandler} />
         <CheckinsTable data={data} isLoading={isLoading} />
         <Pagination
-          total={meta.total}
-          from={meta.from}
-          to={meta.to}
+          currentPage={meta.current_page}
           previous={previousPageHandler}
           next={nextPageHandeler}
+          from={meta.from}
+          lastPage={meta.last_page}
+          perPage={meta.per_page}
+          to={meta.to}
+          total={meta.total}
         />
       </div>
     </div>
