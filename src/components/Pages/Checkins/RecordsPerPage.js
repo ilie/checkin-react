@@ -19,6 +19,7 @@ function RecordsPerPage(props) {
       <span className="rows-per-page">Rows per page</span>
       <label className="custom-selector-sm">
         <select
+          className="select_perPage"
           name="select_perPage"
           value={props.pageSize}
           onChange={props.perPage}

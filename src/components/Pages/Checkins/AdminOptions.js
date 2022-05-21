@@ -28,7 +28,7 @@ function AdminOptions(props) {
   return (
     <div className={classes.options}>
       <div className={classes.left_options}>
-        <span className={classes.create + " hide_on_mobile"}>
+        <span className={classes.create + " hide_on_mobile"} onClick={props.onClickCreate}>
           Create New Checkin
         </span>
         <span className={classes.remove + " hide_on_mobile"}>

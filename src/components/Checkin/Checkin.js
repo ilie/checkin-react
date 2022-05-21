@@ -24,7 +24,6 @@ function Checkin() {
       .catch((err) => {
         setIsLoading(false);
         toast.error(err.message);
-        console.log(err.message);
       });
   };
 

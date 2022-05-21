@@ -1,4 +1,4 @@
-import { getFormattedTimeDiff } from "../../../helpers/formatters";
+import { getFormattedTimeDiff, formatDateToES } from "../../../helpers/formatters";
 import "./CheckinsTable.css";
 
 function CheckinsTable(props) {
@@ -7,11 +7,10 @@ function CheckinsTable(props) {
     const startTime = new Date(row.checkin_date + "T" + row.checkin_time);
     const endTime = new Date(row.checkin_date + "T" + row.checkout_time);
     const hours = getFormattedTimeDiff(startTime, endTime);
-
     return (
       <tr key={row.id}>
         <td>{row.user_name}</td>
-        <td>{row.checkin_date}</td>
+        <td>{formatDateToES(row.checkin_date)}</td>
         <td>{row.checkin_time}</td>
         <td>{row.checkout_time}</td>
         <td className="hide_on_mobile">{hours}</td>

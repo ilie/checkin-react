@@ -1,3 +1,7 @@
+const add0 = (number) => {
+  return number < 10 ? "0" + number : number;
+}
+
 export const getFormattedTimeDiff = (startTime, endTime) => {
   let diff = Math.abs(endTime - startTime);
   let ms = diff % 1000;
@@ -11,9 +15,17 @@ export const getFormattedTimeDiff = (startTime, endTime) => {
   if (isNaN(hh) || isNaN(mm) || isNaN(ss)) {
     return "Checkin Incomplete";
   }
-  const hours = hh < 10 ? "0" + hh : hh;
-  const minutes = mm < 10 ? "0" + mm : mm;
-  const seconds = ss < 10 ? "0" + ss : ss;
+  const hours = add0(hh);
+  const minutes = add0(mm);
+  const seconds = add0(ss);
   const formattedTime = `${hours}:${minutes}:${seconds}`;
   return formattedTime;
 };
+
+export const formatDateToES = (givenDate) => {
+  const date = new Date(givenDate);
+  const day = add0(date.getDate());
+  const month = add0(date.getMonth());
+  const year = add0(date.getFullYear());
+  return (`${day}/${month}/${year}`);
+}
