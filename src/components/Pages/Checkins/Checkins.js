@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Modal from "../../UI/Modal/Modal";
 import AdminOptions from "./AdminOptions";
 import CheckinsTable from "./CheckinsTable";
@@ -9,8 +8,8 @@ import RecordsPerPage from "./RecordsPerPage";
 import useAxios from "../../../hooks/useAxios";
 import AuthContext from "../../../store/auth-context";
 import { ToastContainer, toast } from "react-toastify";
-import { useState, useEffect, useContext } from "react";
 import CheckinForm from "../../Forms/CheckinForm";
+import { Fragment, useState, useEffect, useContext } from "react";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
@@ -46,7 +45,8 @@ function Checkins() {
         setData(deserialize(result.data));
         setMeta(result.data.meta);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.response.status == 401) ctx.clearLoginData();
         setIsLoading(false);
       });
   };
@@ -87,7 +87,8 @@ function Checkins() {
 
   const selectOnChangeHandler = (e) => {
     setSelectedUserValue(e.target.value);
-    const filter = e.target.value === 0 ? "" : "&filter[user]=" + e.target.value;
+    console.log('Target value: ', e.target.value);
+    const filter = e.target.value == 0 ? "" : "&filter[user]=" + e.target.value;
     setFilter(filter);
   };
 

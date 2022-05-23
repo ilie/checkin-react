@@ -9,6 +9,7 @@ const Nav = () => {
   const authCtx = useContext(AuthContext);
   const linkIsActive = (navData) => (navData.isActive ? classes.active : "");
   const logoutButton = <img src={svg} alt="Logout" onClick={authCtx.logout} />;
+  const isLoggedIn = authCtx.isLoggedIn;
 
   let navElements = [
     {
@@ -27,6 +28,7 @@ const Nav = () => {
     navElements[1].label = "Checkins";
     navElements.push({ id: 4, label: "Users", link: "/users" });
   }
+
   return (
     <div>
       <nav className={classes.main_nav_wrapper}>

@@ -7,6 +7,7 @@ const AuthContext = React.createContext({
   login: (token) => {},
   setAdmin: (isAdmin) => {},
   logout: () => {},
+  clearLoginData: () => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -35,14 +36,22 @@ export const AuthContextProvider = (props) => {
     api
       .post("/logout")
       .then((res) => {
-        setToken(null);
-        localStorage.removeItem("token");
-        localStorage.removeItem("isAdmin");
+       clearLogin();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const clearLoginDataHandler = () => {
+    clearLogin()
+  };
+
+  const clearLogin = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+  }
 
   const contextValue = {
     token: token,
@@ -51,6 +60,8 @@ export const AuthContextProvider = (props) => {
     login: loginHandler,
     setAdmin: userIsAdminHandler,
     logout: logoutHandler,
+    clearLoginData: clearLoginDataHandler
+
   };
   return (
     <AuthContext.Provider value={contextValue}>

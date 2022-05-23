@@ -6,7 +6,7 @@
 
 .main_nav__element, .logoutButton {
   list-style: none;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 .logoutButton:hover{
   cursor: pointer;

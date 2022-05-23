@@ -23,7 +23,7 @@ select{
 
 
 .shadow{
-  box-shadow: 0px 6px 20px rgba(45, 45, 45, 0.4);
+  box-shadow: 0px 5px 20px rgba(45, 45, 45, 0.4);
 }
 
 @media (max-width: 700px) {

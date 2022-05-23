@@ -52,6 +52,6 @@
   .checkins-table thead tr th:first-child,
   .checkins-table tbody tr td:first-child {
     min-width: auto;
-    max-width: 5rem;
+    max-width: 3.8rem;
   }
 }

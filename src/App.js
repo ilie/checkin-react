@@ -1,31 +1,41 @@
 import "./App.css";
-import Auth from "./auth/Auth";
+import { useContext } from "react";
+import Login from "./components/Pages/auth/Login";
+import ResetPassword from "./components/Pages/auth/ResetPassword";
+import ForgotPassword from "./components/Pages/auth/ForgotPassword";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AuthContext from "./store/auth-context";
-import Header from "./components/Header/Header";
 import Home from "./components/Pages/Home/Home";
-import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
 import Users from "./components/Pages/Users/Users";
-import React, { Fragment, useContext } from "react";
 import Checkins from "./components/Pages/Checkins/Checkins";
+
+import useAuth from "./hooks/useAuth";
 
 function App() {
   const authCtx = useContext(AuthContext);
-  const isAuth = authCtx.isLoggedIn;
 
-  let app = (
-    <Fragment>
+  return (
+    <div className="App">
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/checkins" element={<Checkins />} />
-        <Route path="/users" element={<Users />} />
-      </Routes>
-    </Fragment>
+
+      {authCtx.isLoggedIn ? (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/checkins" element={<Checkins />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="*" element={<Navigate to="/"></Navigate>} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Navigate to="/login"></Navigate>} />
+        </Routes>
+      )}
+    </div>
   );
-  if (!isAuth) {
-    app = <Auth />;
-  }
-  return <div className="App">{app}</div>;
 }
 
 export default App;

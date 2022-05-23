@@ -1,0 +1,42 @@
+#auth_bg{
+    background-image: url('../../../assets/img/Checkin-bg-Auth.svg');
+    z-index: 100;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.auth__container{
+    z-index: 101;
+    width: 50rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.auth__logo{
+    width: 20rem;
+}
+.auth__logo img {
+    width: 10rem;
+    margin-left: 1rem;
+}
+.form_container__info{
+    font-size: 0.8rem;
+}
+
+.auth__container__link{
+    text-align: right;
+}
+
+@media (max-width: 700px) {
+    #auth_bg {
+        background-position: bottom right;
+    }
+  }

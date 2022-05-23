@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
-import Modal from "../components/UI/Modal/Modal";
-import LoginForm from "../components/Pages/Login/Login";
+import Modal from "../../UI/Modal/Modal";
+import LoginForm from "../../Login/LoginForm";
+import AuthContext from "../../../store/auth-context";
 
 const Auth = () => {
+  const ctx = useContext(AuthContext);
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  //const token = localStorage.getItem("token");
+  const isLoggedIn = ctx.isLoggedIn;
 
   useEffect(() => {
     if (isLoggedIn) {

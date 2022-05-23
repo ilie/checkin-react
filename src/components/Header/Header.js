@@ -12,7 +12,7 @@ const Header = () => {
               className={classes.Logo}
               src={logo}
               alt="Checkin"
-              width="160px"
+              width="145px"
             />
           </div>
           <MainNav />

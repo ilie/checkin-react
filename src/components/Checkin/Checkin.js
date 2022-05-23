@@ -1,20 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import useAxios from "../../hooks/useAxios";
 import classes from "./Checkin.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../../store/auth-context";
 
 function Checkin() {
   const [isLoading, setIsLoading] = useState(true);
   const [checkinStatus, setCheckinStatus] = useState("");
   const [checkinStatusId, setCheckinStatusId] = useState(null);
   const { Axios } = useAxios();
-
+  const autCtx = useContext(AuthContext);
   useEffect(() => {
-    getStatus();
-  }, [])
+    getCheckinStatus();
+  }, []);
 
-  const getStatus =  () => {
+  const getCheckinStatus = () => {
     return Axios.get("/checkins/status")
       .then((result) => {
         setIsLoading(false);
@@ -23,7 +24,9 @@ function Checkin() {
       })
       .catch((err) => {
         setIsLoading(false);
-        toast.error(err.message);
+        const errMessage = err.response.data.message;
+        if (err.response.status == 401)  autCtx.clearLoginData();
+        toast.error(errMessage);
       });
   };
 
@@ -31,12 +34,12 @@ function Checkin() {
     setIsLoading(true);
     Axios.post(url, body)
       .then((res) => {
-        getStatus();
+        getCheckinStatus();
       })
       .catch((err) => {
         setIsLoading(false);
         toast.error(err.response.data.message);
-        getStatus();
+        getCheckinStatus();
       });
   };
 
@@ -49,7 +52,6 @@ function Checkin() {
       checkin_id: checkinStatusId,
     });
   };
-
 
   let content = <p className={classes.loading}>Loading ...</p>;
   if (!isLoading) {
@@ -68,10 +70,12 @@ function Checkin() {
     }
   }
 
-  return (<div>
-    <ToastContainer style={{top: '6rem', right: '0.4rem'}}/>
-    { content}
-    </div>);
+  return (
+    <div>
+      <ToastContainer style={{ top: "6rem", right: "0.4rem" }} />
+      {content}
+    </div>
+  );
 }
 
 export default Checkin;
