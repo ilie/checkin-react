@@ -1,5 +1,4 @@
 import ForgotPasswordForm from "../../Forms/ForgotPasswordForm";
-import useAuth from "../../../hooks/useAuth";
 import "./Auth.css";
 import Logo from "../../../assets/img/Checkin-blue.svg";
 import { Link } from "react-router-dom";

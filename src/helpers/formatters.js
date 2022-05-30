@@ -15,6 +15,7 @@ export const getFormattedTimeDiff = (startTime, endTime) => {
   if (isNaN(hh) || isNaN(mm) || isNaN(ss)) {
     return "Checkin Incomplete";
   }
+
   const hours = add0(hh);
   const minutes = add0(mm);
   const seconds = add0(ss);
@@ -23,9 +24,14 @@ export const getFormattedTimeDiff = (startTime, endTime) => {
 };
 
 export const formatDateToES = (givenDate) => {
-  const date = new Date(givenDate);
-  const day = add0(date.getDate());
-  const month = add0(date.getMonth());
-  const year = add0(date.getFullYear());
-  return (`${day}/${month}/${year}`);
+  const date = new Date(givenDate).toLocaleString('en-GB', {
+    year: "numeric",
+    month: 'numeric',
+    day: 'numeric'
+  });
+  return date
+}
+
+export const formatDateToSQL = (givenDate) => {
+  return givenDate.toISOString().split('T')[0] ;
 }

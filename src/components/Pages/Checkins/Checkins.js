@@ -1,5 +1,4 @@
-import Modal from "../../UI/Modal/Modal";
-import AdminOptions from "./AdminOptions";
+import AdminOptions from "../../AdminOptions/AdminOptions";
 import CheckinsTable from "./CheckinsTable";
 import classes from "./Checkins.module.css";
 import Pagination from "../../UI/Pagination";
@@ -8,8 +7,8 @@ import RecordsPerPage from "./RecordsPerPage";
 import useAxios from "../../../hooks/useAxios";
 import AuthContext from "../../../store/auth-context";
 import { ToastContainer, toast } from "react-toastify";
-import CheckinForm from "../../Forms/CheckinForm";
-import { Fragment, useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import CheckinOptions from "./CheckinOptions";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
@@ -20,116 +19,133 @@ function Checkins() {
   const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(15);
   const [pageNumber, setPageNumber] = useState(1);
-  const [selctedUserValue, setSelectedUserValue] = useState(0);
-  const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState("");
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [singleCheckin, setSingleCheckin] = useState({});
   const { Axios } = useAxios();
 
-  let url = `/checkins?page[size]=${pageSize}&page[number]=${pageNumber}&sort=-created_at${filter}`;
+  let url = `/checkins?page[size]=${pageSize}&page[number]=${pageNumber}&sort=-checkin_date${filter}`;
 
   useEffect(() => {
     getData();
     getUsers();
   }, [pageNumber, pageSize, filter]);
 
-  // Methods
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const getData = () => {
+  const getData = async () => {
     setIsLoading(true);
-    return Axios.get(url)
-      .then((result) => {
-        setIsLoading(false);
-        setData(deserialize(result.data));
-        setMeta(result.data.meta);
-      })
-      .catch((err) => {
-        if (err.response.status == 401) ctx.clearLoginData();
-        setIsLoading(false);
-      });
+    try {
+      const response = await Axios.get(url);
+      setData(deserialize(response.data));
+      setMeta(response.data.meta);
+      setIsLoading(false);
+    } catch (err) {
+      if (err.response.status == 401) ctx.clearLoginData();
+      setIsLoading(false);
+    }
   };
 
-  const addCheckin = async (newCheckin) => {
+  const getUsers = async () => {
+    const response = await Axios.get("/users");
+    setUsers(deserialize(response.data));
+  };
+
+  const addCheckinHandler = async (newCheckinData) => {
     try {
-      const response = await Axios.post("/checkins/add", newCheckin);
+      const response = await Axios.post("/checkins/add", newCheckinData);
       const addedCheckin = deserialize(response.data);
       const checkins = [addedCheckin, ...data];
+      const newTotal = meta.total + 1;
+      const newMeta = { ...meta, total: newTotal };
+      setMeta(newMeta);
       setData(checkins);
-      closeModal();
-      toast.success("Checkin addes succesfuly");
+      toast.success("Checkin added succesfuly");
     } catch (error) {
-      closeModal();
       console.log(error);
       toast.error("error");
     }
   };
 
-  // Handlers
-  const hideModalHandler = () => {
-    closeModal();
+  const editCheckinHandler = async (checkin) => {
+    try {
+      const response = await Axios.put(`/checkins/${selectedRow}`, checkin);
+      const modifiedCheckin = deserialize(response.data);
+      const modifiedCheckins = data.map((item) => {
+        return item.id === checkin.id ? modifiedCheckin : item;
+      });
+      setData(modifiedCheckins);
+      setSelectedRow(null);
+      setSingleCheckin({});
+      toast.success("Checkin modified succesfuly!");
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
   };
 
-  const showModalHandler = () => {
-    setShowModal(true);
-  }
-  const addCheckinHandler = (newCheckinData) => {
-    addCheckin(newCheckinData);
+  const deleteCheckinHandler = async () => {
+    try {
+      await Axios.delete(`checkins/${selectedRow}`);
+      const newCheckins = data.filter((row) => row.id !== selectedRow);
+      const newTotal = meta.total - 1;
+      const newMeta = { ...meta, total: newTotal };
+      setData(newCheckins);
+      setMeta(newMeta);
+      toast.success("Checkin deleted!");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
-  const getUsers = () => {
-    return Axios.get("/users").then((result) => {
-      const data = deserialize(result.data);
-      setUsers(data);
-    });
-  };
-
-  const selectOnChangeHandler = (e) => {
-    setSelectedUserValue(e.target.value);
-    console.log('Target value: ', e.target.value);
-    const filter = e.target.value == 0 ? "" : "&filter[user]=" + e.target.value;
+  const filterHandler = (user) => {
+    const filter = user == 0 ? "" : "&filter[user]=" + user;
     setFilter(filter);
+  };
+
+  const selectRowHandler = async (row) => {
+    const response = await Axios.get(`checkins/${row}`);
+    setSingleCheckin(deserialize(response.data));
+    setSelectedRow(row);
   };
 
   const perPageHandler = (e) => {
     setPageSize(e.target.value);
   };
+
   const previousPageHandler = () => {
     if (pageNumber <= 1) return;
     setPageNumber((prevState) => prevState - 1);
-    console.log(pageNumber);
   };
+
   const nextPageHandeler = () => {
     if (pageNumber >= meta.last_page) return;
     setPageNumber((prevState) => prevState + 1);
-    console.log(pageNumber);
   };
+
   return (
     <div className="container">
       <div className={classes.body}>
         <h1>{isAdmin ? "All Checkins" : "My checkins"}</h1>
         {isAdmin && (
-          <Fragment>
-            <AdminOptions
+          <AdminOptions>
+            <CheckinOptions
               users={users}
-              selectOnChange={selectOnChangeHandler}
-              selectedUser={selctedUserValue}
-              onClickCreate={showModalHandler}
+              onFilter={filterHandler}
+              onAdd={addCheckinHandler}
+              onEdit={editCheckinHandler}
+              onDelete={deleteCheckinHandler}
+              selectedRow={selectedRow}
+              singleCheckin={singleCheckin}
             />
-
-            <Modal showModal={showModal}>
-              <CheckinForm
-                users={users}
-                onAddCheckin={addCheckinHandler}
-                onCancel={hideModalHandler}
-              />
-            </Modal>
-          </Fragment>
+          </AdminOptions>
         )}
         <ToastContainer style={{ top: "6rem", right: "0.4rem" }} />
         <RecordsPerPage pageSize={pageSize} perPage={perPageHandler} />
-        <CheckinsTable data={data} isLoading={isLoading} />
+        <CheckinsTable
+          data={data}
+          isLoading={isLoading}
+          onSelect={selectRowHandler}
+          selectedRow={selectedRow}
+        />
         <Pagination
           currentPage={meta.current_page}
           previous={previousPageHandler}

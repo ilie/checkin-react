@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import svg from "../../assets/img/turn-off.svg";
 import AuthContext from "../../store/auth-context";
 
+
 const Nav = () => {
   const authCtx = useContext(AuthContext);
   const linkIsActive = (navData) => (navData.isActive ? classes.active : "");
@@ -19,7 +20,7 @@ const Nav = () => {
     },
     {
       id: 2,
-      label: "My Checkins",
+      label: " My Checkins",
       link: "/checkins",
     },
   ];

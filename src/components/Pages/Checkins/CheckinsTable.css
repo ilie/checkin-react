@@ -19,9 +19,19 @@
   color: white;
 }
 
+
 .checkins-table thead th {
   padding: 1rem 0.5rem;
 }
+.checkins-table tbody tr:hover{
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+.checkins-table tbody tr.selected{
+  background-color: #dfdfdf;
+}
+
 .checkins-table tbody tr td {
   padding: 0.3rem 0.5rem;
   border-bottom: 1px solid #e6e5e5;

@@ -3,12 +3,16 @@ import "./CheckinsTable.css";
 
 function CheckinsTable(props) {
 
+  const selectRowHandler = (rowId) =>{
+    props.onSelect(rowId);
+  }
+
   const rows = props.data.map((row) => {
     const startTime = new Date(row.checkin_date + "T" + row.checkin_time);
     const endTime = new Date(row.checkin_date + "T" + row.checkout_time);
     const hours = getFormattedTimeDiff(startTime, endTime);
     return (
-      <tr key={row.id}>
+      <tr key={row.id}  onClick={()=>{selectRowHandler(row.id)}} className={props.selectedRow === row.id ? 'selected':''}>
         <td>{row.user_name}</td>
         <td>{formatDateToES(row.checkin_date)}</td>
         <td>{row.checkin_time}</td>
@@ -18,14 +22,10 @@ function CheckinsTable(props) {
     );
   });
 
-  const selectRowHandler = (e) =>{
-    console.log(e.tr);
-  }
-
   return (
     <table className="checkins-table">
       <thead>
-        <tr onSelect={selectRowHandler}>
+        <tr>
           <th>Name</th>
           <th>Date</th>
           <th>Check in</th>

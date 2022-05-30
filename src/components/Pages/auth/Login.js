@@ -1,8 +1,7 @@
-import LoginForm from "../../Forms/LoginForm";
-import useAuth from "../../../hooks/useAuth";
 import "./Auth.css";
-import Logo from "../../../assets/img/Checkin-blue.svg";
 import { Link } from "react-router-dom";
+import LoginForm from "../../Forms/LoginForm";
+import Logo from "../../../assets/img/Checkin-blue.svg";
 
 const Login = () => {
 

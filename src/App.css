@@ -16,6 +16,7 @@ select{
   border: none;
   border-radius: 0.3rem;
   outline: none;
+  cursor: pointer;
 }
 .select_perPage{
   background-color: white;

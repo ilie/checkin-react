@@ -1,92 +1,197 @@
 .form_container {
-    padding: 1.5rem;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
+  padding: 1.5rem;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 
-  .form__h1 {
-    color: #3b3b3b;
-    font-family: inherit;
-    font-weight: 900;
-    text-align: left;
-    font-size: 1.45rem;
-    margin-bottom: 1.4rem;
-  }
+.form__h1, .checkin_form__h1 {
+  color: #3b3b3b;
+  font-family: inherit;
+  font-weight: 900;
+  text-align: left;
+  font-size: 1.45rem;
+  margin-bottom: 1.4rem;
+}
 
-  .form__formgroup {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.5rem;
-  }
+.form__formgroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
 
-  .form__formgroup label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 500;
-    width: 9rem;
-    text-align: left;
-    margin-bottom: 0.5rem;
-    color: #3b3b3b;
-  }
+.form__formgroup label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 9rem;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  color: #3b3b3b;
+}
 
-  .form__formgroup input,
-  .form__btn {
-    font: inherit;
-    border-radius: 0.3rem;
-    width: 100%;
-    font-size: 1.15rem;
-    padding: 0.8rem;
-  }
+.form__formgroup input,
+.form__btn {
+  font: inherit;
+  border-radius: 0.3rem;
+  width: 100%;
+  font-size: 1.15rem;
+  padding: 0.8rem;
+}
 
-  .form__formgroup input {
-    border: 1px solid #150958;
-    text-align: left;
-  }
+.form__formgroup input {
+  border: 1px solid #150958;
+  text-align: left;
+}
 
-  .form__formgroup:first-child {
-    margin-top: 0.6rem;
-  }
-  .form__formgroup:last-child {
-    flex-direction: column;
-  }
+.form__formgroup:first-child {
+  margin-top: 0.6rem;
+}
+.form__formgroup:last-child {
+  flex-direction: column;
+}
 
-  .form__formgroup:nth-child(2){
-    position: relative;
-    margin-top: 3.5rem;
-  }
+.form__formgroup:nth-child(2) {
+  position: relative;
+  margin-top: 3.5rem;
+}
 
-  .form__pswlabel, .form__pswlink{
-    position: absolute;
-  }
-  .form__pswlabel{
-    bottom: 3.4rem;
-  }
+.form__pswlabel,
+.form__pswlink {
+  position: absolute;
+}
+.form__pswlabel {
+  bottom: 3.4rem;
+}
 
-  .pswlink{
-    bottom: 3.95rem;
-    right: 0;
-    color: #150958;
-    text-decoration: none;
-  }
+.pswlink {
+  bottom: 3.95rem;
+  right: 0;
+  color: #150958;
+  text-decoration: none;
+}
 
-  .form__btn {
-    background-color: #150958;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.form__btn {
+  background-color: #150958;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-  .form__btn:hover {
-    background-color: #150958da;
-    border-color: #150958da;
-  }
+.form__btn:hover {
+  background-color: #150958da;
+  border-color: #150958da;
+}
 
-  .form__error{
-    background-color: #ff00002a;
-    color: red;
-    padding: 0.5rem 4.7rem;
-    margin-bottom: 3rem;
-  }
+.form__error {
+  background-color: #ff00002a;
+  color: red;
+  padding: 0.5rem 4.7rem;
+  margin-bottom: 3rem;
+}
+
+
+
+.checkin_form_div {
+  padding: 1rem;
+  width: 27rem;
+  margin: 0 auto;
+}
+
+.checkin_form__h1 {
+  border-bottom: 1px solid #150958;
+  padding-bottom: 0.3rem;
+}
+.checkin_form{
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.checkin_form__group{
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkin_form__group label,
+.checkin_form_select,
+.checkin_form_time-picker{
+  font-size: 1.1rem;
+  width: 10rem;
+}
+.checkin_form_time-picker{
+  text-align: center;
+}
+
+.checkin_date_picker {
+  width: 10rem;
+  text-align: center;
+  margin-left: 11rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.checkin_form__group:nth-child(4){
+  padding-bottom: 0.7rem;
+}
+.checkin_form__group:last-child{
+  padding-top: 1rem;
+  border-top: 1px solid #150958;
+}
+
+.btn-primary, .btn-secondary {
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.3rem;
+}
+
+.btn-primary{
+  background-color: #150958;
+  color: white;
+}
+
+.btn-secondary {
+  border: 1px solid #150958;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: #150958c3;
+  cursor: pointer;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+ background-color: #831a4b78;
+ border-color: #831a4b78;
+ color: white;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__year-text--keyboard-selected {
+  background-color: #150958 !important;
+}
+.react-datepicker__day--today,
+.react-datepicker__month-text--today,
+.react-datepicker__quarter-text--today,
+.react-datepicker__year-text--today {
+  border: 1px solid #150958;
+  background-color: #F0F0F0;
+  border-radius: 0.3rem;
+}

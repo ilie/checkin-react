@@ -1,16 +1,15 @@
 import "./App.css";
 import { useContext } from "react";
-import Login from "./components/Pages/auth/Login";
-import ResetPassword from "./components/Pages/auth/ResetPassword";
-import ForgotPassword from "./components/Pages/auth/ForgotPassword";
-import { Routes, Route, Navigate } from "react-router-dom";
 import AuthContext from "./store/auth-context";
 import Home from "./components/Pages/Home/Home";
 import Header from "./components/Header/Header";
+import Login from "./components/Pages/auth/Login";
 import Users from "./components/Pages/Users/Users";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Checkins from "./components/Pages/Checkins/Checkins";
+import ResetPassword from "./components/Pages/auth/ResetPassword";
+import ForgotPassword from "./components/Pages/auth/ForgotPassword";
 
-import useAuth from "./hooks/useAuth";
 
 function App() {
   const authCtx = useContext(AuthContext);
