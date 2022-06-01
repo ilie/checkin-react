@@ -1,14 +1,14 @@
-import AdminOptions from "../../AdminOptions/AdminOptions";
-import CheckinsTable from "./CheckinsTable";
+import CheckinsTable from "../../Tables/CheckinsTable";
 import classes from "./Checkins.module.css";
-import Pagination from "../../UI/Pagination";
 import { deserialize } from "jsonapi-fractal";
-import RecordsPerPage from "./RecordsPerPage";
+import CheckinOptions from "./CheckinOptions";
 import useAxios from "../../../hooks/useAxios";
+import Pagination from "../../Tables/Pagination";
 import AuthContext from "../../../store/auth-context";
 import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect, useContext } from "react";
-import CheckinOptions from "./CheckinOptions";
+import RecordsPerPage from "../../Tables/RecordsPerPage";
+import AdminOptions from "../../AdminOptions/AdminOptions";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
@@ -39,7 +39,7 @@ function Checkins() {
       setMeta(response.data.meta);
       setIsLoading(false);
     } catch (err) {
-      if (err.response.status == 401) ctx.clearLoginData();
+      if (err.response.status === 401) ctx.clearLoginData();
       setIsLoading(false);
     }
   };
@@ -97,7 +97,7 @@ function Checkins() {
   };
 
   const filterHandler = (user) => {
-    const filter = user == 0 ? "" : "&filter[user]=" + user;
+    const filter = user === "0" ? "" : "&filter[user]=" + user;
     setFilter(filter);
   };
 

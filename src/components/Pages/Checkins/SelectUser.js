@@ -9,7 +9,7 @@ const SelectUser = (props) => {
       value={props.selctValue}
     >
       <option key="0" value="0">
-        All Users
+        {props.firstValue}
       </option>
       {props.users.map((user) => {
         return (

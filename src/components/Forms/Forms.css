@@ -137,7 +137,6 @@
 }
 .checkin_form__group:last-child{
   padding-top: 1rem;
-  border-top: 1px solid #150958;
 }
 
 .btn-primary, .btn-secondary {
@@ -154,6 +153,8 @@
 
 .btn-secondary {
   border: 1px solid #150958;
+  background-color: white;
+  color: #150958;
 }
 
 .btn-primary:hover,
@@ -164,9 +165,10 @@
 
 .btn-secondary:hover,
 .btn-secondary:active {
- background-color: #831a4b78;
- border-color: #831a4b78;
- color: white;
+  background-color: #831a4b78;
+  border-color: #831a4b78;
+  color: white;
+  cursor: pointer;
 }
 
 .react-datepicker__day--selected,

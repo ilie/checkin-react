@@ -1,14 +1,13 @@
 import { useState } from "react";
+import SelectUser from "./SelectUser";
 import Modal from "../../UI/Modal/Modal";
-import classes from "./CheckinOptions.module.css";
 import { FiClock } from "react-icons/fi";
+import { FaFilePdf } from "react-icons/fa";
+import classes from "./CheckinOptions.module.css";
 import AddCheckinForm from "../../Forms/AddCheckinForm";
 import EditCheckinForm from "../../Forms/EditCheckinForm";
-import SelectUser from "./SelectUser";
-
 
 const CheckinOptions = (props) => {
-
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState();
 
@@ -69,7 +68,11 @@ const CheckinOptions = (props) => {
       </div>
       <div className={classes.right_options}>
         <span>Select a user</span>
-        <SelectUser users={props.users} onChange={onChangeSelectHandler} />
+        <SelectUser
+          users={props.users}
+          onChange={onChangeSelectHandler}
+          firstValue="All users"
+        />
       </div>
       <Modal showModal={showModal}>{form}</Modal>
     </div>

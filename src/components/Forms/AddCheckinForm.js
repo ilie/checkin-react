@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatDateToSQL } from "../../helpers/formatters";
+import SelectUser from "../Pages/Checkins/SelectUser";
 
 function AddCheckinForm(props) {
   const [date, setDate] = useState("");
@@ -39,10 +40,10 @@ function AddCheckinForm(props) {
     props.hideModal();
     props.onAddCheckin(data);
 
-    setDate('');
-    setUserId('');
-    setCheckinTime('');
-    setCheckoutTime('');
+    setDate("");
+    setUserId("");
+    setCheckinTime("");
+    setCheckoutTime("");
   };
   return (
     <div className="checkin_form_div">
@@ -50,24 +51,19 @@ function AddCheckinForm(props) {
       <form className="checkin_form" onSubmit={onSubmitHandler}>
         <div className="checkin_form__group">
           <label htmlFor="user">User</label>
-          <select className='checkin_form_select' name="user" id="user" onChange={userIdChangeHandler}>
-            {props.users.map((user) => {
-              return (
-                <option
-                  key={user.id}
-                  value={user.id}
-                  defaultValue={props.userId}
-                >
-                  {user.name}
-                </option>
-              );
-            })}
-          </select>
+          <SelectUser
+            className="checkin_form_select"
+            onChange={userIdChangeHandler}
+            defaultValue={props.userId}
+            users={props.users}
+            firstValue="Please Select"
+          />
+
         </div>
         <div className="checkin_form__group">
           <label htmlFor="checkin_date">Checkin date</label>
           <DatePicker
-            className='checkin_date_picker'
+            className="checkin_date_picker"
             dateFormat="dd/MM/yyyy"
             selected={date}
             onChange={(date) => onDateChangeHandler(date)}

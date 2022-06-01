@@ -53,7 +53,7 @@ function Checkin() {
     });
   };
 
-  let content = <p className={classes.loading}>Loading ...</p>;
+  let content = <p className='loading'>Loading ...</p>;
   if (!isLoading) {
     if (checkinStatus === "checkin") {
       content = (
