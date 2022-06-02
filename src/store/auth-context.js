@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState, createContext } from "react";
 import axios from "axios";
-const AuthContext = React.createContext({
+const AuthContext = createContext({
   token: "",
   isLoggedIn: false,
   isAdmin: false,

@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatDateToSQL } from "../../helpers/formatters";
-import SelectUser from "../Pages/Checkins/SelectUser";
+import SelectUser from "../SelectUser";
 
 function AddCheckinForm(props) {
   const [date, setDate] = useState("");

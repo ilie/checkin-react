@@ -1,13 +1,18 @@
 .header {
     background-color: #150958;
     color: white;
-    height: 80px;
+    height: 57px;
+}
+
+.Logo{
+    height:30px;
 }
 
 .header__content{
     display: flex;
     width: 100vw;
-    height: 80px;
+    height: 57px;
     align-items: center;
     justify-content: space-between;
 }
+

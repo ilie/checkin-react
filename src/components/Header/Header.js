@@ -1,6 +1,6 @@
 import classes from "./Header.module.css";
 import logo from "../../assets/img/Checkin-white.svg";
-import MainNav from "../Nav/Nav";
+import MainNav from "./Nav";
 const Header = () => {
   const headerClasses = classes.header + " shadow";
   return (
@@ -12,7 +12,6 @@ const Header = () => {
               className={classes.Logo}
               src={logo}
               alt="Checkin"
-              width="145px"
             />
           </div>
           <MainNav />

@@ -28,9 +28,9 @@ function CheckinsTable(props) {
   });
 
   return (
-    <div className="checkins-table__wrapper">
-      <table className="checkins-table" id="checkins-table">
-        <thead className="checkins-table__head">
+    <div className="table__wrapper">
+      <table className="table" id="table">
+        <thead className="table__head">
           <tr>
             <th>Name</th>
             <th>Date</th>

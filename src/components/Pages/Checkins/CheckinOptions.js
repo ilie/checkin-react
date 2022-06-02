@@ -1,8 +1,7 @@
 import { useState } from "react";
-import SelectUser from "./SelectUser";
+import SelectUser from "../../SelectUser";
 import Modal from "../../UI/Modal/Modal";
 import { FiClock } from "react-icons/fi";
-import { FaFilePdf } from "react-icons/fa";
 import classes from "./CheckinOptions.module.css";
 import AddCheckinForm from "../../Forms/AddCheckinForm";
 import EditCheckinForm from "../../Forms/EditCheckinForm";

@@ -2,16 +2,17 @@
   margin-right: 0.5rem;
 }
 
-.checkins-table__wrapper {
-  height: 550px;
+.table__wrapper {
+  height: 505px;
   overflow: auto;
   position:relative;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
   background-color: white;
   border-radius: 0.3rem;
+
 }
-.checkins-table {
+.table {
   width: 100%;
   padding: 0;
   text-align: left;
@@ -21,57 +22,54 @@
 }
 
 
-.checkins-table__head{
+.table__head{
   background-color: #150958;
   color: white;
 }
 
 
-.checkins-table thead th {
-  padding: 1rem 0.5rem;
+.table thead th {
+  padding: 0.8rem 0.5rem;
 }
-.checkins-table tbody tr{
+.table tbody tr{
   height: 0.7rem;
 
 }
-.checkins-table tbody tr:hover{
+.table tbody tr:hover{
   background-color: #f4f4f4;
   cursor: pointer;
 }
 
-.checkins-table tbody tr.selected{
+.table tbody tr.selected{
   background-color: #dfdfdf;
 }
 
-.checkins-table tbody tr td {
+.table tbody tr td {
   padding: 0.3rem 0.5rem;
   border-bottom: 1px solid #e6e5e5;
 }
-.checkins-table thead tr th:first-child,
-.checkins-table tbody tr td:first-child {
-  min-width: 10rem;
+.table thead tr th:first-child,
+.table tbody tr td:first-child {
+  min-width: auto;
 }
-.checkins-table thead tr th:nth-child(2),
-.checkins-table tbody tr td:nth-child(2) {
-  max-width: 3.2rem;
+.table thead tr th:nth-child(2),
+.table tbody tr td:nth-child(2),
+.table thead tr th:nth-child(3),
+.table tbody tr td:nth-child(3),
+.table thead tr th:nth-child(4),
+.table tbody tr td:nth-child(4) {
   text-align: left;
 }
-.checkins-table thead tr th:nth-child(3),
-.checkins-table tbody tr td:nth-child(3),
-.checkins-table thead tr th:nth-child(4),
-.checkins-table tbody tr td:nth-child(4) {
-  max-width: 3.2rem;
-  text-align: center;
-}
-.checkins-table thead tr th:last-child,
-.checkins-table tbody tr td:last-child {
+
+.table thead tr th:last-child,
+.table tbody tr td:last-child {
   text-align: right;
-  max-width: 5rem;
+
 }
 
 @media (max-width: 700px) {
-  .checkins-table thead tr th:first-child,
-  .checkins-table tbody tr td:first-child {
+  .table thead tr th:first-child,
+  .table tbody tr td:first-child {
     min-width: auto;
     max-width: 3.8rem;
   }
