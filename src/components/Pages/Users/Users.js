@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState, useContext } from "react";
 import RecordsPerPage from "../../Tables/RecordsPerPage";
 import AdminOptions from "../../AdminOptions/AdminOptions";
+import UserOptions from "./UserOptions";
 
 function Users() {
   const { Axios } = useAxios();
@@ -17,14 +18,14 @@ function Users() {
   const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(15);
   const [pageNumber, setPageNumber] = useState(1);
-  const [filter, setFilter] = useState("");
   const [selectedRow, setSelectedRow] = useState(null);
   const [singleUser, setSingleUser] = useState({});
-  let url = `/users?page[size]=${pageSize}&page[number]=${pageNumber}&sort=name${filter}`;
+
+  let url = `/users?page[size]=${pageSize}&page[number]=${pageNumber}&sort=name`;
 
   useEffect(() => {
     getUsers();
-  }, [pageNumber, pageSize, filter]);
+  }, [pageNumber, pageSize]);
 
   const getUsers = async () => {
     setIsLoading(true);
@@ -36,6 +37,60 @@ function Users() {
     } catch (err) {
       if (err.response.status === 401) authCtx.clearLoginData();
       setIsLoading(false);
+    }
+  };
+
+  const selectRowHandler = async (row) => {
+    const response = await Axios.get(`users/${row}`);
+    setSingleUser(deserialize(response.data));
+    setSelectedRow(row);
+  };
+
+  const addUserHandler = async (newUserData) => {
+    try {
+      const response = await Axios.post("/users/register", newUserData);
+      const addedUser = deserialize(response.data);
+      const newUsers = [addedUser, ...users];
+      const newTotal = meta.total + 1;
+      const newMeta = { ...meta, total: newTotal };
+      setMeta(newMeta);
+      setUsers(newUsers);
+      toast.success("User added succesfuly");
+    } catch (error) {
+      const errorMsg = error.response.data.errors[0].title
+      console.log(errorMsg);
+      toast.error(errorMsg);
+    }
+  };
+
+  const editUserHandler = async (user) => {
+    try {
+      const response = await Axios.put(`/users/${selectedRow}`, user);
+      const modifiedUser = deserialize(response.data);
+      const modifiedUsers = users.map((item) => {
+        return item.id === user.id ? modifiedUser : item;
+      });
+      setUsers(modifiedUsers);
+      setSelectedRow(null);
+      setSingleUser({});
+      toast.success("User modified succesfuly!");
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
+
+  const deleteUserHandler = async () => {
+    try {
+      await Axios.delete(`users/${selectedRow}`);
+      const newUsers = users.filter((row) => row.id !== selectedRow);
+      const newTotal = meta.total - 1;
+      const newMeta = { ...meta, total: newTotal };
+      setUsers(newUsers);
+      setMeta(newMeta);
+      toast.success("User deleted!");
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -57,7 +112,16 @@ function Users() {
     <div className="container">
       <div className={classes.body}>
         <h1>Users</h1>
-        <AdminOptions>aa</AdminOptions>
+        <ToastContainer style={{ top: "6rem", right: "0.4rem" }} />
+        <AdminOptions>
+        <UserOptions
+              onAdd={addUserHandler}
+              onEdit={editUserHandler}
+              onDelete={deleteUserHandler}
+              selectedRow={selectedRow}
+              singleUser={singleUser}
+        />
+        </AdminOptions>
         <RecordsPerPage pageSize={pageSize} perPage={perPageHandler} />
         <UsersTable users={users} />
         <Pagination

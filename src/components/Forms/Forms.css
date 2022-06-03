@@ -1,3 +1,4 @@
+/* Auth */
 .form_container {
   padding: 1.5rem;
   background-color: white;
@@ -6,16 +7,23 @@
   margin-bottom: 2rem;
 }
 
-.form__h1, .checkin_form__h1 {
+.form__h1,
+.checkin_form__h1,
+.user_form__h1 {
   color: #3b3b3b;
   font-family: inherit;
   font-weight: 900;
   text-align: left;
   font-size: 1.45rem;
+}
+
+.form__h1,
+.checkin_form__h1{
   margin-bottom: 1.4rem;
 }
 
-.form__formgroup {
+.form__formgroup,
+.user__formgroup {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
@@ -92,7 +100,7 @@
   margin-bottom: 3rem;
 }
 
-
+/* Checkin */
 
 .checkin_form_div {
   padding: 1rem;
@@ -104,24 +112,24 @@
   border-bottom: 1px solid #150958;
   padding-bottom: 0.3rem;
 }
-.checkin_form{
+.checkin_form {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.checkin_form__group{
+.checkin_form__group {
   display: flex;
   justify-content: space-between;
 }
 
 .checkin_form__group label,
 .checkin_form_select,
-.checkin_form_time-picker{
+.checkin_form_time-picker {
   font-size: 1.1rem;
   width: 10rem;
 }
-.checkin_form_time-picker{
+.checkin_form_time-picker {
   text-align: center;
 }
 
@@ -132,21 +140,22 @@
   padding: 0.5rem;
   font-size: 1rem;
 }
-.checkin_form__group:nth-child(4){
+.checkin_form__group:nth-child(4) {
   padding-bottom: 0.7rem;
 }
-.checkin_form__group:last-child{
+.checkin_form__group:last-child {
   padding-top: 1rem;
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
   border: none;
   font-size: 1.2rem;
   padding: 0.5rem 1.5rem;
   border-radius: 0.3rem;
 }
 
-.btn-primary{
+.btn-primary {
   background-color: #150958;
   color: white;
 }
@@ -169,6 +178,12 @@
   border-color: #831a4b78;
   color: white;
   cursor: pointer;
+}
+
+.btn-primary:disabled{
+  background-color: #15095872;
+  color: rgb(255, 254, 254);
+  cursor: default;
 }
 
 .react-datepicker__day--selected,
@@ -194,6 +209,82 @@
 .react-datepicker__quarter-text--today,
 .react-datepicker__year-text--today {
   border: 1px solid #150958;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   border-radius: 0.3rem;
+}
+
+/* Users */
+.user_form_container {
+  margin: -1.1rem;
+  overflow: hidden;
+}
+.user_form__h1 {
+  color: white;
+}
+
+.user_form__header{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  background-color: #150958;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  padding: 1.1rem;
+  color: white;
+}
+.user_form__body{
+  padding: 1.1rem;
+}
+.user__formgroup input {
+  font: inherit;
+  border-radius: 0.3rem;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #150958;
+}
+
+.user__formgroup_oneline {
+  display: flex;
+  justify-content: space-between;
+}
+.user__formgroup_oneline .user__formgroup{
+  width: 100%;
+}
+.user__formgroup_oneline .first{
+  width: 20rem;
+  margin-right: 2rem;
+}
+.user__formgroup_oneline .half{
+  width: 50%;
+  margin-right: 2rem;
+}
+
+.user__formgroup select{
+  width: 18.6rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 1px solid #150958;
+}
+
+.user_formgroup__controls{
+  display: flex;
+  justify-content: space-between;
+}
+
+input.input-error,
+select.input.error{
+  border-color: #fc8181;
+}
+
+@media (max-width: 700px) {
+  .user__formgroup_oneline {
+    flex-direction: column;
+  }
+  .user__formgroup_oneline .first,
+  .user__formgroup_oneline .half{
+    width: auto;
+    margin-right: 0;
+  }
 }

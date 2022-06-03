@@ -60,7 +60,6 @@ function Checkins() {
       setData(checkins);
       toast.success("Checkin added succesfuly");
     } catch (error) {
-      console.log(error);
       toast.error("error");
     }
   };
@@ -78,7 +77,6 @@ function Checkins() {
       toast.success("Checkin modified succesfuly!");
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
     }
   };
 
