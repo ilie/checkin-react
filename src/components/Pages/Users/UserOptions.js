@@ -2,21 +2,20 @@ import { useState } from "react";
 import Modal from "../../UI/Modal/Modal";
 import SelectUser from "../../SelectUser";
 import classes from './UserOptions.module.css'
-import AddUserForm from "../../Forms/AddUserForm";
-import EditUserForm from "../../Forms/EditUserForm";
+import UserForm from "../../Forms/UserForm";
 import {AiOutlineUserAdd,AiOutlineUserDelete,AiOutlineUser} from "react-icons/ai";
 
 const UserOptions = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState();
-
   const hideModalHandler = () => {
+    props.setSelectedRow(false);
     setShowModal(false);
   };
   const onAddHandler = () => {
     setShowModal(true);
     setForm(
-      <AddUserForm
+      <UserForm
         name=''
         nif=''
         email=''
@@ -27,7 +26,9 @@ const UserOptions = (props) => {
         password_confirmation=''
         onAddCheckin={props.onAdd}
         hideModal={hideModalHandler}
+        selectedRow={props.selectedRow}
         editMode={false}
+        title='Add new User'
       />
     );
   };
@@ -35,11 +36,20 @@ const UserOptions = (props) => {
   const onEditHandler = () => {
     setShowModal(true);
     setForm(
-      <EditUserForm
-        onEditCheckin={props.onEdit}
+      <UserForm
+        name={props.singleUser.name}
+        nif={props.singleUser.nif}
+        email={props.singleUser.email}
+        social_sec_num={props.singleUser.social_sec_num}
+        hours_on_contract={props.singleUser.hours_on_contract}
+        is_admin={props.singleUser.is_admin}
+        password=''
+        password_confirmation=''
+        onAddCheckin={props.onEdit}
         hideModal={hideModalHandler}
-        singleCheckin={props.singleCheckin}
         selectedRow={props.selectedRow}
+        editMode={true}
+        title='Edit User'
       />
     );
   };

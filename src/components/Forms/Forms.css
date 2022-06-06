@@ -103,8 +103,8 @@
 /* Checkin */
 
 .checkin_form_div {
-  padding: 1rem;
-  width: 27rem;
+  padding: 1rem 0;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -211,6 +211,11 @@
   border: 1px solid #150958;
   background-color: #f0f0f0;
   border-radius: 0.3rem;
+}
+
+.react-time-picker__inputGroup__input {
+  min-width: 2rem;
+  text-align: center;
 }
 
 /* Users */

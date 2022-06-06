@@ -3,19 +3,27 @@ import "./Table.css";
 import React from "react";
 
 const UsersTable = (props) => {
-
-    const rows = props.users.map((user) =>{
-        return(
-            <tr key={user.id}>
-                <td>{user.name}</td>
-                <td className="hide_on_mobile">{user.nif}</td>
-                <td>{user.email}</td>
-                <td className="hide_on_mobile">{user.social_sec_num}</td>
-                <td className="hide_on_mobile">{user.hours_on_contract} h</td>
-                <td className="hide_on_mobile">{user.is_admin}</td>
-              </tr>
-        )
-    })
+  const selectRowHandler = (rowId) => {
+    props.onSelect(rowId);
+  };
+  const rows = props.users.map((user) => {
+    return (
+      <tr
+        key={user.id}
+        onClick={() => {
+          selectRowHandler(user.id);
+        }}
+        className={props.selectedRow === user.id ? "selected" : ""}
+      >
+        <td>{user.name}</td>
+        <td className="hide_on_mobile">{user.nif}</td>
+        <td>{user.email}</td>
+        <td className="hide_on_mobile">{user.social_sec_num}</td>
+        <td className="hide_on_mobile">{user.hours_on_contract} h</td>
+        <td className="hide_on_mobile">{user.is_admin}</td>
+      </tr>
+    );
+  });
 
   return (
     <div className="table__wrapper">
@@ -30,9 +38,7 @@ const UsersTable = (props) => {
             <th className="hide_on_mobile">Admin</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
     </div>
   );

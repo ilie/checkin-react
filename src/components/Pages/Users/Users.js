@@ -47,20 +47,14 @@ function Users() {
   };
 
   const addUserHandler = async (newUserData) => {
-    try {
-      const response = await Axios.post("/users/register", newUserData);
-      const addedUser = deserialize(response.data);
-      const newUsers = [addedUser, ...users];
-      const newTotal = meta.total + 1;
-      const newMeta = { ...meta, total: newTotal };
-      setMeta(newMeta);
-      setUsers(newUsers);
-      toast.success("User added succesfuly");
-    } catch (error) {
-      const errorMsg = error.response.data.errors[0].title
-      console.log(errorMsg);
-      toast.error(errorMsg);
-    }
+    const response = await Axios.post("/users/register", newUserData);
+    const addedUser = deserialize(response.data);
+    const newUsers = [addedUser, ...users];
+    const newTotal = meta.total + 1;
+    const newMeta = { ...meta, total: newTotal };
+    setMeta(newMeta);
+    setUsers(newUsers);
+    toast.success("User added succesfuly");
   };
 
   const editUserHandler = async (user) => {
@@ -68,7 +62,7 @@ function Users() {
       const response = await Axios.put(`/users/${selectedRow}`, user);
       const modifiedUser = deserialize(response.data);
       const modifiedUsers = users.map((item) => {
-        return item.id === user.id ? modifiedUser : item;
+        return item.id === selectedRow ? modifiedUser : item;
       });
       setUsers(modifiedUsers);
       setSelectedRow(null);
@@ -114,16 +108,21 @@ function Users() {
         <h1>Users</h1>
         <ToastContainer style={{ top: "6rem", right: "0.4rem" }} />
         <AdminOptions>
-        <UserOptions
-              onAdd={addUserHandler}
-              onEdit={editUserHandler}
-              onDelete={deleteUserHandler}
-              selectedRow={selectedRow}
-              singleUser={singleUser}
-        />
+          <UserOptions
+            onAdd={addUserHandler}
+            onEdit={editUserHandler}
+            onDelete={deleteUserHandler}
+            selectedRow={selectedRow}
+            singleUser={singleUser}
+            setSelectedRow={setSelectedRow}
+          />
         </AdminOptions>
         <RecordsPerPage pageSize={pageSize} perPage={perPageHandler} />
-        <UsersTable users={users} />
+        <UsersTable
+          users={users}
+          onSelect={selectRowHandler}
+          selectedRow={selectedRow}
+        />
         <Pagination
           currentPage={meta.current_page}
           previous={previousPageHandler}

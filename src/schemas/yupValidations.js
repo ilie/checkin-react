@@ -1,6 +1,21 @@
 import * as yup from "yup";
+import axios from "axios";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+const token = localStorage.getItem("token");
+
+const uniqueEmail = function (value) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `https://api.checkin.virginialyons.com/api/users?filter[email]=${value}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((res) => {
+        res.data.meta.total === 0 ? resolve(true) : resolve(false);
+      });
+  });
+};
 
 export const addUserSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -12,7 +27,8 @@ export const addUserSchema = yup.object().shape({
   email: yup
     .string()
     .email("Please enter a valid email")
-    .required("Email is required"),
+    .required("Email is required")
+    .test("Unique Email", "Email has already been taken", uniqueEmail),
   social_sec_num: yup
     .string()
     .required("Social security number is required")
@@ -22,7 +38,7 @@ export const addUserSchema = yup.object().shape({
     .positive("Hours must be a positive number")
     .integer("Hours must be an integer")
     .required("Hours field is required"),
-  is_admin: yup.bool().required('User is admin is required'),
+  is_admin: yup.bool().required("User is admin is required"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 charcaters long")

@@ -5,6 +5,7 @@ import { FiClock } from "react-icons/fi";
 import classes from "./CheckinOptions.module.css";
 import AddCheckinForm from "../../Forms/AddCheckinForm";
 import EditCheckinForm from "../../Forms/EditCheckinForm";
+import CheckinForm from "../../Forms/CheckinForm";
 
 const CheckinOptions = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -21,10 +22,12 @@ const CheckinOptions = (props) => {
   const onAddHandler = () => {
     setShowModal(true);
     setForm(
-      <AddCheckinForm
+      <CheckinForm
+        user=''
         users={props.users}
         onAddCheckin={props.onAdd}
         hideModal={hideModalHandler}
+        formTitle='Add new Checkin'
       />
     );
   };

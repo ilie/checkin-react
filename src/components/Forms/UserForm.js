@@ -1,8 +1,8 @@
+import {useEffect} from 'react';
 import { useFormik } from "formik";
 import { addUserSchema, editUserSchema } from "../../schemas/yupValidations";
 
 const AddUserForm = (props) => {
-
   const onSubmitHandler = async (values, actions) => {
     if (props.editMode) {
       delete values.password;
@@ -17,12 +17,11 @@ const AddUserForm = (props) => {
     values,
     errors,
     touched,
+    isValid,
     handleBlur,
     handleChange,
     handleSubmit,
-    isValid,
-    setErrors,
-    setTouched,
+    setFieldValue
   } = useFormik({
     initialValues: {
       name: props.name,
@@ -38,10 +37,19 @@ const AddUserForm = (props) => {
     onSubmit: onSubmitHandler,
   });
 
+  useEffect(()=>{
+    setFieldValue('name', props.name);
+    setFieldValue('nif', props.nif);
+    setFieldValue('email', props.email);
+    setFieldValue('social_sec_num', props.social_sec_num);
+    setFieldValue('hours_on_contract', props.hours_on_contract);
+    setFieldValue('is_admin', props.is_admin);
+  }, [props.selectedRow])
+
   return (
     <div className="user_form_container">
       <div className="user_form__header">
-        <h1 className="user_form__h1">Add User</h1>
+        <h1 className="user_form__h1">{props.title}</h1>
         <p className="user_form__info">
           Fields marked with{" "}
           <span className="red">
