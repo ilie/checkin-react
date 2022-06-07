@@ -1,35 +1,28 @@
 import "./Forms.css";
+import { useFormik } from "formik";
+import { useContext } from "react";
 import useAxios from "../../hooks/useAxios";
 import { deserialize } from "jsonapi-fractal";
-import AuthContext from "../../store/auth-context";
-import { useRef, useState, useContext } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
+import { ToastContainer, toast } from "react-toastify";
+import { loginSchema } from "../../schemas/yupValidations";
 
 function LoginForm(props) {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const emailInputRef = useRef();
-  const passInputRef = useRef();
   const authCtx = useContext(AuthContext);
   const { Axios } = useAxios();
 
-  const loginHandler = (e) => {
-    e.preventDefault();
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passInputRef.current.value;
-
-    setIsLoading(true);
+  const loginHandler = (values) => {
     Axios.post("/login", {
-      email: enteredEmail,
-      password: enteredPassword,
+      email: values.email,
+      password: values.password,
     })
       .then((res) => {
-        setIsLoading(false);
         const data = deserialize(res);
         authCtx.login(data.token);
         authCtx.setAdmin(data.is_admin);
-        navigate('/', {replace:true});
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         const errorMsg = error.response.data.error;
@@ -37,12 +30,21 @@ function LoginForm(props) {
       });
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: loginHandler,
+  });
+
   return (
-    <div className="form_container">
+    <div className="auth_form__container">
       <ToastContainer />
-      <h1 className="form__h1">Sign in to your account</h1>
-      <form className="form" onSubmit={loginHandler}>
-        <div className="form__formgroup">
+      <h1 className="auth_form__h1">Sign in to your account</h1>
+      <form className="auth_form" onSubmit={formik.handleSubmit}>
+        <div className="auth_form__formgroup">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -50,12 +52,19 @@ function LoginForm(props) {
             id="email"
             placeholder="Email"
             autoComplete="off"
-            required
-            ref={emailInputRef}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={
+              formik.errors.email && formik.touched.email ? "input-error" : ""
+            }
           />
+          {formik.errors.email && formik.touched.email ? (
+            <small className="red">{formik.errors.email}</small>
+          ) : null}
         </div>
-        <div className="form__formgroup">
-          <label className="form__pswlabel" htmlFor="password">
+        <div className="auth_form__formgroup">
+          <label className="auth_form__pswlabel" htmlFor="password">
             Password
           </label>
           <input
@@ -63,12 +72,29 @@ function LoginForm(props) {
             name="password"
             id="password"
             placeholder="Password"
-            required
-            ref={passInputRef}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={
+              formik.errors.password && formik.touched.password
+                ? "input-error"
+                : ""
+            }
           />
+          {formik.errors.password && formik.touched.password ? (
+            <small className="red">{formik.errors.password}</small>
+          ) : null}
         </div>
-        <div className="form__formgroup">
-          <button className="form__btn" type="submit">
+        <div className="auth_form__formgroup">
+          <button
+            className="form__btn"
+            type="submit"
+            disabled={
+              !formik.isValid ||
+              (Object.keys(formik.touched).length === 0 &&
+                formik.touched.constructor === Object)
+            }
+          >
             {props.isLoading ? "loading..." : "Login"}
           </button>
         </div>

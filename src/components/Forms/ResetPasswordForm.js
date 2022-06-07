@@ -1,96 +1,77 @@
 import "./Forms.css";
-import { useRef, useState } from "react";
+import { useFormik } from "formik";
 import useAxios from "../../hooks/useAxios";
-import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { resetPassword } from "../../schemas/yupValidations";
 
 function ResetPasswordForm() {
-  const [error, setError] = useState(false);
-  const [emailInputValue, setEmailInputValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
-  const [passwordConfirmValue, setPasswordConfirmValue] = useState("");
-   const [isLoading, setIsLoafing] = useState(false);
-  const emailref = useRef();
-  const passwordref = useRef();
-  const passwordConfirmref = useRef();
   const { Axios } = useAxios();
-  const currentUrl = window.location.href
-  let  token = currentUrl.split("?")[1];
+  const currentUrl = window.location.href;
+  let token = currentUrl.split("?")[1];
   const navigate = useNavigate();
 
-
   const redirectToLogin = (seconds = 0) => {
-    setTimeout(()=>{
-        navigate('/login')
+    setTimeout(() => {
+      navigate("/login");
     }, seconds * 1000);
-  }
-
-  const onChangeEmailHandler = (e) => {
-    setEmailInputValue(e.target.value)
   };
 
-  const onChangePassHandler = (e) => {
-    setPasswordValue(e.target.value);
-  };
-
-  const onChangeConfirmPassHandler = (e) => {
-    setPasswordConfirmValue(e.target.value);
-  };
-
-
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    setIsLoafing(true);
-    const enteredEmail = emailref.current.value;
-    const enteredPassword = passwordref.current.value;
-    const enteredConfirmPassword = passwordConfirmref.current.value;
-
+  const onSubmitHandler = (values, actions) => {
     const requiredData = {
-     token: token,
-      email: enteredEmail,
-      password: enteredPassword,
-      password_confirmation: enteredConfirmPassword,
+      token: token,
+      email: values.email,
+      password: values.password,
+      password_confirmation: values.password_confirmation,
     };
-
-    console.log(requiredData);
 
     Axios.post("/reset-password", requiredData)
       .then((res) => {
-        setIsLoafing(false);
         const message = res.data.message;
         toast.success(message);
-        setEmailInputValue('');
-        setPasswordValue('');
-        setPasswordConfirmValue('');
         redirectToLogin(5);
       })
       .catch((e) => {
         const errorMessage = e.response.data.errors[0].title;
-        setIsLoafing(false);
-        //setInputValue("");
-         toast.error(errorMessage,{ autoClose: 10000 });
+        toast.error(errorMessage, { autoClose: 10000 });
       });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+    validationSchema: resetPassword,
+    onSubmit: onSubmitHandler,
+  });
+
   return (
-    <div className="form_container">
+    <div className="auth_form__container">
       <ToastContainer />
-      <h1 className="form__h1">Reset your password</h1>
-      <form className="form" onSubmit={onSubmitHandler}>
-        <div className="form__formgroup">
+      <h1 className="auth_form__h1">Reset your password</h1>
+      <form className="auth_form" onSubmit={formik.handleSubmit}>
+        <div className="auth_form__formgroup">
           <label htmlFor="email">Email</label>
           <input
             type="email"
             name="email"
             id="email"
-            placeholder="Email"
+            placeholder="your.email@virginialyons.com"
             autoComplete="off"
-            required
-            ref={emailref}
-            value={emailInputValue}
-            onChange={onChangeEmailHandler}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={
+              formik.errors.email && formik.touched.email ? "input-error" : ""
+            }
           />
+          {formik.errors.email && formik.touched.email ? (
+            <small className="red">{formik.errors.email}</small>
+          ) : null}
         </div>
-        <div className="form__formgroup">
+        <div className="auth_form__formgroup">
           <label htmlFor="email">Password</label>
           <input
             type="password"
@@ -98,13 +79,20 @@ function ResetPasswordForm() {
             id="password"
             placeholder="Your new password"
             autoComplete="off"
-            required
-            ref={passwordref}
-            value={passwordValue}
-            onChange={onChangePassHandler}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={
+              formik.errors.password && formik.touched.password
+                ? "input-error"
+                : ""
+            }
           />
+          {formik.errors.password && formik.touched.password ? (
+            <small className="red">{formik.errors.password}</small>
+          ) : null}
         </div>
-        <div className="form__formgroup">
+        <div className="auth_form__formgroup">
           <label htmlFor="email">Password Confirm</label>
           <input
             type="password"
@@ -112,15 +100,30 @@ function ResetPasswordForm() {
             id="password_confirmation"
             placeholder="Confirm your new password"
             autoComplete="off"
-            required
-            ref={passwordConfirmref}
-            value={passwordConfirmValue}
-            onChange={onChangeConfirmPassHandler}
+            value={formik.values.password_confirmation}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={
+              formik.errors.password_confirmation && formik.touched.password_confirmation
+                ? "input-error"
+                : ""
+            }
           />
+          {formik.errors.password_confirmation && formik.touched.password_confirmation ? (
+            <small className="red">{formik.errors.password_confirmation}</small>
+          ) : null}
         </div>
-        <div className="form__formgroup">
-          <button className="form__btn" type="submit">
-            {isLoading ? "loading..." : "Continue"}
+        <div className="auth_form__formgroup">
+          <button
+            className="form__btn"
+            type="submit"
+            disabled={
+              !formik.isValid ||
+              (Object.keys(formik.touched).length === 0 &&
+                formik.touched.constructor === Object)
+            }
+          >
+            {formik.isSubmitting ? "loading..." : "Continue"}
           </button>
         </div>
       </form>

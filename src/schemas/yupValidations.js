@@ -28,7 +28,7 @@ export const addUserSchema = yup.object().shape({
     .string()
     .email("Please enter a valid email")
     .required("Email is required")
-    .test("Unique Email", "Email has already been taken", uniqueEmail),
+    .test("Unique Email", "This email has already been taken", uniqueEmail),
   social_sec_num: yup
     .string()
     .required("Social security number is required")
@@ -74,4 +74,44 @@ export const editUserSchema = yup.object().shape({
     .integer("Hours must be an integer")
     .required("Hours field is required"),
   is_admin: yup.boolean(),
+});
+
+export const loginSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  password: yup.string().required("Password is required"),
+});
+
+export const emailSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+});
+
+export const resetPassword = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 charcaters long")
+    .matches(passwordRules, {
+      message:
+        "Password needs to be at least 8 charcaters long, include at least one capital letter, one lowercase later, a number and a special character",
+    })
+    .required("Password is required"),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords do not match")
+    .required("Password confirmatation is required"),
+});
+
+export const checkinSchema = yup.object().shape({
+  date: yup.date().required('Checkin date is required'),
+  checkin_time: yup.string().required("Checkin time is required").nullable(true),
+  checkout_time: yup.string().required("Checkin time is required").nullable(true),
 });

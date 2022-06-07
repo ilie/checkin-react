@@ -3,13 +3,16 @@ import SelectUser from "../../SelectUser";
 import Modal from "../../UI/Modal/Modal";
 import { FiClock } from "react-icons/fi";
 import classes from "./CheckinOptions.module.css";
-import AddCheckinForm from "../../Forms/AddCheckinForm";
-import EditCheckinForm from "../../Forms/EditCheckinForm";
 import CheckinForm from "../../Forms/CheckinForm";
 
 const CheckinOptions = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState();
+
+  const singleUser = [{
+      id: props.singleCheckin.user_id,
+      name: props.singleCheckin.user_name,
+    }];
 
   const onChangeSelectHandler = (e) => {
     props.onFilter(e.target.value);
@@ -23,11 +26,16 @@ const CheckinOptions = (props) => {
     setShowModal(true);
     setForm(
       <CheckinForm
-        user=''
+        user=""
         users={props.users}
+        checkinDate=""
+        checkinTime=""
+        checkoutTime=""
         onAddCheckin={props.onAdd}
         hideModal={hideModalHandler}
-        formTitle='Add new Checkin'
+        formTitle="Add new Checkin"
+        submitForm={props.onAdd}
+        editMode={false}
       />
     );
   };
@@ -35,11 +43,18 @@ const CheckinOptions = (props) => {
   const onEditHandler = () => {
     setShowModal(true);
     setForm(
-      <EditCheckinForm
-        onEditCheckin={props.onEdit}
+      <CheckinForm
+        user={singleUser}
+        users={singleUser}
+        checkinDate={props.singleCheckin.checkin_date}
+        checkinTime={props.singleCheckin.checkin_time}
+        checkoutTime={props.singleCheckin.checkout_time}
+        submitForm={props.onEdit}
         hideModal={hideModalHandler}
+        formTitle="Edit Checkin"
         singleCheckin={props.singleCheckin}
         selectedRow={props.selectedRow}
+        editMode={true}
       />
     );
   };
