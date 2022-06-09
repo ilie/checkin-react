@@ -6,9 +6,9 @@
     border: 1px solid #ccc;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     border-radius: 7px;
-    padding: 16px;
+    padding: 1rem;
     left: 15%;
-    top: 20%;
+    top: 15%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
 }
@@ -17,6 +17,12 @@
     .Modal{
         width: 600px;
         left: calc(50% - 300px);
+    }
+}
+
+@media (max-height: 900px){
+    .Modal{
+        top: 3.72rem;
     }
 }
 

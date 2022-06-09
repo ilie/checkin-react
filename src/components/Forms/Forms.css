@@ -29,6 +29,9 @@
 .user__formgroup {
   display: flex;
   flex-direction: column;
+}
+
+.auth_form__formgroup{
   margin-bottom: 1.5rem;
 }
 
@@ -54,18 +57,6 @@
 .auth_form__formgroup input {
   border: 1px solid #150958;
   text-align: left;
-}
-
-.form__formgroup:first-child {
-  margin-top: 0.6rem;
-}
-.form__formgroup:last-child {
-  flex-direction: column;
-}
-
-.form__formgroup:nth-child(2) {
-  position: relative;
-  margin-top: 3.5rem;
 }
 
 .auth_form__pswlabel {
@@ -294,7 +285,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
   background-color: #150958;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
@@ -302,14 +293,19 @@
   color: white;
 }
 .user_form__body {
-  padding: 1.1rem;
+  padding: 1rem;
 }
+
+.user__formgroup {
+  margin-bottom: 0.75rem;
+}
+
 .user__formgroup input {
   font: inherit;
+  font-size: 0.9rem;
   border-radius: 0.3rem;
   width: 100%;
-  font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border: 1px solid #150958;
 }
 
@@ -330,8 +326,8 @@
 }
 
 .user__formgroup select {
-  width: 18.6rem;
-  height: 2.5rem;
+  width: 19.7rem;
+  height: 2.1rem;
   padding: 0.5rem;
   border: 1px solid #150958;
 }
