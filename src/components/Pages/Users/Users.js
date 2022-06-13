@@ -1,4 +1,3 @@
-import classes from "./Users.module.css";
 import { deserialize } from "jsonapi-fractal";
 import useAxios from "../../../hooks/useAxios";
 import UsersTable from "../../Tables/UsersTable";
@@ -15,7 +14,6 @@ function Users() {
   const authCtx = useContext(AuthContext);
   const [meta, setMeta] = useState([]);
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [pageSize, setPageSize] = useState(15);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -28,15 +26,12 @@ function Users() {
   }, [pageNumber, pageSize]);
 
   const getUsers = async () => {
-    setIsLoading(true);
     try {
       const response = await Axios.get(url);
       setUsers(deserialize(response.data));
       setMeta(response.data.meta);
-      setIsLoading(false);
     } catch (err) {
       if (err.response.status === 401) authCtx.clearLoginData();
-      setIsLoading(false);
     }
   };
 
@@ -104,19 +99,21 @@ function Users() {
 
   return (
     <div className="container">
-      <div className={classes.body}>
+      <div className="body">
         <h1>Users</h1>
         <ToastContainer style={{ top: "6rem", right: "0.4rem" }} />
-        <AdminOptions>
-          <UserOptions
-            onAdd={addUserHandler}
-            onEdit={editUserHandler}
-            onDelete={deleteUserHandler}
-            selectedRow={selectedRow}
-            singleUser={singleUser}
-            setSelectedRow={setSelectedRow}
-          />
-        </AdminOptions>
+        {authCtx.isAdmin && (
+          <AdminOptions>
+            <UserOptions
+              onAdd={addUserHandler}
+              onEdit={editUserHandler}
+              onDelete={deleteUserHandler}
+              selectedRow={selectedRow}
+              singleUser={singleUser}
+              setSelectedRow={setSelectedRow}
+            />
+          </AdminOptions>
+        )}
         <RecordsPerPage pageSize={pageSize} perPage={perPageHandler} />
         <UsersTable
           users={users}

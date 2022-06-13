@@ -1,11 +1,10 @@
-import CheckinsTable from "../../Tables/CheckinsTable";
-import classes from "./Checkins.module.css";
 import { deserialize } from "jsonapi-fractal";
 import CheckinOptions from "./CheckinOptions";
 import useAxios from "../../../hooks/useAxios";
 import Pagination from "../../Tables/Pagination";
 import AuthContext from "../../../store/auth-context";
 import { ToastContainer, toast } from "react-toastify";
+import CheckinsTable from "../../Tables/CheckinsTable";
 import { useState, useEffect, useContext } from "react";
 import RecordsPerPage from "../../Tables/RecordsPerPage";
 import AdminOptions from "../../AdminOptions/AdminOptions";
@@ -127,7 +126,7 @@ function Checkins() {
 
   return (
     <div className="container">
-      <div className={classes.body}>
+      <div className='body'>
         <h1>{isAdmin ? "All Checkins" : "My checkins"}</h1>
         {isAdmin && (
           <AdminOptions>
