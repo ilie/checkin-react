@@ -5,12 +5,11 @@ import { NavLink } from "react-router-dom";
 import svg from "../../assets/img/turn-off.svg";
 import AuthContext from "../../store/auth-context";
 
-
 const Nav = () => {
   const authCtx = useContext(AuthContext);
   const linkIsActive = (navData) => (navData.isActive ? classes.active : "");
   const logoutButton = <img src={svg} alt="Logout" onClick={authCtx.logout} />;
-  const isLoggedIn = authCtx.isLoggedIn;
+  const isAdmin = authCtx.isAdmin;
 
   let navElements = [
     {
@@ -20,15 +19,10 @@ const Nav = () => {
     },
     {
       id: 2,
-      label: " My Checkins",
+      label: "Checkins",
       link: "/checkins",
     },
   ];
-
-  if (authCtx.isAdmin) {
-    navElements[1].label = "Checkins";
-    navElements.push({ id: 4, label: "Users", link: "/users" });
-  }
 
   return (
     <div>
@@ -43,6 +37,13 @@ const Nav = () => {
               </li>
             );
           })}
+          {isAdmin && (
+            <li className={classes.main_nav__element}>
+              <NavLink className={linkIsActive} to="/users">
+                Users
+              </NavLink>
+            </li>
+          )}
           <li className={classes.logoutButton}>{logoutButton}</li>
         </ul>
       </nav>

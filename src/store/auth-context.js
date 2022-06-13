@@ -6,6 +6,7 @@ const AuthContext = createContext({
   isAdmin: false,
   login: (token) => {},
   setAdmin: (isAdmin) => {},
+  setAdminFalse: () => {},
   logout: () => {},
   clearLoginData: () => {},
 });
@@ -47,6 +48,11 @@ export const AuthContextProvider = (props) => {
     clearLogin()
   };
 
+  const adminFalseHandler = () => {
+    localStorage.removeItem('isAdmin');
+    setIsAdmin(false);
+  }
+
   const clearLogin = () => {
     setToken(null);
     localStorage.removeItem("token");
@@ -59,6 +65,7 @@ export const AuthContextProvider = (props) => {
     isAdmin: userIsAdmin,
     login: loginHandler,
     setAdmin: userIsAdminHandler,
+    setAdminFalse: adminFalseHandler,
     logout: logoutHandler,
     clearLoginData: clearLoginDataHandler
 

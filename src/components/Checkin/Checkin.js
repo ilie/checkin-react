@@ -57,13 +57,15 @@ function Checkin() {
   if (!isLoading) {
     if (checkinStatus === "checkin") {
       content = (
-        <button onClick={checkoutHandler} className={classes.checkout}>
+        <button onClick={checkoutHandler} className={classes.checkin}>
+          <span className={classes.ring}></span>
           Checkout
         </button>
       );
     } else if (checkinStatus === "checkout") {
       content = (
         <button onClick={checkinHandler} className={classes.checkin}>
+          <span className={classes.ring}></span>
           Checkin
         </button>
       );

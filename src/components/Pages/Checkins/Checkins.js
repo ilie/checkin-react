@@ -12,7 +12,7 @@ import AdminOptions from "../../AdminOptions/AdminOptions";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
-  const isAdmin = ctx.isAdmin;
+  const isAdmin = localStorage.getItem('isAdmin');
   const [data, setData] = useState([]);
   const [meta, setMeta] = useState([]);
   const [users, setUsers] = useState([]);
@@ -45,8 +45,14 @@ function Checkins() {
   };
 
   const getUsers = async () => {
-    const response = await Axios.get("/users");
-    setUsers(deserialize(response.data));
+    try {
+      if(ctx.isAdmin){
+        const response = await Axios.get("/users");
+        setUsers(deserialize(response.data));
+      }
+    }catch (err) {
+      if (err.response.status === 403) ctx.setAdminFalse();
+    }
   };
 
   const addCheckinHandler = async (newCheckinData) => {

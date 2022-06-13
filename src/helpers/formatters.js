@@ -33,5 +33,6 @@ export const formatDateToES = (givenDate) => {
 }
 
 export const formatDateToSQL = (givenDate) => {
-  return givenDate.toISOString().split('T')[0] ;
+  const date = new Date(givenDate);
+  return date.toISOString().split('T')[0] ;
 }

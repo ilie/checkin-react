@@ -9,7 +9,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Checkins from "./components/Pages/Checkins/Checkins";
 import ResetPassword from "./components/Pages/auth/ResetPassword";
 import ForgotPassword from "./components/Pages/auth/ForgotPassword";
-
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -33,6 +33,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login"></Navigate>} />
         </Routes>
       )}
+      <Footer />
     </div>
   );
 }
