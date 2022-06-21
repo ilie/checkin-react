@@ -35,6 +35,7 @@ function Checkin() {
     Axios.post(url, body)
       .then((res) => {
         getCheckinStatus();
+        navigator.vibrate(200);
       })
       .catch((err) => {
         setIsLoading(false);
