@@ -1,4 +1,5 @@
 import "./Forms.css";
+import axios from "axios";
 import { useFormik } from "formik";
 import { useContext } from "react";
 import useAxios from "../../hooks/useAxios";
@@ -13,7 +14,12 @@ function LoginForm(props) {
   const authCtx = useContext(AuthContext);
   const { Axios } = useAxios();
 
+  const getCSRF = async () => {
+    await axios.get('https://api.checkin.virginialyons.com/sanctum/csrf-cookie');
+  }
+
   const loginHandler = (values) => {
+    getCSRF();
     Axios.post("/login", {
       email: values.email,
       password: values.password,
