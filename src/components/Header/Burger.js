@@ -38,6 +38,7 @@ function Burger(props) {
                   className={linkClasses}
                   to={navElement.link}
                   onClick={closeSideMenuHandler}
+                  end
                 >
                   {navElement.label}
                 </NavLink>

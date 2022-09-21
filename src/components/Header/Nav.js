@@ -10,7 +10,6 @@ const Nav = () => {
   const linkIsActive = (navData) => (navData.isActive ? classes.active : "");
   const logoutButton = <img src={svg} alt="Logout" onClick={authCtx.logout} />;
   const isAdmin = authCtx.isAdmin;
-
   let navElements = [
     {
       id: 1,
@@ -31,7 +30,7 @@ const Nav = () => {
           {navElements.map((navElement) => {
             return (
               <li className={classes.main_nav__element} key={navElement.id}>
-                <NavLink className={linkIsActive} to={navElement.link}>
+                <NavLink className={linkIsActive} to={navElement.link} end>
                   {navElement.label}
                 </NavLink>
               </li>
