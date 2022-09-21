@@ -33,6 +33,7 @@ export const formatDateToES = (givenDate) => {
 }
 
 export const formatDateToSQL = (givenDate) => {
-  const date = new Date(givenDate);
+  const offset = givenDate.getTimezoneOffset();
+  const date = new Date(givenDate.getTime() - offset * 60 * 1000);
   return date.toISOString().split('T')[0] ;
 }

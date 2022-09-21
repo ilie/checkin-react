@@ -74,11 +74,11 @@ function Checkins() {
       const response = await Axios.put(`/checkins/${selectedRow}`, checkin);
       const modifiedCheckin = deserialize(response.data);
       const modifiedCheckins = data.map((item) => {
-        return item.id === checkin.id ? modifiedCheckin : item;
+        return item.id === modifiedCheckin.id ? modifiedCheckin : item;
       });
       setData(modifiedCheckins);
-      setSelectedRow(null);
       setSingleCheckin({});
+      setSelectedRow(null);
       toast.success("Checkin modified succesfuly!");
     } catch (error) {
       toast.error(error.message);

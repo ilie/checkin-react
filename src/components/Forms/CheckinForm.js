@@ -8,35 +8,18 @@ import DatePickerField from "../UI/DatePickerField";
 import { formatDateToSQL } from "../../helpers/formatters";
 import { checkinSchema } from "../../schemas/yupValidations";
 import "./Forms.css";
-import DatePicker from "react-datepicker";
-const CheckinForm = (props) => {
-  const onSubmitHandler = (values, actions) => {
-    values.user === "0"
-      ? setFieldError("user", "User is required")
-      : console.log("OK");
-    const formattedData = {
-      type: "checkin",
-      user_id: values.user,
-      checkin_date: formatDateToSQL(values.date),
-      checkin_time: values.checkin_time,
-      checkout_time: values.checkout_time,
-    };
-    props.submitForm(formattedData);
-    actions.resetForm();
-    props.hideModal();
-  };
 
+const CheckinForm = (props) => {
   const {
     values,
     errors,
     touched,
     isValid,
-    isSubmitting,
     handleBlur,
     handleChange,
     handleSubmit,
     setFieldValue,
-    setFieldError,
+    setFieldTouched,
   } = useFormik({
     initialValues: {
       user: props.user,
@@ -50,10 +33,18 @@ const CheckinForm = (props) => {
   });
   useEffect(() => {
     setFieldValue("user", props.user);
+    setFieldValue("user", "");
     setFieldValue("users", props.users);
     setFieldValue("date", props.checkinDate);
     setFieldValue("checkin_time", props.checkinTime);
     setFieldValue("checkout_time", props.checkoutTime);
+
+    if (props.editMode) {
+      setFieldTouched("user", true);
+      setFieldTouched("date", true);
+      setFieldTouched("checkin_time", true);
+      setFieldTouched("checkout", true);
+    }
   }, [
     props.singleCheckin,
     props.user,
@@ -61,7 +52,21 @@ const CheckinForm = (props) => {
     props.checkinDate,
     props.checkinTime,
     props.checkoutTime,
+    props.editMode,
   ]);
+
+  function onSubmitHandler(values, actions) {
+    const formattedData = {
+      type: "checkin",
+      user_id: values.user,
+      checkin_date: props.editMode ? values.date : formatDateToSQL(values.date),
+      checkin_time: values.checkin_time,
+      checkout_time: values.checkout_time,
+    };
+    props.submitForm(formattedData);
+    props.hideModal();
+    actions.resetForm();
+  }
 
   return (
     <div className="checkin_form__div">
@@ -153,7 +158,7 @@ const CheckinForm = (props) => {
             </small>
           ) : null}
           <div className="checkin_form__group with_icon">
-            <label htmlFor="checkin_time">
+            <label htmlFor="checkout_time">
               Checkout Time:
               <span className="red">
                 {" "}
