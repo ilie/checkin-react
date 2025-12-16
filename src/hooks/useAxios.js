@@ -4,7 +4,8 @@ import AuthContext from "../store/auth-context";
 
 const useAxios = () => {
   const ctx = useContext(AuthContext);
-  const baseURL = "https://api.checkin.virginialyons.com/api";
+  // const baseURL = "https://api.checkin.virginialyons.com/api";
+  const baseURL = "https://api.local.flo-dev.com/api";
   const userIsLoggedIn = ctx.isLoggedIn;
 
   let headers = {};
