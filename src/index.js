@@ -5,7 +5,6 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./store/auth-context";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
@@ -20,3 +19,4 @@ root.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register();
+

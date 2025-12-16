@@ -25,7 +25,7 @@ function Checkin() {
       .catch((err) => {
         setIsLoading(false);
         const errMessage = err.response.data.message;
-        if (err.response.status == 401) autCtx.clearLoginData();
+        if (err.response.status == 401)  autCtx.clearLoginData();
         toast.error(errMessage);
       });
   };
@@ -54,7 +54,7 @@ function Checkin() {
     });
   };
 
-  let content = <p className="loading">Loading ...</p>;
+  let content = <p className='loading'>Loading ...</p>;
   if (!isLoading) {
     if (checkinStatus === "checkin") {
       content = (
