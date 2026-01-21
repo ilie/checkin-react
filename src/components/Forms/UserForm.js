@@ -44,6 +44,7 @@ const AddUserForm = (props) => {
     setFieldValue('social_sec_num', props.social_sec_num);
     setFieldValue('hours_on_contract', props.hours_on_contract);
     setFieldValue('is_admin', props.is_admin);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedRow])
 
   return (

@@ -45,6 +45,7 @@ const CheckinForm = (props) => {
       setFieldTouched("checkin_time", true);
       setFieldTouched("checkout", true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.singleCheckin,
     props.user,

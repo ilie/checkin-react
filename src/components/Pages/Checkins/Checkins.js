@@ -25,11 +25,6 @@ function Checkins() {
 
   let url = `/checkins?page[size]=${pageSize}&page[number]=${pageNumber}&sort=-checkin_date${filter}`;
 
-  useEffect(() => {
-    getData();
-    getUsers();
-  }, [pageNumber, pageSize, filter]);
-
   const getData = async () => {
     setIsLoading(true);
     try {
@@ -53,6 +48,12 @@ function Checkins() {
       if (err.response.status === 403) ctx.setAdminFalse();
     }
   };
+
+  useEffect(() => {
+    getData();
+    getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber, pageSize, filter]);
 
   const addCheckinHandler = async (newCheckinData) => {
     try {

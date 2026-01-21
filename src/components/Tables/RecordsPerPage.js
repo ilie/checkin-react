@@ -2,11 +2,7 @@ import { Fragment } from "react";
 
 function RecordsPerPage(props) {
   const selectOptions = [5, 10, 15, 25, 50, 100];
-  let defaultValue = "";
   const options = selectOptions.map((selectOption) => {
-    if (selectOption.value === props.pageSize) {
-      defaultValue = selectOption.value;
-    }
     return (
       <option key={selectOption} value={selectOption} defaultValue>
         {selectOption}

@@ -21,10 +21,6 @@ function Users() {
 
   let url = `/users?page[size]=${pageSize}&page[number]=${pageNumber}&sort=name`;
 
-  useEffect(() => {
-    getUsers();
-  }, [pageNumber, pageSize]);
-
   const getUsers = async () => {
     try {
       const response = await Axios.get(url);
@@ -34,6 +30,11 @@ function Users() {
       if (err.response.status === 401) authCtx.clearLoginData();
     }
   };
+
+  useEffect(() => {
+    getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber, pageSize]);
 
   const selectRowHandler = async (row) => {
     const response = await Axios.get(`users/${row}`);

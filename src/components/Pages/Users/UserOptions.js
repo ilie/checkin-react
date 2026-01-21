@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "../../UI/Modal/Modal";
-import SelectUser from "../../SelectUser";
 import classes from './UserOptions.module.css'
 import UserForm from "../../Forms/UserForm";
 import {AiOutlineUserAdd,AiOutlineUserDelete,AiOutlineUser} from "react-icons/ai";

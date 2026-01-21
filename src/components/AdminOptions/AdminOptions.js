@@ -1,4 +1,3 @@
-import { useState } from "react";
 import classes from "./AdminOptions.module.css";
 
 function AdminOptions(props) {

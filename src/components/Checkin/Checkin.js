@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import useAxios from "../../hooks/useAxios";
 import classes from "./Checkin.module.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,11 +11,8 @@ function Checkin() {
   const [checkinStatusId, setCheckinStatusId] = useState(null);
   const { Axios } = useAxios();
   const autCtx = useContext(AuthContext);
-  useEffect(() => {
-    getCheckinStatus();
-  }, []);
 
-  const getCheckinStatus = () => {
+  const getCheckinStatus = useCallback(() => {
     return Axios.get("/checkins/status")
       .then((result) => {
         setIsLoading(false);
@@ -25,10 +22,14 @@ function Checkin() {
       .catch((err) => {
         setIsLoading(false);
         const errMessage = err.response.data.message;
-        if (err.response.status == 401)  autCtx.clearLoginData();
+        if (err.response.status === 401)  autCtx.clearLoginData();
         toast.error(errMessage);
       });
-  };
+  }, [Axios, autCtx]);
+
+  useEffect(() => {
+    getCheckinStatus();
+  }, [getCheckinStatus]);
 
   const sendPostRequest = (url, body) => {
     setIsLoading(true);
