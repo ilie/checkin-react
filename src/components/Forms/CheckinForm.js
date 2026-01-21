@@ -5,7 +5,7 @@ import { FaRegClock } from "react-icons/fa";
 import { BsCalendar3 } from "react-icons/bs";
 import TimePickerField from "../UI/TimePickerFiels";
 import DatePickerField from "../UI/DatePickerField";
-import { formatDateToSQL } from "../../helpers/formatters";
+import { formatDateToSQL, formatTimeToSQL } from "../../helpers/formatters";
 import { checkinSchema } from "../../schemas/yupValidations";
 import "./Forms.css";
 
@@ -60,8 +60,8 @@ const CheckinForm = (props) => {
       type: "checkin",
       user_id: values.user,
       checkin_date: props.editMode ? values.date : formatDateToSQL(values.date),
-      checkin_time: values.checkin_time,
-      checkout_time: values.checkout_time,
+      checkin_time: formatTimeToSQL(values.checkin_time),
+      checkout_time: formatTimeToSQL(values.checkout_time),
     };
     props.submitForm(formattedData);
     props.hideModal();

@@ -37,3 +37,17 @@ export const formatDateToSQL = (givenDate) => {
   const date = new Date(givenDate.getTime() - offset * 60 * 1000);
   return date.toISOString().split('T')[0] ;
 }
+
+export const formatTimeToSQL = (timeValue) => {
+  if (!timeValue) return null;
+
+  if (typeof timeValue === 'string') {
+    const timePattern = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+    if (timePattern.test(timeValue)) {
+      const parts = timeValue.split(':');
+      return `${parts[0].padStart(2, '0')}:${parts[1]}:${parts[2]}`;
+    }
+  }
+
+  return timeValue;
+}
