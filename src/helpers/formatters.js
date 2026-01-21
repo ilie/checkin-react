@@ -42,12 +42,28 @@ export const formatTimeToSQL = (timeValue) => {
   if (!timeValue) return null;
 
   if (typeof timeValue === 'string') {
-    const timePattern = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
-    if (timePattern.test(timeValue)) {
-      const parts = timeValue.split(':');
-      return `${parts[0].padStart(2, '0')}:${parts[1]}:${parts[2]}`;
+    const trimmed = timeValue.trim();
+
+    if (trimmed === '') return null;
+
+    const parts = trimmed.split(':');
+
+    if (parts.length >= 2) {
+      const hours = parseInt(parts[0], 10);
+      const minutes = parseInt(parts[1], 10);
+      const seconds = parts[2] ? parseInt(parts[2], 10) : 0;
+
+      if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+        return null;
+      }
+
+      if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+        return null;
+      }
+
+      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
   }
 
-  return timeValue;
+  return null;
 }
