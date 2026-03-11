@@ -11,7 +11,6 @@ import AdminOptions from "../../AdminOptions/AdminOptions";
 
 function Checkins() {
   const ctx = useContext(AuthContext);
-  const isAdmin = localStorage.getItem('isAdmin');
   const [data, setData] = useState([]);
   const [meta, setMeta] = useState([]);
   const [users, setUsers] = useState([]);
@@ -41,7 +40,7 @@ function Checkins() {
   const getUsers = async () => {
     try {
       if(ctx.isAdmin){
-        const response = await Axios.get("/users");
+        const response = await Axios.get("/users?page[size]=9999&sort=name");
         setUsers(deserialize(response.data));
       }
     }catch (err) {
@@ -50,8 +49,7 @@ function Checkins() {
   };
 
   useEffect(() => {
-    getData();
-    getUsers();
+    Promise.all([getData(), getUsers()]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, pageSize, filter]);
 
@@ -128,8 +126,8 @@ function Checkins() {
   return (
     <div className="container">
       <div className='body'>
-        <h1>{isAdmin ? "All Checkins" : "My checkins"}</h1>
-        {isAdmin && (
+        <h1>{ctx.isAdmin ? "All Checkins" : "My checkins"}</h1>
+        {ctx.isAdmin && (
           <AdminOptions>
             <CheckinOptions
               users={users}

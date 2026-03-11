@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, useCallback, useMemo, createContext } from "react";
 import axios from "axios";
 const AuthContext = createContext({
   token: "",
@@ -18,15 +18,23 @@ export const AuthContextProvider = (props) => {
   const [isAdmin, setIsAdmin] = useState(initIsAdmin);
   const userIsLoggedIn = !!token;
   const userIsAdmin = !!isAdmin;
-  const loginHandler = (token) => {
+  const clearLogin = useCallback(() => {
+    setToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+  }, []);
+
+  const loginHandler = useCallback((token) => {
     setToken(token);
     localStorage.setItem("token", token);
-  };
-  const userIsAdminHandler = (isAdmin) => {
+  }, []);
+
+  const userIsAdminHandler = useCallback((isAdmin) => {
     setIsAdmin(isAdmin);
     localStorage.setItem("isAdmin", isAdmin);
-  };
-  const logoutHandler = () => {
+  }, []);
+
+  const logoutHandler = useCallback(() => {
     const api = axios.create({
       baseURL: `https://api.checkin.virginialyons.com/api`,
       headers: {
@@ -36,30 +44,24 @@ export const AuthContextProvider = (props) => {
     });
     api
       .post("/logout")
-      .then((res) => {
+      .then(() => {
        clearLogin();
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, [token, clearLogin]);
 
-  const clearLoginDataHandler = () => {
-    clearLogin()
-  };
+  const clearLoginDataHandler = useCallback(() => {
+    clearLogin();
+  }, [clearLogin]);
 
-  const adminFalseHandler = () => {
+  const adminFalseHandler = useCallback(() => {
     localStorage.removeItem('isAdmin');
     setIsAdmin(false);
-  }
+  }, []);
 
-  const clearLogin = () => {
-    setToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("isAdmin");
-  }
-
-  const contextValue = {
+  const contextValue = useMemo(() => ({
     token: token,
     isLoggedIn: userIsLoggedIn,
     isAdmin: userIsAdmin,
@@ -67,9 +69,8 @@ export const AuthContextProvider = (props) => {
     setAdmin: userIsAdminHandler,
     setAdminFalse: adminFalseHandler,
     logout: logoutHandler,
-    clearLoginData: clearLoginDataHandler
-
-  };
+    clearLoginData: clearLoginDataHandler,
+  }), [token, userIsLoggedIn, userIsAdmin, loginHandler, userIsAdminHandler, adminFalseHandler, logoutHandler, clearLoginDataHandler]);
   return (
     <AuthContext.Provider value={contextValue}>
       {props.children}

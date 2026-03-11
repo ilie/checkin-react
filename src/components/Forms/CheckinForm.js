@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useFormik } from "formik";
 import SelectUser from "../SelectUser";
 import { FaRegClock } from "react-icons/fa";
@@ -19,7 +18,6 @@ const CheckinForm = (props) => {
     handleChange,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
   } = useFormik({
     initialValues: {
       user: props.user,
@@ -28,33 +26,13 @@ const CheckinForm = (props) => {
       checkin_time: props.checkinTime,
       checkout_time: props.checkoutTime,
     },
+    initialTouched: props.editMode
+      ? { user: true, date: true, checkin_time: true, checkout_time: true }
+      : {},
+    enableReinitialize: true,
     validationSchema: checkinSchema,
     onSubmit: onSubmitHandler,
   });
-  useEffect(() => {
-    setFieldValue("user", props.user);
-    setFieldValue("user", "");
-    setFieldValue("users", props.users);
-    setFieldValue("date", props.checkinDate);
-    setFieldValue("checkin_time", props.checkinTime);
-    setFieldValue("checkout_time", props.checkoutTime);
-
-    if (props.editMode) {
-      setFieldTouched("user", true);
-      setFieldTouched("date", true);
-      setFieldTouched("checkin_time", true);
-      setFieldTouched("checkout", true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    props.singleCheckin,
-    props.user,
-    props.users,
-    props.checkinDate,
-    props.checkinTime,
-    props.checkoutTime,
-    props.editMode,
-  ]);
 
   function onSubmitHandler(values, actions) {
     const formattedData = {
