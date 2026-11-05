@@ -4,6 +4,7 @@ import classes from "./Checkin.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "../../store/auth-context";
+import { apiErrorMessage } from "../../helpers/api";
 
 function Checkin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +22,8 @@ function Checkin() {
       })
       .catch((err) => {
         setIsLoading(false);
-        const errMessage = err.response.data.message;
-        if (err.response.status === 401)  autCtx.clearLoginData();
-        toast.error(errMessage);
+        if (err.response?.status === 401) autCtx.clearLoginData();
+        toast.error(apiErrorMessage(err));
       });
   }, [Axios, autCtx]);
 
@@ -40,7 +40,7 @@ function Checkin() {
       })
       .catch((err) => {
         setIsLoading(false);
-        toast.error(err.response.data.message);
+        toast.error(apiErrorMessage(err));
         getCheckinStatus();
       });
   };

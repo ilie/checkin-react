@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, createContext } from "react";
 import axios from "axios";
+import { API_URL } from "../helpers/api";
 const AuthContext = createContext({
   token: "",
   isLoggedIn: false,
@@ -36,7 +37,7 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = useCallback(() => {
     const api = axios.create({
-      baseURL: `https://api.checkin.virginialyons.com/api`,
+      baseURL: API_URL,
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,

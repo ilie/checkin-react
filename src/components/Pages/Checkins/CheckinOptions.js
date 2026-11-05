@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SelectUser from "../../SelectUser";
 import Modal from "../../UI/Modal/Modal";
 import { FiClock } from "react-icons/fi";
 import classes from "./CheckinOptions.module.css";
@@ -9,14 +8,13 @@ const CheckinOptions = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState();
 
+  // Deleted check-ins stay visible for the record but can't be edited or deleted again.
+  const canChange = props.selectedRow !== null && !props.singleCheckin.deleted_at;
+
   const singleUser = [{
       id: props.singleCheckin.user_id,
       name: props.singleCheckin.user_name,
     }];
-
-  const onChangeSelectHandler = (e) => {
-    props.onFilter(e.target.value);
-  };
 
   const hideModalHandler = () => {
     setShowModal(false);
@@ -69,27 +67,19 @@ const CheckinOptions = (props) => {
           New <FiClock />
         </button>
         <button
-          disabled={props.selectedRow === null}
+          disabled={!canChange}
           className={classes.option + " hide_on_mobile"}
           onClick={props.onDelete}
         >
           Remove <FiClock />
         </button>
         <button
-          disabled={props.selectedRow === null}
+          disabled={!canChange}
           className={classes.option + " hide_on_mobile"}
           onClick={onEditHandler}
         >
           Edit <FiClock />
         </button>
-      </div>
-      <div className={classes.right_options}>
-        <span>Select a user</span>
-        <SelectUser
-          users={props.users}
-          onChange={onChangeSelectHandler}
-          firstValue="All users"
-        />
       </div>
       <Modal showModal={showModal}>{form}</Modal>
     </div>

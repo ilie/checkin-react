@@ -9,16 +9,25 @@ function CheckinsTable(props) {
   const rows = props.data.map((row) => {
     const startTime = new Date(row.checkin_date + "T" + row.checkin_time);
     const endTime = new Date(row.checkin_date + "T" + row.checkout_time);
-    const hours = getFormattedTimeDiff(startTime, endTime);
+    let hours = getFormattedTimeDiff(startTime, endTime);
+    if (!row.checkout_time) hours = "Open";
+    else if (endTime <= startTime) hours = "Invalid";
+    const classNames = [props.selectedRow === row.id ? "selected" : "", row.deleted_at ? "deleted" : ""];
+
     return (
       <tr
         key={row.id}
         onClick={() => {
           selectRowHandler(row.id);
         }}
-        className={props.selectedRow === row.id ? "selected" : ""}
+        className={classNames.join(" ").trim()}
       >
-        <td>{row.user_name}</td>
+        <td>
+          {row.user_name}
+          {row.source === "manual" && <span className="tag">Manual</span>}
+          {row.corrections_count > 0 && <span className="tag">Edited ×{row.corrections_count}</span>}
+          {row.deleted_at && <span className="tag">Deleted</span>}
+        </td>
         <td>{formatDateToES(row.checkin_date)}</td>
         <td>{row.checkin_time}</td>
         <td>{row.checkout_time}</td>

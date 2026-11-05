@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import axios from "axios";
+import { API_URL } from "../helpers/api";
 
 const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const token = localStorage.getItem("token");
@@ -8,7 +9,7 @@ const uniqueEmail = function (value) {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `https://api.checkin.virginialyons.com/api/users?filter[email]=${value}`,
+        `${API_URL}/users?filter[email]=${value}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then((res) => {
@@ -29,10 +30,6 @@ export const addUserSchema = yup.object().shape({
     .email("Please enter a valid email")
     .required("Email is required")
     .test("Unique Email", "This email has already been taken", uniqueEmail),
-  social_sec_num: yup
-    .string()
-    .required("Social security number is required")
-    .min(12, "Social security number must be 12 characters"),
   hours_on_contract: yup
     .number("Hours must be a number")
     .positive("Hours must be a positive number")
@@ -64,10 +61,6 @@ export const editUserSchema = yup.object().shape({
     .string()
     .email("Please enter a valid email")
     .required("Email is required"),
-  social_sec_num: yup
-    .string()
-    .required("Social security number is required")
-    .min(12, "Social security number must be 12 characters long"),
   hours_on_contract: yup
     .number("Hours must be a number")
     .positive("Hours must be a positive number")
@@ -113,5 +106,6 @@ export const resetPassword = yup.object().shape({
 export const checkinSchema = yup.object().shape({
   date: yup.date().required('Checkin date is required'),
   checkin_time: yup.string().required("Checkin time is required").nullable(true),
-  checkout_time: yup.string().required("Checkin time is required").nullable(true),
+  checkout_time: yup.string().required("Checkout time is required").nullable(true),
+  reason: yup.string().trim().required("Please explain why this check-in is added or changed"),
 });

@@ -27,7 +27,6 @@ const AddUserForm = (props) => {
       name: props.name,
       nif: props.nif,
       email: props.email,
-      social_sec_num: props.social_sec_num,
       hours_on_contract: props.hours_on_contract,
       is_admin: props.is_admin,
       password: "",
@@ -41,7 +40,6 @@ const AddUserForm = (props) => {
     setFieldValue('name', props.name);
     setFieldValue('nif', props.nif);
     setFieldValue('email', props.email);
-    setFieldValue('social_sec_num', props.social_sec_num);
     setFieldValue('hours_on_contract', props.hours_on_contract);
     setFieldValue('is_admin', props.is_admin);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,34 +127,6 @@ const AddUserForm = (props) => {
                 <small className="red">{errors.email}</small>
               ) : null}
             </div>
-          </div>
-          <div className="user__formgroup">
-            <label htmlFor="nif">
-              S.S. number:{" "}
-              <span className="red">
-                {" "}
-                <sup>*</sup>
-              </span>
-            </label>
-            <input
-              type="text"
-              name="social_sec_num"
-              id="ss"
-              placeholder="Social security no. Ex: 221006782335"
-              minLength="12"
-              maxLength="12"
-              value={values.social_sec_num}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={
-                errors.social_sec_num && touched.social_sec_num
-                  ? "input-error"
-                  : ""
-              }
-            />
-            {errors.social_sec_num && touched.social_sec_num ? (
-              <small className="red">{errors.social_sec_num}</small>
-            ) : null}
           </div>
           <div className="user__formgroup_oneline">
             <div className="user__formgroup half">

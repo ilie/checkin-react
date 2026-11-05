@@ -1,0 +1,51 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+}
+
+.fields,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: flex-end;
+}
+
+.fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.fields .checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fields select,
+.fields input[type="date"] {
+  padding: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.actions button {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.actions button:hover:enabled {
+  background-color: #e3e3e3;
+}
+
+.actions button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}

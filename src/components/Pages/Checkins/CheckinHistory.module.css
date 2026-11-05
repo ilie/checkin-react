@@ -1,0 +1,24 @@
+.history {
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 0.3rem;
+  border-bottom: 1px solid #e6e5e5;
+  vertical-align: top;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+}

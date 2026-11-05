@@ -18,7 +18,6 @@ const UsersTable = (props) => {
         <td>{user.name}</td>
         <td className="hide_on_mobile">{user.nif}</td>
         <td>{user.email}</td>
-        <td className="hide_on_mobile">{user.social_sec_num}</td>
         <td className="hide_on_mobile">{user.hours_on_contract} h</td>
         <td className="hide_on_mobile">{user.is_admin}</td>
       </tr>
@@ -33,7 +32,6 @@ const UsersTable = (props) => {
             <th>Name</th>
             <th className="hide_on_mobile">NIF</th>
             <th>Email</th>
-            <th className="hide_on_mobile">SS number</th>
             <th className="hide_on_mobile">Contract</th>
             <th className="hide_on_mobile">Admin</th>
           </tr>

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useContext, useMemo } from "react";
 import AuthContext from "../store/auth-context";
+import { API_URL } from "../helpers/api";
 
 const useAxios = () => {
   const ctx = useContext(AuthContext);
-  const baseURL = "https://api.checkin.virginialyons.com/api";
 
   const Axios = useMemo(() => {
     const headers = {};
@@ -12,7 +12,7 @@ const useAxios = () => {
       headers.Authorization = `Bearer ${ctx.token}`;
     }
     return axios.create({
-      baseURL: baseURL,
+      baseURL: API_URL,
       headers: headers,
     });
   }, [ctx.isLoggedIn, ctx.token]);

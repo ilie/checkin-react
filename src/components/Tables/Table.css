@@ -75,3 +75,19 @@
     max-width: 3.8rem;
   }
 }
+
+.table tbody tr.deleted td {
+  color: #9a9a9a;
+  text-decoration: line-through;
+}
+
+.table .tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  border-radius: 0.3rem;
+  background-color: #ececf6;
+  color: #150958;
+  font-size: 0.75rem;
+  text-decoration: none;
+}

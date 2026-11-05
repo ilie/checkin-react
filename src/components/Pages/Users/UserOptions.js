@@ -18,7 +18,6 @@ const UserOptions = (props) => {
         name=''
         nif=''
         email=''
-        social_sec_num=''
         hours_on_contract=''
         is_admin=''
         password=''
@@ -39,7 +38,6 @@ const UserOptions = (props) => {
         name={props.singleUser.name}
         nif={props.singleUser.nif}
         email={props.singleUser.email}
-        social_sec_num={props.singleUser.social_sec_num}
         hours_on_contract={props.singleUser.hours_on_contract}
         is_admin={props.singleUser.is_admin}
         password=''

@@ -25,11 +25,13 @@ const CheckinForm = (props) => {
       date: props.checkinDate,
       checkin_time: props.checkinTime,
       checkout_time: props.checkoutTime,
+      reason: "",
     },
     initialTouched: props.editMode
       ? { user: true, date: true, checkin_time: true, checkout_time: true }
       : {},
     enableReinitialize: true,
+    validateOnMount: true,
     validationSchema: checkinSchema,
     onSubmit: onSubmitHandler,
   });
@@ -41,6 +43,7 @@ const CheckinForm = (props) => {
       checkin_date: props.editMode ? values.date : formatDateToSQL(values.date),
       checkin_time: formatTimeToSQL(values.checkin_time),
       checkout_time: formatTimeToSQL(values.checkout_time),
+      reason: values.reason.trim(),
     };
     props.submitForm(formattedData);
     props.hideModal();
@@ -160,6 +163,32 @@ const CheckinForm = (props) => {
             <small className="red align-right mr-35">
               {errors.checkout_time}
             </small>
+          ) : null}
+          <div className="checkin_form__group">
+            <label htmlFor="reason">
+              Reason:
+              <span className="red">
+                {" "}
+                <sup>*</sup>
+              </span>
+            </label>
+            <textarea
+              id="reason"
+              name="reason"
+              rows="2"
+              placeholder="Why is this check-in added or changed?"
+              value={values.reason}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className={
+                errors.reason && touched.reason
+                  ? "checkin_input input-error"
+                  : "checkin_input"
+              }
+            />
+          </div>
+          {errors.reason && touched.reason ? (
+            <small className="red align-right mr-35">{errors.reason}</small>
           ) : null}
         </div>
         <div className="checkin_formgroup__footer">
