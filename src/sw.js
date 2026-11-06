@@ -41,7 +41,7 @@ self.addEventListener("push", (event) => {
         data: { url: notification?.navigate ?? "/" },
       }),
       // A reminder means a check-in is still open; the app clears the badge once it closes.
-      self.navigator.setAppBadge?.().catch(() => {}),
+      self.navigator.setAppBadge?.(1).catch(() => {}),
     ])
   );
 });

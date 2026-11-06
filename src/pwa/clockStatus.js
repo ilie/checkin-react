@@ -30,8 +30,14 @@ export function forgetStatus() {
   showBadge(false);
 }
 
+// Set again once notification permission is granted: the clock-in that asks for it sets the badge before the answer.
+export function refreshBadge() {
+  showBadge(rememberedStatus()?.status === "checkin");
+}
+
 // Installed apps only, and it can still refuse (no notification permission), which changes nothing here.
+// A 1 rather than no number: iOS only draws numbers, so a dot badge shows nothing there.
 function showBadge(isClockedIn) {
-  const update = isClockedIn ? navigator.setAppBadge : navigator.clearAppBadge;
-  update?.call(navigator).catch(() => {});
+  if (isClockedIn) navigator.setAppBadge?.(1).catch(() => {});
+  else navigator.clearAppBadge?.().catch(() => {});
 }

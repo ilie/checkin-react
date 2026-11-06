@@ -1,3 +1,4 @@
+import { refreshBadge } from "./clockStatus";
 import { isIosSafari, isStandalone } from "./useInstall";
 
 // The browser's push subscription for clock-out reminders, and the API's copy of it (API ADR 0004).
@@ -68,6 +69,7 @@ export async function currentSubscription() {
 // Called from the tap, since iOS only asks for permission from one. Returns false when permission is refused.
 export async function subscribePush(api) {
   if ((await Notification.requestPermission()) !== "granted") return false;
+  refreshBadge();
 
   const manager = await pushManager();
   if (!manager) throw new Error("Reminders need the installed app.");

@@ -155,7 +155,7 @@ test("a reminder pushed to the service worker shows as a notification", async ({
 test("the app badge shows while a check-in is open", async ({ page }) => {
   await page.addInitScript(() => {
     window.badge = [];
-    Navigator.prototype.setAppBadge = async () => window.badge.push("set");
+    Navigator.prototype.setAppBadge = async (count) => window.badge.push(`set ${count}`);
     Navigator.prototype.clearAppBadge = async () => window.badge.push("clear");
   });
   await loginAs(page, "olga@example.com");
@@ -165,7 +165,7 @@ test("the app badge shows while a check-in is open", async ({ page }) => {
 
   await page.getByRole("button", { name: "Checkin" }).click();
   await expect(page.getByRole("button", { name: "Checkout" })).toBeVisible();
-  await expect.poll(lastBadgeCall).toBe("set");
+  await expect.poll(lastBadgeCall).toBe("set 1");
 
   await page.getByRole("button", { name: "Checkout" }).click();
   await expect(page.getByRole("button", { name: "Checkin" })).toBeVisible();
