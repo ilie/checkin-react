@@ -1,3 +1,8 @@
+@import "tailwindcss";
+
+/* The phone layout's Dark theme follows a class on <html>, set by index.html and src/theme.js. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: "OpenSans";
   src: url("./assets/fonts/openSans-Light.ttf") format("truetype");
@@ -24,23 +29,129 @@
   font-weight: 700;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@theme {
+  --font-sans: "OpenSans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #150958;
+  --color-brand-dark: #09053b;
+  --color-brand-50: #ececf6;
+
+  /* The app has always switched to its phone layout below 700px. */
+  --breakpoint-md: 43.75rem;
+
+  /* The clock-in button's ring pulses outwards every few seconds. */
+  --animate-ring: ring 3.5s linear 3.5s infinite;
+  @keyframes ring {
+    0%,
+    12.5% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    16.667% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+      transform: scale(1.3);
+    }
+  }
 }
 
-body {
-  margin: 0;
-  font-family: "OpenSans",sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 500;
-  font-size: 15px;
-  background-color: #f9f9f9;
+/* The phone palette, inspired by Apple's system colours (ADR 0003). The navy accent turns violet in the dark,
+   and green text is darker in the light, so both stay readable. Desktop never gets the dark class. */
+:root {
+  --bg: #f2f2f7;
+  --cell: #ffffff;
+  --sep: #c6c6c8;
+  --label: #000000;
+  --label2: #6c6c70;
+  --label3: #c4c4c7;
+  --fill: #e5e5ea;
+  --accent: #150958;
+  --on-accent: #ffffff;
+  --ok: #248a3d;
+  --bad: #d70015;
+  --tint: #ececf6;
+  --warn: #c93400;
+  --warnbg: #fff4e5;
+}
+.dark {
+  --bg: #000000;
+  --cell: #1c1c1e;
+  --sep: #38383a;
+  --label: #ffffff;
+  --label2: #98989f;
+  --label3: #48484a;
+  --fill: #2c2c2e;
+  --accent: #8e83ff;
+  --on-accent: #0b0530;
+  --ok: #30d158;
+  --bad: #ff453a;
+  --tint: #2a2550;
+  --warn: #ff9f0a;
+  --warnbg: #2b1d05;
+  color-scheme: dark;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* inline: the utilities read the variables, so they follow the theme class. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-cell: var(--cell);
+  --color-sep: var(--sep);
+  --color-label: var(--label);
+  --color-label2: var(--label2);
+  --color-label3: var(--label3);
+  --color-fill: var(--fill);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-tint: var(--tint);
+  --color-warn: var(--warn);
+  --color-warnbg: var(--warnbg);
+}
+
+/* Apple's type scale (HIG Typography): Large Title, Title 1, Body, Subhead, Footnote and Caption 2. */
+@theme {
+  --text-largetitle: 2.125rem;
+  --text-largetitle--line-height: calc(41 / 34);
+  --text-title1: 1.75rem;
+  --text-title1--line-height: calc(34 / 28);
+  --text-body: 1.0625rem;
+  --text-body--line-height: calc(22 / 17);
+  --text-subhead: 0.9375rem;
+  --text-subhead--line-height: calc(20 / 15);
+  --text-footnote: 0.8125rem;
+  --text-footnote--line-height: calc(18 / 13);
+  --text-caption: 0.6875rem;
+  --text-caption--line-height: calc(13 / 11);
+}
+
+@layer base {
+  /* Native touches: no rubber-band page bounce, no grey flash on tap, no double-tap zoom delay. */
+  html {
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  body {
+    @apply bg-gray-50 font-sans text-[0.9375rem] font-medium text-gray-900 antialiased max-md:bg-bg max-md:text-body max-md:text-label;
+  }
+  /* The page behind an open dialog or sheet stays still. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+  /* A long press on a button shouldn't select its label. */
+  button {
+    @apply select-none;
+  }
+}
+
+/* The sort arrow lives in CSS with empty alt text, so the header is still named "Date"; aria-sort says the order. */
+th[aria-sort="ascending"] .sort-button::after {
+  content: " ▲" / "";
+}
+th[aria-sort="descending"] .sort-button::after {
+  content: " ▼" / "";
 }

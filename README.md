@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Checkin
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The web app staff use to clock in and out of work, and admins use to review and correct check-ins. It's a React PWA in front of the Laravel API in the `checkin api` repo. Phones get an app-like layout below 700px; desktop keeps a classic one.
 
-## Available Scripts
+The decisions behind it are in [`adrs/`](adrs): the Vite and React rewrite (0001), the PWA on iOS and Android (0002), the phone layout (0003) and reminders on by default (0004).
 
-In the project directory, you can run:
+## Setup
 
-### `npm start`
+You need Node 22.12 or newer, and the API running locally for anything beyond the sign-in screen.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```sh
+npm install
+npm run dev
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The app runs on http://localhost:3000 and calls the API at `VITE_API_URL`, which `.env.development` sets to `http://localhost:8000/api`. `.env.production` holds the production API, which only the deployed build uses.
 
-### `npm test`
+`VITE_VAPID_PUBLIC_KEY` is the public key push reminders are sent with. `.env.development` has the local API's test key. `.env.production`'s is filled in at deploy, and must match the production API's `VAPID_PUBLIC_KEY`. Without one, there are no reminders and no Notifications switch.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Scripts
 
-### `npm run build`
+| Script | What it does |
+|---|---|
+| `npm run dev` | The development server, on port 3000 |
+| `npm run build` | The production build, in `build/` |
+| `npm run preview` | Serves `build/` on port 4173, with the service worker |
+| `npm run lint` | Oxlint, with no warnings allowed |
+| `npm test` | The Vitest unit tests |
+| `npm run e2e` | The Playwright tests (see below) |
+| `npm run screenshots` | Retakes the install screenshots in `public/screenshots/` |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## End-to-end tests
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`npm run e2e` runs Playwright in Chrome against a throwaway copy of the API, never the production one:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- The API repo must sit at `../../Laravel/checkin api` from here, or at `E2E_API_PATH`, with PHP available.
+- The setup builds an SQLite database from the API's migrations and `e2e/api/seed.php`, and serves the API on port 8017. It stops if something already answers there.
+- It starts the dev server on port 3000 and a production build with `vite preview` on port 4173, for the manifest and service worker tests.
+- Every test runs on a pinned "today", Wednesday 4 November 2026 at 10:00, and fails if anything calls the production API.
 
-### `npm run eject`
+## The PWA
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| | iPhone (Safari) | Android (Chrome) | Desktop |
+|---|---|---|---|
+| Install | Share → Add to Home Screen. The sign-in screen and the Me sheet show the steps. | Chrome's install prompt, from the Me sheet's "Install app" | The browser's install button |
+| Long-press shortcuts | No | Clock in, My check-ins | No |
+| New version | An "Update" toast; nothing reloads by itself | The same | The same |
+| Offline | A banner says so. A clock tap shows "Pending" and is sent once back online, if that's within 15 minutes | The same | The same |
+| Clock-out reminders | On from the first clock-in in the installed app (iOS 16.4+), off with the Me sheet's Notifications switch. In Safari, the row shows how to install | On from the first clock-in, off with the same switch | No |
+| App badge | On the installed app's icon while a check-in is open, once reminders are on (it needs notification permission) | No API; Android badges the icon for unread notifications | On the installed app's icon, while a check-in is open |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The manifest is generated from `vite.config.js`, and `src/sw.js` is the service worker. It's only built by `npm run build`; the dev server has none. `public/service-worker.js` only retires the Create React App build's worker on phones that installed it; keep it until a few months after the 2026-11 deploy.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Trying it locally
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Build against the local API, not production, and serve the build:
 
-## Learn More
+```sh
+VITE_API_URL=http://localhost:8000/api npm run build
+npm run preview
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Add `VITE_VAPID_PUBLIC_KEY=` with the key from `.env.development` to the build command to try reminders. Open http://localhost:4173. In Chrome's DevTools, Application → Manifest shows the manifest and any installability problems, and Application → Service workers shows the worker. To see the update toast, change anything in `src/`, build again, and bring the tab back to the front.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Phones need HTTPS for the service worker, so testing on a real device needs a tunnel to the preview build and to the local API, never the production API.

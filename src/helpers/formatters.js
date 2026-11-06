@@ -1,69 +1,50 @@
-const add0 = (number) => {
-  return number < 10 ? "0" + number : number;
+function pad(number) {
+  return String(number).padStart(2, "0");
 }
 
-export const getFormattedTimeDiff = (startTime, endTime) => {
-  let diff = Math.abs(endTime - startTime);
-  let ms = diff % 1000;
-  diff = (diff - ms) / 1000;
-  const ss = diff % 60;
-  diff = (diff - ss) / 60;
-  const mm = diff % 60;
-  diff = (diff - mm) / 60;
-  const hh = diff % 24;
+export function getFormattedTimeDiff(startTime, endTime) {
+  const totalSeconds = Math.floor(Math.abs(endTime - startTime) / 1000);
 
-  if (isNaN(hh) || isNaN(mm) || isNaN(ss)) {
+  if (isNaN(totalSeconds)) {
     return "Checkin Incomplete";
   }
 
-  const hours = add0(hh);
-  const minutes = add0(mm);
-  const seconds = add0(ss);
-  const formattedTime = `${hours}:${minutes}:${seconds}`;
-  return formattedTime;
-};
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const seconds = totalSeconds % 60;
 
-export const formatDateToES = (givenDate) => {
-  const date = new Date(givenDate).toLocaleString('en-GB', {
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+}
+
+export function formatDateToES(givenDate) {
+  return new Date(givenDate).toLocaleString("en-GB", {
     year: "numeric",
-    month: 'numeric',
-    day: 'numeric'
+    month: "numeric",
+    day: "numeric",
   });
-  return date
 }
 
-export const formatDateToSQL = (givenDate) => {
-  const offset = givenDate.getTimezoneOffset();
-  const date = new Date(givenDate.getTime() - offset * 60 * 1000);
-  return date.toISOString().split('T')[0] ;
-}
+export function formatTimeToSQL(timeValue) {
+  // The time field always gives a string ("HH:mm" or "HH:mm:ss") or null.
+  const trimmed = timeValue?.trim();
 
-export const formatTimeToSQL = (timeValue) => {
-  if (!timeValue) return null;
+  if (!trimmed) return null;
 
-  if (typeof timeValue === 'string') {
-    const trimmed = timeValue.trim();
+  const parts = trimmed.split(":");
 
-    if (trimmed === '') return null;
+  if (parts.length < 2) return null;
 
-    const parts = trimmed.split(':');
+  const hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+  const seconds = parts[2] ? parseInt(parts[2], 10) : 0;
 
-    if (parts.length >= 2) {
-      const hours = parseInt(parts[0], 10);
-      const minutes = parseInt(parts[1], 10);
-      const seconds = parts[2] ? parseInt(parts[2], 10) : 0;
-
-      if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
-        return null;
-      }
-
-      if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
-        return null;
-      }
-
-      return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
+  if (isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+    return null;
   }
 
-  return null;
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
+    return null;
+  }
+
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }

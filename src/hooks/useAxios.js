@@ -3,21 +3,19 @@ import { useContext, useMemo } from "react";
 import AuthContext from "../store/auth-context";
 import { API_URL } from "../helpers/api";
 
-const useAxios = () => {
-  const ctx = useContext(AuthContext);
+function useAxios() {
+  const { isLoggedIn, token } = useContext(AuthContext);
 
-  const Axios = useMemo(() => {
-    const headers = {};
-    if (ctx.isLoggedIn) {
-      headers.Authorization = `Bearer ${ctx.token}`;
-    }
-    return axios.create({
-      baseURL: API_URL,
-      headers: headers,
-    });
-  }, [ctx.isLoggedIn, ctx.token]);
+  const Axios = useMemo(
+    () =>
+      axios.create({
+        baseURL: API_URL,
+        headers: isLoggedIn ? { Authorization: `Bearer ${token}` } : {},
+      }),
+    [isLoggedIn, token],
+  );
 
   return { Axios };
-};
+}
 
 export default useAxios;

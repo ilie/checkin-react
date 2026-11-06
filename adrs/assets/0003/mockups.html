@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phone layout, light and dark</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.55.0/dist/umd/lucide.min.js"></script>
+<style type="text/tailwindcss">
+  @font-face { font-family: "OpenSans"; src: url("file:///Volumes/Storage/Projects/React/checkin/src/assets/fonts/openSans-Light.ttf"); font-weight: 300; }
+  @font-face { font-family: "OpenSans"; src: url("file:///Volumes/Storage/Projects/React/checkin/src/assets/fonts/openSans-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "OpenSans"; src: url("file:///Volumes/Storage/Projects/React/checkin/src/assets/fonts/openSans-Medium.ttf"); font-weight: 500; }
+  @font-face { font-family: "OpenSans"; src: url("file:///Volumes/Storage/Projects/React/checkin/src/assets/fonts/openSans-SemiBold.ttf"); font-weight: 600; }
+  @font-face { font-family: "OpenSans"; src: url("file:///Volumes/Storage/Projects/React/checkin/src/assets/fonts/openSans-Bold.ttf"); font-weight: 700; }
+  @custom-variant dark (&:where(.dark, .dark *));
+  /* Apple's system colours, with the brand navy as the accent (lightened in dark mode). */
+  @theme {
+    --font-sans: "OpenSans", system-ui, sans-serif;
+  }
+  /* inline: the utilities read the per-frame variables, not values fixed on :root. */
+  @theme inline {
+    --color-bg: var(--bg);
+    --color-cell: var(--cell);
+    --color-sep: var(--sep);
+    --color-label: var(--label);
+    --color-label2: var(--label2);
+    --color-label3: var(--label3);
+    --color-fill: var(--fill);
+    --color-accent: var(--accent);
+    --color-on-accent: var(--on-accent);
+    --color-ok: var(--ok);
+    --color-bad: var(--bad);
+    --color-tint: var(--tint);
+    --color-warn: var(--warn);
+    --color-warnbg: var(--warnbg);
+  }
+  .frame { --warn:#c93400; --warnbg:#fff4e5; --bg:#f2f2f7; --cell:#ffffff; --sep:#c6c6c8; --label:#000000; --label2:#6c6c70; --label3:#c4c4c7; --fill:#e5e5ea; --accent:#150958; --on-accent:#ffffff; --ok:#248a3d; --bad:#d70015; --tint:#ececf6; }
+  .frame.dark { --warn:#ff9f0a; --warnbg:#2b1d05; --bg:#000000; --cell:#1c1c1e; --sep:#38383a; --label:#ffffff; --label2:#98989f; --label3:#48484a; --fill:#2c2c2e; --accent:#8e83ff; --on-accent:#0b0530; --ok:#30d158; --bad:#ff453a; --tint:#2a2550; }
+  body { @apply bg-gray-300 font-sans font-medium antialiased; }
+  .frame { @apply relative flex h-[var(--h,844px)] w-[var(--w,390px)] flex-col overflow-hidden bg-bg text-[17px] text-label; }
+  .statusbar { @apply flex h-[47px] shrink-0 items-center justify-between px-7 pt-2 text-[15px] font-semibold text-label; }
+  .statusbar svg { @apply size-4; }
+  .homeindicator { @apply absolute bottom-2 left-1/2 z-30 h-[5px] w-[134px] -translate-x-1/2 rounded-full bg-label; }
+  .tabbar { @apply flex justify-around border-t border-sep/60 bg-cell/90 pt-1.5 pb-[34px] backdrop-blur; }
+  .tab { @apply flex min-h-12 w-20 flex-col items-center justify-center gap-0.5 text-[11px] font-semibold text-label2; }
+  .tab.active { @apply text-accent; }
+  .tab svg { @apply size-6; }
+  .largetitle { @apply px-4 pt-1 pb-2 text-[34px] leading-tight font-bold; }
+  .toolbar { @apply flex gap-2 px-4 pb-3; }
+  .pill { @apply inline-flex min-h-9 items-center gap-1.5 rounded-full bg-fill px-3.5 text-[15px] font-semibold text-accent; }
+  .pill svg { @apply size-[18px]; }
+  .badge { @apply rounded-full bg-accent px-1.5 text-xs text-on-accent; }
+  .list { @apply min-h-0 flex-1 overflow-hidden; }
+  .lrow { @apply ml-4 flex min-h-14 items-center gap-3 border-b border-sep/60 py-2 pr-4; }
+  .lrow .sub { @apply text-[15px] text-label2; }
+  .chev { @apply size-5 text-label3; }
+  .backdrop { @apply absolute inset-0 z-10 bg-black/40; }
+  .sheet { @apply absolute inset-x-0 bottom-0 z-20 rounded-t-[14px] bg-bg pb-[34px] shadow-2xl; }
+  .grabber { @apply mx-auto mt-1.5 h-[5px] w-9 rounded-full bg-label3; }
+  .sheetbar { @apply grid grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5; }
+  .sheetbar .left { @apply justify-self-start text-accent; }
+  .sheetbar .title { @apply justify-self-center font-semibold; }
+  .sheetbar .right { @apply justify-self-end font-bold text-accent; }
+  .group { @apply mx-4 overflow-hidden rounded-xl bg-cell; }
+  .row { @apply ml-4 flex min-h-11 items-center justify-between gap-3 border-b border-sep/60 py-2.5 pr-4 last:border-0; }
+  .row .value { @apply flex items-center gap-1 text-label2; }
+  .row .value svg { @apply size-4 text-label3; }
+  .grouplabel { @apply mx-8 mt-5 mb-1.5 text-[13px] text-label2 uppercase; }
+  .switch { @apply flex h-[31px] w-[51px] items-center rounded-full bg-fill p-0.5; }
+  .switch.on { @apply justify-end bg-ok; }
+  .switch span { @apply size-[27px] rounded-full bg-white shadow; }
+  .segmented { @apply grid grid-cols-3 rounded-lg bg-fill p-0.5 text-[13px] font-semibold; }
+  .segmented span { @apply rounded-md py-1.5 text-center; }
+  .segmented .on { @apply bg-cell shadow-sm dark:bg-[#636366]; }
+  .clockbutton { @apply relative m-3 flex size-[min(220px,calc(var(--h,844px)*0.27))] shrink-0 items-center justify-center rounded-full text-[26px] font-bold; }
+  .halo { @apply absolute -inset-3 rounded-full border-2 border-accent/15; }
+  .frame.short .bigclock { display: none; }
+  .label { @apply text-white bg-black/70 rounded px-2 py-0.5 text-xs absolute left-2 top-14 z-40; }
+</style>
+</head>
+<body class="p-8">
+<div id="light" class="flex flex-wrap gap-6"></div>
+<div id="dark" class="mt-10 flex flex-wrap gap-6"></div>
+<div id="sizes" class="mt-10 flex flex-wrap items-start gap-6"></div>
+
+<template id="screens">
+<!-- Shared bits: status bar, home indicator. -->
+
+<div class="frame" data-id="home-in">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <div class="flex min-h-0 flex-1 flex-col gap-3 px-4 pt-2 pb-3">
+    <div><p class="text-[28px] leading-[34px] font-bold">Good morning, Walter</p><p class="text-[15px] text-label2">Wednesday 4 November</p></div>
+    <div class="flex min-h-0 flex-1 flex-col items-center justify-center gap-[min(28px,3dvh)]">
+      <p class="bigclock text-[min(64px,calc(var(--h,844px)*0.075))] leading-none font-light tracking-tight">10:00</p>
+      <button class="clockbutton bg-accent text-on-accent"><span class="halo"></span>Checkout</button>
+    </div>
+    <div class="w-full rounded-2xl bg-cell">
+      <div class="flex items-center gap-3 px-4 py-3">
+        <span class="size-3 shrink-0 rounded-full bg-ok ring-4 ring-ok/20"></span>
+        <div><p class="font-semibold">Clocked in since 09:05</p><p class="text-[15px] text-label2">55m so far today</p></div>
+      </div>
+      <div class="ml-4 border-t border-sep/60 py-3 pr-4">
+        <div class="mb-2 flex items-baseline justify-between"><p class="font-semibold">This week</p><p class="text-[15px] text-label2"><span class="font-semibold text-label">16h 55m</span> of 25h</p></div>
+        <div class="h-1.5 overflow-hidden rounded-full bg-fill"><div class="h-full rounded-full bg-accent" style="width:68%"></div></div>
+      </div>
+    </div>
+  </div>
+  <nav class="tabbar"><span class="tab active"><i data-lucide="house"></i>Home</span><span class="tab"><i data-lucide="clock"></i>Check-ins</span><span class="tab"><i data-lucide="circle-user"></i>Me</span></nav>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="home-nudge">
+  <div class="statusbar"><span>08:58</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <div class="flex min-h-0 flex-1 flex-col gap-3 px-4 pt-2 pb-3">
+    <div><p class="text-[28px] leading-[34px] font-bold">Good morning, Walter</p><p class="text-[15px] text-label2">Wednesday 4 November</p></div>
+    <div class="flex w-full items-center gap-3 rounded-2xl bg-warnbg px-4 py-3 text-warn">
+      <i data-lucide="triangle-alert" class="size-5 shrink-0"></i>
+      <p class="flex-1 text-[15px] leading-5"><b>Missing check-out</b> on Fri 23 Oct (in at 09:00). Ask an admin to fix it.</p>
+    </div>
+    <div class="flex min-h-0 flex-1 flex-col items-center justify-center gap-[min(28px,3dvh)]">
+      <p class="bigclock text-[min(64px,calc(var(--h,844px)*0.075))] leading-none font-light tracking-tight">08:58</p>
+      <button class="clockbutton border-3 border-accent bg-cell text-accent"><span class="halo"></span>Checkin</button>
+    </div>
+    <div class="w-full rounded-2xl bg-cell">
+      <div class="flex items-center gap-3 px-4 py-3">
+        <span class="size-3 shrink-0 rounded-full bg-label3"></span>
+        <div><p class="font-semibold">Not clocked in today</p><p class="text-[15px] text-label2">Last check-out Tue 3 Nov at 17:00</p></div>
+      </div>
+      <div class="ml-4 border-t border-sep/60 py-3 pr-4">
+        <div class="mb-2 flex items-baseline justify-between"><p class="font-semibold">This week</p><p class="text-[15px] text-label2"><span class="font-semibold text-label">16h 00m</span> of 25h</p></div>
+        <div class="h-1.5 overflow-hidden rounded-full bg-fill"><div class="h-full rounded-full bg-accent" style="width:64%"></div></div>
+      </div>
+    </div>
+  </div>
+  <nav class="tabbar"><span class="tab active"><i data-lucide="house"></i>Home</span><span class="tab"><i data-lucide="clock"></i>Check-ins</span><span class="tab"><i data-lucide="circle-user"></i>Me</span></nav>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="list">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <h1 class="largetitle">Check-ins</h1>
+  <div class="toolbar"><span class="pill"><i data-lucide="sliders-horizontal"></i>Filters <span class="badge">2</span></span><span class="pill"><i data-lucide="share"></i>Export</span></div>
+  <div class="list">
+    <div class="flex items-baseline justify-between px-4 pt-1 pb-1.5 text-[13px] text-label2 uppercase"><span>This week · 2–8 Nov</span><span class="normal-case"><b class="text-label">16h 55m</b> of 25h</span></div>
+    <div class="bg-cell"><div class="lrow"><div class="flex-1"><p class="font-semibold">Wed 4 Nov</p><p class="sub">09:05 – now</p></div><span class="font-semibold text-ok">Open</span><i data-lucide="chevron-right" class="chev"></i></div><div class="lrow"><div class="flex-1"><p class="font-semibold">Tue 3 Nov</p><p class="sub">09:00 – 17:00</p></div><span class="">8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div><div class="lrow"><div class="flex-1"><p class="font-semibold">Mon 2 Nov</p><p class="sub">09:00 – 17:00</p></div><span class="">8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div></div>
+    <div class="flex items-baseline justify-between px-4 pt-5 pb-1.5 text-[13px] text-label2 uppercase"><span>Last week · 26 Oct–1 Nov</span><span class="normal-case"><b class="text-label">37h 30m</b> of 25h</span></div>
+    <div class="bg-cell"><div class="lrow"><div class="flex-1"><p class="font-semibold">Fri 30 Oct</p><p class="sub">09:00 – 17:00</p></div><span class="">8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div><div class="lrow"><div class="flex-1"><p class="font-semibold">Thu 29 Oct</p><p class="sub">09:00 – 17:00</p></div><span class="">8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div><div class="lrow"><div class="flex-1"><p class="font-semibold">Wed 28 Oct</p><p class="sub">09:00 – 17:00</p></div><span class="">8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div><div class="lrow"><div class="flex-1"><p class="font-semibold">Tue 27 Oct <span class="ml-1 rounded bg-tint px-1.5 text-xs font-semibold text-accent">Edited</span></p><p class="sub">09:00 – 14:30</p></div><span class="">5h 30m</span><i data-lucide="chevron-right" class="chev"></i></div></div>
+  </div>
+  <nav class="tabbar"><span class="tab"><i data-lucide="house"></i>Home</span><span class="tab active"><i data-lucide="clock"></i>Check-ins</span><span class="tab"><i data-lucide="circle-user"></i>Me</span></nav>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="filters">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <h1 class="largetitle">Check-ins</h1>
+  <div class="backdrop"></div>
+  <div class="sheet">
+    <div class="grabber"></div>
+    <div class="sheetbar"><span class="left">Cancel</span><span class="title">Filters</span><span class="right">Done</span></div>
+    <p class="grouplabel">When</p>
+    <div class="group">
+      <div class="row">From<span class="value rounded-md bg-fill px-2 py-1 text-label">26 Oct 2026</span></div>
+      <div class="row">To<span class="value rounded-md bg-fill px-2 py-1 text-label">30 Oct 2026</span></div>
+    </div>
+    <p class="grouplabel">Which</p>
+    <div class="group">
+      <div class="row">Status<span class="value">All <i data-lucide="chevrons-up-down"></i></span></div>
+      <div class="row">Source<span class="value">All <i data-lucide="chevrons-up-down"></i></span></div>
+      <div class="row">Edited only<span class="switch on"><span></span></span></div>
+    </div>
+    <div class="group mt-5"><div class="row !justify-center text-bad">Reset filters</div></div>
+  </div>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="me">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <h1 class="largetitle">Check-ins</h1>
+  <div class="backdrop"></div>
+  <div class="sheet">
+    <div class="grabber"></div>
+    <div class="sheetbar"><span></span><span class="title">Me</span><span class="right">Done</span></div>
+    <div class="flex flex-col items-center gap-0.5 pt-2 pb-4">
+      <span class="mb-2 flex size-16 items-center justify-center rounded-full bg-accent text-xl font-bold text-on-accent">WW</span>
+      <p class="text-xl font-bold">Walter Worker</p>
+      <p class="text-[15px] text-label2">worker@example.com</p>
+    </div>
+    <p class="grouplabel !mt-1">Appearance</p>
+    <div class="group p-3"><div class="segmented"><span>Light</span><span>Dark</span><span class="on">System</span></div></div>
+    <div class="group mt-5">
+      <div class="row !justify-start gap-3"><span class="flex size-7 items-center justify-center rounded-md bg-accent text-on-accent"><i data-lucide="square-plus" class="size-4"></i></span><span class="flex-1">Install app</span><i data-lucide="chevron-right" class="chev"></i></div>
+      <div class="row !justify-center text-bad">Sign out</div>
+    </div>
+  </div>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="detail">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <h1 class="largetitle">Check-ins</h1>
+  <div class="backdrop"></div>
+  <div class="sheet">
+    <div class="grabber"></div>
+    <div class="sheetbar"><span></span><span class="title">Tue 27 Oct</span><span class="right">Done</span></div>
+    <div class="group mt-2">
+      <div class="row">In<span class="value">09:00</span></div>
+      <div class="row">Out<span class="value">14:30</span></div>
+      <div class="row">Worked<span class="value font-semibold text-label">5h 30m</span></div>
+      <div class="row">Source<span class="value">Clocked live</span></div>
+    </div>
+    <p class="grouplabel">History</p>
+    <div class="group">
+      <div class="ml-4 border-b border-sep/60 py-3 pr-4"><p class="font-semibold">Changed by Ana Admin</p><p class="text-[15px] text-label2">27 Oct 2026, 18:12 · Out 17:00 → 14:30</p><p class="mt-1 text-[15px]">“Left early for a school visit”</p></div>
+      <div class="ml-4 py-3 pr-4"><p class="font-semibold">Clocked in</p><p class="text-[15px] text-label2">27 Oct 2026, 09:00</p></div>
+    </div>
+  </div>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="admin">
+  <div class="statusbar"><span>10:00</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <h1 class="largetitle">All check-ins</h1>
+  <div class="toolbar"><span class="pill"><i data-lucide="sliders-horizontal"></i>Filters</span><span class="pill"><i data-lucide="share"></i>Export</span></div>
+  <div class="list bg-cell">
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Walter Worker</p><p class="sub">Wed 4 Nov · 09:05 – now</p></div><span class="font-semibold text-ok">Open</span><i data-lucide="chevron-right" class="chev"></i></div>
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Walter Worker</p><p class="sub">Tue 3 Nov · 09:00 – 17:00</p></div><span>8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div>
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Olga Other</p><p class="sub">Tue 3 Nov · 08:30 – 15:30</p></div><span>7h 00m</span><i data-lucide="chevron-right" class="chev"></i></div>
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Olga Other</p><p class="sub">Tue 3 Nov · 18:00 – 17:00</p></div><span class="font-semibold text-bad">Invalid</span><i data-lucide="chevron-right" class="chev"></i></div>
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Walter Worker</p><p class="sub">Mon 2 Nov · 09:00 – 17:00</p></div><span>8h 00m</span><i data-lucide="chevron-right" class="chev"></i></div>
+    <div class="lrow"><div class="flex-1"><p class="font-semibold">Olga Other</p><p class="sub">Mon 2 Nov · 08:30 – 15:30</p></div><span>7h 00m</span><i data-lucide="chevron-right" class="chev"></i></div>
+  </div>
+  <div class="flex items-center justify-between px-2 py-1 text-[15px] text-label2"><span class="flex size-11 items-center justify-center text-label3"><i data-lucide="chevron-left" class="size-6"></i></span>Page 1 of 2 · 17 entries<span class="flex size-11 items-center justify-center text-accent"><i data-lucide="chevron-right" class="size-6"></i></span></div>
+  <nav class="tabbar"><span class="tab"><i data-lucide="house"></i>Home</span><span class="tab active"><i data-lucide="clock"></i>Check-ins</span><span class="tab"><i data-lucide="users"></i>Users</span><span class="tab"><i data-lucide="circle-user"></i>Me</span></nav>
+  <div class="homeindicator"></div>
+</div>
+
+<div class="frame" data-id="install">
+  <div class="statusbar"><span>08:55</span><span class="flex gap-1.5"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+  <div class="flex flex-1 flex-col gap-4 px-5 pt-10">
+    <p class="text-[34px] leading-tight font-bold">Sign in</p>
+    <div class="group !mx-0"><div class="row">Email<span class="value">name@school.es</span></div><div class="row">Password<span class="value">Required</span></div></div>
+  </div>
+  <div class="backdrop"></div>
+  <div class="sheet">
+    <div class="grabber"></div>
+    <div class="sheetbar"><span class="left">Not now</span><span class="title">Install Checkin</span><span></span></div>
+    <p class="mx-6 mt-1 mb-4 text-[15px] text-label2">Add Checkin to your Home Screen to clock in with one tap, like any other app.</p>
+    <div class="group">
+      <div class="row !justify-start gap-3"><span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-[15px] font-bold text-on-accent">1</span><span>Tap <b>···</b> then <b>Share</b> <i data-lucide="share" class="inline size-4 text-accent"></i></span></div>
+      <div class="row !justify-start gap-3"><span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-[15px] font-bold text-on-accent">2</span><span>Choose <b>Add to Home Screen</b></span></div>
+      <div class="row !justify-start gap-3"><span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-[15px] font-bold text-on-accent">3</span><span>Open <b>Checkin</b> from your Home Screen</span></div>
+    </div>
+  </div>
+  <div class="homeindicator"></div>
+</div>
+</template>
+
+<script>
+  // Render every screen twice: light, then dark.
+  const template = document.getElementById("screens");
+  for (const theme of ["light", "dark"]) {
+    const row = document.getElementById(theme);
+    row.append(template.content.cloneNode(true));
+    for (const frame of row.querySelectorAll(".frame")) {
+      frame.id = `${frame.dataset.id}-${theme}`;
+      if (theme === "dark") frame.classList.add("dark");
+    }
+  }
+  // Home on an iPhone SE (375×667) and a Pro Max (440×956).
+  const sizes = document.getElementById("sizes");
+  for (const [name, w, h] of [["se", 375, 667], ["promax", 440, 956]]) {
+    for (const id of ["home-in", "home-nudge"]) {
+      const frame = document.getElementById(`${id}-light`).cloneNode(true);
+      frame.id = `${id}-${name}`;
+      frame.style.setProperty("--w", `${w}px`);
+      frame.style.setProperty("--h", `${h}px`);
+      if (h < 720) frame.classList.add("short");
+      sizes.append(frame);
+    }
+  }
+  lucide.createIcons();
+</script>
+</body>
+</html>
