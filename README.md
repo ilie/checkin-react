@@ -2,7 +2,7 @@
 
 The web app staff use to clock in and out of work, and admins use to review and correct check-ins. It's a React PWA in front of the Laravel API in the `checkin api` repo. Phones get an app-like layout below 700px; desktop keeps a classic one.
 
-The decisions behind it are in [`adrs/`](adrs): the Vite and React rewrite (0001), the PWA on iOS and Android (0002), the phone layout (0003) and reminders on by default (0004).
+The decisions behind it are in [`adrs/`](adrs): the Vite and React rewrite (0001), the PWA on iOS and Android (0002), the phone layout (0003) reminders on by default (0004) and on desktop too (0005).
 
 ## Setup
 
@@ -46,7 +46,7 @@ The app runs on http://localhost:3000 and calls the API at `VITE_API_URL`, which
 | Long-press shortcuts | No | Clock in, My check-ins | No |
 | New version | An "Update" toast; nothing reloads by itself | The same | The same |
 | Offline | A banner says so. A clock tap shows "Pending" and is sent once back online, if that's within 15 minutes | The same | The same |
-| Clock-out reminders | On from the first clock-in in the installed app (iOS 16.4+), off with the Me sheet's Notifications switch. In Safari, the row shows how to install | On from the first clock-in, off with the same switch | No |
+| Clock-out reminders | On from the first clock-in in the installed app (iOS 16.4+), off with the Me sheet's Notifications switch. In Safari, the row shows how to install | On from the first clock-in, off with the same switch | On from the first clock-in, off with the header's bell, while the browser runs |
 | App badge | On the installed app's icon while a check-in is open, once reminders are on (it needs notification permission) | No API; Android badges the icon for unread notifications | On the installed app's icon, while a check-in is open |
 
 The manifest is generated from `vite.config.js`, and `src/sw.js` is the service worker. It's only built by `npm run build`; the dev server has none. `public/service-worker.js` only retires the Create React App build's worker on phones that installed it; keep it until a few months after the 2026-11 deploy.

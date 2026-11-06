@@ -56,6 +56,9 @@ async function pushManager() {
   return (await navigator.serviceWorker.getRegistration())?.pushManager;
 }
 
+// Tells the switches when this device subscribes or unsubscribes, as a clock-in can do it while the header's is showing.
+export const subscriptionChanges = new EventTarget();
+
 export async function currentSubscription() {
   const manager = await pushManager();
 
@@ -79,6 +82,7 @@ export async function subscribePush(api) {
     if (!existing) await subscription.unsubscribe();
     throw error;
   }
+  subscriptionChanges.dispatchEvent(new Event("change"));
 
   return true;
 }
@@ -90,4 +94,5 @@ export async function unsubscribePush(api) {
 
   await api.delete("/push-subscriptions", { data: { endpoint: subscription.endpoint } });
   await subscription.unsubscribe();
+  subscriptionChanges.dispatchEvent(new Event("change"));
 }

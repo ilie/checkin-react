@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { apiErrorMessage } from "../helpers/api";
 import useAxios from "../hooks/useAxios";
-import { currentSubscription, pushMethod, rememberTurnedOff, subscribePush, unsubscribePush } from "./push";
+import {
+  currentSubscription,
+  pushMethod,
+  rememberTurnedOff,
+  subscribePush,
+  subscriptionChanges,
+  unsubscribePush,
+} from "./push";
 
-// The Me sheet's reminders row: what it can do (pushMethod) and whether this device is subscribed.
+// The reminders switch, in the Me sheet on a phone and the header on desktop: what it can do (pushMethod)
+// and whether this device is subscribed.
 export function usePush() {
   const { Axios } = useAxios();
   const method = pushMethod();
@@ -14,12 +22,17 @@ export function usePush() {
   useEffect(() => {
     if (method !== "switch") return;
     let isCurrent = true;
-    currentSubscription().then((subscription) => {
-      if (isCurrent) setIsEnabled(subscription !== null);
-    });
+    function read() {
+      currentSubscription().then((subscription) => {
+        if (isCurrent) setIsEnabled(subscription !== null);
+      });
+    }
+    read();
+    subscriptionChanges.addEventListener("change", read);
 
     return () => {
       isCurrent = false;
+      subscriptionChanges.removeEventListener("change", read);
     };
   }, [method]);
 
@@ -38,7 +51,7 @@ export function usePush() {
     return change(async () => {
       rememberTurnedOff(false);
       if (await subscribePush(Axios)) setIsEnabled(true);
-      else toast.error("Notifications are off for Checkin. Allow them in Settings, then try again.");
+      else toast.error("Notifications are blocked for Checkin. Allow them in your phone or browser settings, then try again.");
     });
   }
 

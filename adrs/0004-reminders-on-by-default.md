@@ -1,6 +1,6 @@
 # 0004: Turn reminders on by default
 
-**Status:** Accepted (the owner asked for it on 2026-11-06). It changes how ADR 0002 turns push reminders on.
+**Status:** Accepted (the owner asked for it on 2026-11-06). It changes how ADR 0002 turns push reminders on. Desktop asks too since ADR 0005.
 
 ## Context
 

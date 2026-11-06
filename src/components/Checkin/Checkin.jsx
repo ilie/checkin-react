@@ -2,7 +2,6 @@ import { toast } from "sonner";
 import { apiErrorMessage } from "../../helpers/api";
 import { useCheckinStatus, useClock } from "../../hooks/checkins";
 import useAxios from "../../hooks/useAxios";
-import { useIsPhone } from "../../hooks/useIsPhone";
 import { queueClock, useHasPendingClock } from "../../pwa/offlineClock";
 import { turnOnRemindersByDefault } from "../../pwa/push";
 
@@ -11,7 +10,6 @@ function Checkin() {
   const clock = useClock();
   const hasPendingClock = useHasPendingClock();
   const { Axios } = useAxios();
-  const isPhone = useIsPhone();
 
   // Offline, the tap is queued with its time. So is one whose request never got an answer,
   // since a phone can say it's online on a connection that carries nothing.
@@ -31,9 +29,9 @@ function Checkin() {
   }
 
   function checkinHandler() {
-    // Reminders are on by default on phones (ADR 0004). Browsers only show the permission prompt from a tap,
-    // so it's asked from this one. Desktop has no Me sheet to turn them off, so it gets none.
-    if (isPhone && navigator.onLine) turnOnRemindersByDefault(Axios);
+    // Reminders are on by default (ADRs 0004 and 0005). Browsers only show the permission prompt from a tap,
+    // so it's asked from this one.
+    if (navigator.onLine) turnOnRemindersByDefault(Axios);
     clockHandler({ type: "checkin", checkin_id: null });
   }
 

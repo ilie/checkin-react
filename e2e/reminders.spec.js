@@ -171,3 +171,23 @@ test("the app badge shows while a check-in is open", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Checkin" })).toBeVisible();
   await expect.poll(lastBadgeCall).toBe("clear");
 });
+
+test("on desktop, reminders turn on with clock-in and the header's bell turns them off", async ({ page, context }) => {
+  await context.grantPermissions(["notifications"], { origin: previewOrigin });
+  await fakePushService(page);
+  await loginAs(page, "olga@example.com", `${previewOrigin}/`);
+  await page.evaluate(() => navigator.serviceWorker.ready);
+  const bell = page.getByRole("button", { name: "Notifications" });
+  await expect(bell).toHaveAttribute("aria-pressed", "false");
+
+  const subscribed = page.waitForRequest((request) => isPushRequest(request) && request.method() === "POST");
+  await page.getByRole("button", { name: "Checkin" }).click();
+  expect((await subscribed).postDataJSON().endpoint).toBe(endpoint);
+  await expect(bell).toHaveAttribute("aria-pressed", "true");
+  await page.screenshot({ path: "adrs/assets/0005/desktop-bell.png", clip: { x: 0, y: 0, width: 1280, height: 120 } });
+
+  const deleted = page.waitForRequest((request) => isPushRequest(request) && request.method() === "DELETE");
+  await bell.click();
+  await deleted;
+  await expect(bell).toHaveAttribute("aria-pressed", "false");
+});
