@@ -29,7 +29,8 @@ function savedUser() {
 export function AuthContextProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   // Kept as "1" or "0", since localStorage only holds strings. Reading it with !! made "0" an admin after a reload.
-  const [isAdmin, setIsAdmin] = useState(() => localStorage.getItem("isAdmin") === "1");
+  // The old app saved the API's boolean as "true" or "false", and those sessions outlive the update.
+  const [isAdmin, setIsAdmin] = useState(() => ["1", "true"].includes(localStorage.getItem("isAdmin")));
   const [user, setUser] = useState(savedUser);
   const isLoggedIn = !!token;
 

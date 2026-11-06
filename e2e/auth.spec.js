@@ -1,5 +1,5 @@
 import { apiUrl } from "./support/api.js";
-import { expect, phone, test, toasts } from "./support/test.js";
+import { expect, loginAs, phone, test, toasts } from "./support/test.js";
 
 test("an admin logs in, sees the admin menu and logs out", async ({ page }) => {
   await page.goto("/");
@@ -129,4 +129,16 @@ test.describe("on a phone", () => {
     await page.getByLabel("Confirm").blur();
     await expect(page.getByText("Passwords do not match")).toBeVisible();
   });
+});
+
+test("a session the old app saved keeps its admin rights", async ({ page }) => {
+  // The old app stored the API's boolean as "true" or "false".
+  for (const [email, saved, isAdmin] of [["admin@example.com", "true", true], ["worker@example.com", "false", false]]) {
+    await loginAs(page, email);
+    await page.evaluate((saved) => localStorage.setItem("isAdmin", saved), saved);
+    await page.reload();
+
+    await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Users" })).toHaveCount(isAdmin ? 1 : 0);
+  }
 });
