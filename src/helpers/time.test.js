@@ -1,5 +1,14 @@
 import { describe, expect, test } from "vitest";
-import { formatDuration, greeting, groupByWeek, totalSeconds, weekLabel, weekStart, workedSeconds } from "./time";
+import {
+  dailySeconds,
+  formatDuration,
+  greeting,
+  groupByWeek,
+  totalSeconds,
+  weekLabel,
+  weekStart,
+  workedSeconds,
+} from "./time";
 
 // The pinned e2e "today": Wednesday 4 November 2026, 10:00.
 const now = new Date(2026, 10, 4, 10, 0);
@@ -50,6 +59,19 @@ describe("totalSeconds", () => {
     ];
 
     expect(formatDuration(totalSeconds(week, now))).toBe("16h 55m");
+  });
+});
+
+describe("dailySeconds", () => {
+  test("gives Monday to Sunday, counting today's open check-in and not an invalid one", () => {
+    const week = [
+      checkin("2026-11-04", "09:05:00"),
+      checkin("2026-11-03", "18:00:00", "17:00:00"),
+      checkin("2026-11-03", "08:30:00", "15:30:00"),
+      checkin("2026-11-02", "08:30:00", "15:30:00"),
+    ];
+
+    expect(dailySeconds(week, "2026-11-02", now)).toEqual([7 * 3600, 7 * 3600, 55 * 60, 0, 0, 0, 0]);
   });
 });
 

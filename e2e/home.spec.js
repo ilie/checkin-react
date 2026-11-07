@@ -39,7 +39,10 @@ test("an admin's own Home shows only their own day", async ({ page }) => {
   await expect(page.getByText("Missing check-out")).toHaveCount(0);
 });
 
-for (const viewport of [{ width: 375, height: 667 }, { width: 440, height: 956 }]) {
+for (const viewport of [
+  { width: 375, height: 667 },
+  { width: 440, height: 956 },
+]) {
   test(`nothing overlaps on a ${viewport.width}×${viewport.height} screen`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await loginAs(page, "worker@example.com");
@@ -68,4 +71,46 @@ test("clocking out shows the time on the card", async ({ page }) => {
 
   await expect(todayCard(page).getByText("Clocked out at 10:00")).toBeVisible();
   await expect(page.getByRole("button", { name: "Checkin" })).toBeVisible();
+});
+
+test.describe("on a desktop", () => {
+  test.use({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, isMobile: false, hasTouch: false });
+
+  const weekCard = (page) => page.getByRole("region", { name: "This week" });
+
+  test("Walter sees his day beside his week, and the check-out he forgot", async ({ page }) => {
+    await loginAs(page, "worker@example.com");
+
+    await expect(page.getByRole("heading", { name: "Good morning, Walter" })).toBeVisible();
+    await expect(
+      page.getByText("Missing check-out on Fri 23 Oct (in at 09:00). Ask an admin to fix it."),
+    ).toBeVisible();
+    await expect(page.getByText("10:00", { exact: true })).toBeVisible();
+    await expect(todayCard(page)).toContainText("Clocked in since 09:05");
+    await expect(todayCard(page)).toContainText("In09:05Out—Worked55m");
+    await expect(weekCard(page)).toContainText("This week · 2–8 Nov");
+    await expect(weekCard(page)).toContainText("16h 55m of 25h · 8h 05m left");
+    await expect(weekCard(page).getByRole("listitem")).toHaveText([
+      "Wed 4 Nov09:05 – nowOpen",
+      "Tue 3 Nov09:00 – 17:008h 00m",
+      "Mon 2 Nov09:00 – 17:008h 00m",
+    ]);
+
+    // The two cards sit side by side.
+    const today = await todayCard(page).boundingBox();
+    const week = await weekCard(page).boundingBox();
+    expect(today.x + today.width).toBeLessThan(week.x);
+  });
+
+  test("Olga sees her last check-out, then her day once she clocks in", async ({ page }) => {
+    await loginAs(page, "olga@example.com");
+    await expect(todayCard(page)).toContainText("Last check-out Tue 3 Nov at 15:30");
+    await expect(todayCard(page).getByText("Worked")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Checkin" }).click();
+
+    await expect(todayCard(page)).toContainText("Clocked in since 10:00");
+    await expect(todayCard(page)).toContainText("In10:00Out—Worked0m");
+    await expect(weekCard(page).getByRole("listitem").first()).toHaveText("Wed 4 Nov10:00 – nowOpen");
+  });
 });

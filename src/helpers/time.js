@@ -50,6 +50,16 @@ export function totalSeconds(checkins, now) {
   return checkins.reduce((total, checkin) => total + workedSeconds(checkin, now), 0);
 }
 
+// Seconds worked on each day from Monday `start` to Sunday, for desktop's week chart.
+export function dailySeconds(checkins, start, now) {
+  return Array.from({ length: 7 }, (_, day) =>
+    totalSeconds(
+      checkins.filter((checkin) => checkin.checkin_date === addDays(start, day)),
+      now,
+    ),
+  );
+}
+
 // "55m", "8h 00m" or "37h 30m".
 export function formatDuration(totalSecs) {
   const minutes = Math.floor(totalSecs / 60);

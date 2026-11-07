@@ -82,7 +82,7 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
   - The existing `todayStatus` cases move with it.
   - `e2e/home.spec.js` gets a desktop case: the greeting, the warning for a worker with an old open day, the status line, "16h 55m of 25h", and a check-in that updates the card.
   - The clock e2e still passes on desktop.
-- **Done:** no
+- **Done:** yes. `ClockCard` shows the button before the data arrives, so an admin session saved by the old app, which has no user id and loads no week, still gets the button. The pulsing ring's keyframes went from `src/index.css`. The week rows reuse the phone list's `checkinTimes` and `checkinResult`.
 
 ### 4. Check-ins, Users and sign-in in both themes
 - Swap the fixed colours (`gray-*`, `white`, `brand`) for the tokens in the files that use them:

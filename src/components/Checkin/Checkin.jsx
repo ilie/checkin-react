@@ -44,7 +44,7 @@ function Checkin() {
       <button
         type="button"
         disabled
-        className={`${sizeClasses} flex shrink-0 items-center justify-center rounded-full border-3 border-dashed border-label2 text-[1.625rem] font-bold text-label2 md:border-white/60 md:text-[1.6rem] md:text-white/80`}
+        className={`${sizeClasses} flex shrink-0 items-center justify-center rounded-full border-3 border-dashed border-label2 text-[1.625rem] font-bold text-label2 md:text-2xl`}
       >
         Pending
       </button>
@@ -52,9 +52,7 @@ function Checkin() {
   }
 
   if (!status.data || clock.isPending) {
-    return (
-      <p className={`${sizeClasses} flex items-center justify-center text-2xl font-semibold`}>Loading ...</p>
-    );
+    return <p className={`${sizeClasses} flex items-center justify-center text-2xl font-semibold`}>Loading ...</p>;
   }
 
   if (status.data.status !== "checkin" && status.data.status !== "checkout") return null;
@@ -65,19 +63,16 @@ function Checkin() {
     <button
       type="button"
       onClick={isClockedIn ? checkoutHandler : checkinHandler}
-      className={`${sizeClasses} relative flex shrink-0 cursor-pointer items-center justify-center rounded-full text-[1.625rem] font-bold transition-transform focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-accent active:scale-97 md:border-3 md:border-white md:bg-brand md:text-[1.6rem] md:text-white md:focus-visible:outline-white ${isClockedIn ? "bg-accent text-on-accent" : "border-3 border-accent bg-cell text-accent"}`}
+      className={`${sizeClasses} relative flex shrink-0 cursor-pointer items-center justify-center rounded-full text-[1.625rem] font-bold transition-transform focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-accent active:scale-97 md:text-2xl ${isClockedIn ? "bg-accent text-on-accent" : "border-3 border-accent bg-cell text-accent"}`}
     >
-      {/* A still halo on phones; on desktop, a white ring that pulses outwards. */}
-      <span
-        aria-hidden="true"
-        className="absolute -inset-3 rounded-full border-2 border-accent/15 md:-inset-[3px] md:border-3 md:border-white md:opacity-0 md:motion-safe:animate-ring"
-      ></span>
+      {/* A still halo, on phones and desktop alike. */}
+      <span aria-hidden="true" className="absolute -inset-3 rounded-full border-2 border-accent/15"></span>
       {isClockedIn ? "Checkout" : "Checkin"}
     </button>
   );
 }
 
-// On phones it scales with the screen height, up to 220px; desktop keeps its 250px.
-const sizeClasses = "size-[min(220px,27dvh)] md:size-[250px]";
+// On phones it scales with the screen height, up to 220px; desktop's is 200px, in the Today card.
+const sizeClasses = "size-[min(220px,27dvh)] md:size-[200px]";
 
 export default Checkin;
