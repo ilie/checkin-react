@@ -73,7 +73,7 @@ function Users() {
   return (
     <div className="mx-auto flex w-full max-w-[1040px] flex-col gap-4 px-4 py-7 max-md:gap-0 max-md:px-0 max-md:py-0 md:gap-5 md:px-8">
       <title>Users · Checkin</title>
-      <h1 className="text-mac-large font-bold text-label max-md:px-4 max-md:pt-1 max-md:pb-2 max-md:text-largetitle max-md:text-label">
+      <h1 className="text-mac-large font-bold text-label max-md:px-4 max-md:pt-1 max-md:pb-2 max-md:text-largetitle">
         Users
       </h1>
       {isPhone ? (

@@ -31,6 +31,7 @@ function WeekCard({ week, hoursOnContract, now }) {
   const topHours = Math.max(8, Math.ceil(Math.max(...days) / 3600 / 4) * 4);
   const ticks = Array.from({ length: topHours / 4 + 1 }, (_, index) => index * 4);
   const left = hoursOnContract ? hoursOnContract * 3600 - seconds : 0;
+  const progress = hoursOnContract ? Math.min(100, (seconds / (hoursOnContract * 3600)) * 100) : 0;
 
   return (
     <section aria-label="This week" className="flex min-w-0 flex-1 flex-col rounded-[18px] bg-cell p-5">
@@ -46,10 +47,7 @@ function WeekCard({ week, hoursOnContract, now }) {
       </div>
       {hoursOnContract != null && (
         <div aria-hidden="true" className="mt-3 h-1.5 overflow-hidden rounded-full bg-fill">
-          <div
-            className="h-full rounded-full bg-accent"
-            style={{ width: `${hoursOnContract ? Math.min(100, (seconds / (hoursOnContract * 3600)) * 100) : 0}%` }}
-          ></div>
+          <div className="h-full rounded-full bg-accent" style={{ width: `${progress}%` }}></div>
         </div>
       )}
       <div aria-hidden="true" className="relative mt-8 pl-8">

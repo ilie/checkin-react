@@ -40,21 +40,13 @@ test("desktop check-ins", async ({ page }) => {
 test.describe("desktop screens for ADR 0006", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
+  const weekCard = (page) => page.getByRole("region", { name: "This week" });
+  const firstCell = (table) => (page) => page.getByRole("table", { name: table }).getByRole("cell").first();
   const screens = [
-    ["home", "worker@example.com", "/", (page) => page.getByRole("region", { name: "This week" })],
-    ["home-olga", "olga@example.com", "/", (page) => page.getByRole("region", { name: "This week" })],
-    [
-      "checkins",
-      "admin@example.com",
-      "/checkins",
-      (page) => page.getByRole("table", { name: "Check-ins" }).getByRole("cell").first(),
-    ],
-    [
-      "users",
-      "admin@example.com",
-      "/users",
-      (page) => page.getByRole("table", { name: "Users" }).getByRole("cell").first(),
-    ],
+    ["home", "worker@example.com", "/", weekCard],
+    ["home-olga", "olga@example.com", "/", weekCard],
+    ["checkins", "admin@example.com", "/checkins", firstCell("Check-ins")],
+    ["users", "admin@example.com", "/users", firstCell("Users")],
   ];
 
   for (const colorScheme of ["light", "dark"]) {

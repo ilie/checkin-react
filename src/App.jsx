@@ -28,14 +28,18 @@ function App() {
   // Sign out happens in the sheet; it mustn't open again for whoever signs in next.
   if (isMeOpen && !authCtx.isLoggedIn) setIsMeOpen(false);
 
+  function handleMeOpen() {
+    setIsMeOpen(true);
+  }
+
+  function handleMeClose() {
+    setIsMeOpen(false);
+  }
+
   return (
     // viewport-fit=cover lets the page reach under the status bar, so phones keep clear of it here.
     <div className={`flex min-h-dvh flex-col max-md:pt-[env(safe-area-inset-top)] ${hasSidebar ? "md:flex-row" : ""}`}>
-      {hasSidebar ? (
-        <Sidebar onMeOpen={() => setIsMeOpen(true)} />
-      ) : (
-        authCtx.isLoggedIn && <Header onMeOpen={() => setIsMeOpen(true)} />
-      )}
+      {hasSidebar ? <Sidebar onMeOpen={handleMeOpen} /> : authCtx.isLoggedIn && <Header onMeOpen={handleMeOpen} />}
       <div className="flex min-w-0 flex-1 flex-col">
         <OfflineBanner />
         {authCtx.isLoggedIn ? (
@@ -48,8 +52,8 @@ function App() {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </main>
-            <Footer onMeOpen={() => setIsMeOpen(true)} />
-            {isMeOpen && <MeSheet onClose={() => setIsMeOpen(false)} />}
+            <Footer onMeOpen={handleMeOpen} />
+            {isMeOpen && <MeSheet onClose={handleMeClose} />}
           </>
         ) : (
           <Routes>

@@ -38,6 +38,10 @@ function MeSheet({ onClose }) {
     saveTheme(event.target.value);
   }
 
+  function handleLayoutChange(event) {
+    saveLayout(event.target.value);
+  }
+
   // Chrome installs with its own dialog; on an iPhone the steps open on top of this sheet.
   function handleInstall() {
     if (method === "prompt") install();
@@ -95,7 +99,7 @@ function MeSheet({ onClose }) {
               labels={layoutLabels}
               values={layouts}
               value={layout}
-              onChange={(event) => saveLayout(event.target.value)}
+              onChange={handleLayoutChange}
             />
           </Group>
         </>

@@ -21,7 +21,7 @@ function AuthLayout({ link, linkText, children }) {
         </div>
         <Link
           to={link}
-          className="self-end rounded font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent max-md:self-center max-md:px-2 max-md:py-3 max-md:text-body max-md:font-medium max-md:text-accent max-md:focus-visible:outline-accent"
+          className="self-end rounded font-semibold text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-accent max-md:self-center max-md:px-2 max-md:py-3 max-md:text-body max-md:font-medium"
         >
           {linkText}
         </Link>
