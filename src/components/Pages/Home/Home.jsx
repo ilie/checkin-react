@@ -58,7 +58,7 @@ function Home() {
           )}
         </>
       ) : (
-        <div className="flex items-stretch gap-5">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-stretch">
           <ClockCard status={status.data} week={week.data?.rows} now={now} />
           {week.data && <WeekCard week={week.data.rows} hoursOnContract={user?.hoursOnContract} now={now} />}
         </div>

@@ -9,7 +9,7 @@ function ClockCard({ status, week, now }) {
   const times = week && todayTimes(week, now);
 
   return (
-    <section aria-label="Today" className="flex w-95 shrink-0 flex-col rounded-[18px] bg-cell p-5">
+    <section aria-label="Today" className="flex flex-col rounded-[18px] bg-cell p-5 lg:w-95 lg:shrink-0">
       <p className="text-center text-[64px] leading-none font-light tracking-tight tabular-nums">
         <time dateTime={now.toISOString()}>{shortTime(now.toTimeString())}</time>
       </p>

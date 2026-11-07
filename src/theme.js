@@ -1,6 +1,7 @@
 // The Light, Dark or System appearance, kept per device, on phones and desktop alike (ADR 0006).
 // index.html sets the class before first paint with the same rules; this keeps it right afterwards.
 
+import { useSyncExternalStore } from "react";
 import { isPhone, phoneQuery } from "./hooks/useIsPhone";
 
 export const themes = ["light", "dark", "system"];
@@ -50,6 +51,18 @@ export function applyTheme(theme = savedTheme()) {
   document.documentElement.classList.toggle("dark", isDark(theme, matchMedia(darkQuery).matches));
   document.querySelector('meta[name="theme-color"][media*="light"]').content = colors.light;
   document.querySelector('meta[name="theme-color"][media*="dark"]').content = colors.dark;
+}
+
+// Whether the page is dark right now, for components such as the toasts that pick their own colours.
+function subscribeToDark(onChange) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributeFilter: ["class"] });
+
+  return () => observer.disconnect();
+}
+
+export function useIsDark() {
+  return useSyncExternalStore(subscribeToDark, () => document.documentElement.classList.contains("dark"));
 }
 
 // Follows the system setting, and a resize across the phone breakpoint, where the dark status bar changes.

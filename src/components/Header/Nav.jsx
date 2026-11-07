@@ -59,7 +59,7 @@ export function BellButton() {
       {push.isEnabled ? (
         <Bell className="size-[18px]" aria-hidden="true" />
       ) : (
-        <BellOff className="size-[18px] text-label3" aria-hidden="true" />
+        <BellOff className="size-[18px]" aria-hidden="true" />
       )}
     </button>
   );

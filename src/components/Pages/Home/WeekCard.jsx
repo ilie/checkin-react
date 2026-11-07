@@ -92,7 +92,7 @@ function WeekCard({ week, hoursOnContract, now }) {
                   )}
                 </div>
                 <span
-                  className={`mt-2 text-mac-sub ${isToday ? "font-bold text-accent" : index > 4 ? "text-label3" : "text-label2"}`}
+                  className={`mt-2 text-mac-sub whitespace-nowrap ${isToday ? "font-bold text-accent" : "text-label2"}`}
                 >
                   {parseDate(date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" })}
                 </span>

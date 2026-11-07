@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import OfflineBanner from "./components/UI/OfflineBanner";
 import { useFlushPendingClock } from "./pwa/offlineClock";
+import { useIsDark } from "./theme";
 import Home from "./components/Pages/Home/Home";
 import Login from "./components/Pages/auth/Login";
 import Users from "./components/Pages/Users/Users";
@@ -16,6 +17,7 @@ import ForgotPassword from "./components/Pages/auth/ForgotPassword";
 function App() {
   const authCtx = useContext(AuthContext);
   useFlushPendingClock(authCtx.isLoggedIn);
+  const isDark = useIsDark();
 
   return (
     // viewport-fit=cover lets the page reach under the status bar, so phones keep clear of it here.
@@ -45,6 +47,7 @@ function App() {
       {/* Below the desktop header, and below the status bar on phones, which have no header. */}
       <Toaster
         position="top-right"
+        theme={isDark ? "dark" : "light"}
         richColors
         offset={{ top: "4rem", right: "1rem" }}
         mobileOffset={{ top: "calc(env(safe-area-inset-top) + 0.5rem)" }}

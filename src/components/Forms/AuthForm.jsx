@@ -6,7 +6,7 @@ export const authButtonClasses =
 // Phones get Apple's short title; desktop keeps the longer one. Only one is ever displayed, so it names the heading.
 export function AuthTitle({ short, children }) {
   return (
-    <h1 className="text-xl font-bold text-label max-md:text-largetitle max-md:text-label">
+    <h1 className="text-xl font-bold text-label max-md:text-largetitle">
       <span className="md:hidden">{short}</span>
       <span className="max-md:hidden">{children}</span>
     </h1>

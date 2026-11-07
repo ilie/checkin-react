@@ -119,3 +119,12 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
 ## Open questions
 
 None. The owner settled the frame, the themes and the scope on 2026-11-07.
+
+## Review
+
+An independent review (2026-11-07) found no logic bugs. What it changed:
+
+- **Narrow desktop windows.** Between 700 and about 900px, the week chart's labels ran into each other. The two Home cards now stack below `lg` (1024px).
+- **Contrast.** The reminders-off bell and the weekend day labels used `label3`, at about 1.7:1. They use `label2` now.
+- **Dark toasts.** The toasts stayed light in dark mode, on phones as well. Sonner now gets its theme from `useIsDark()` in `src/theme.js`.
+- **Not changed:** the "Me" button keeps its name, though it shows initials. Initials aren't a spoken label, and its tooltip gives the full name.
