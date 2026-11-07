@@ -1,0 +1,264 @@
+<title>Checkin Desktop Home</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@1.55.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* Gallery chrome: a quiet grey desk the window mockups sit on. */
+  :root {
+    --page: #e4e4ea;
+    --ink: #1d1d1f;
+    --ink2: #5c5c66;
+    --rule: #c9c9d2;
+    --chip: #150958;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --page: #0e0e10; --ink: #f2f2f5; --ink2: #9a9aa4; --rule: #2e2e33; --chip: #8e83ff; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --page: #0e0e10; --ink: #f2f2f5; --ink2: #9a9aa4; --rule: #2e2e33; --chip: #8e83ff; color-scheme: dark; }
+  body { background: var(--page); color: var(--ink); font-family: "Open Sans", -apple-system, system-ui, sans-serif; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .intro h1 { font-size: 26px; line-height: 32px; font-weight: 700; text-wrap: balance; }
+  .intro p { color: var(--ink2); max-width: 68ch; font-size: 15px; line-height: 22px; margin-top: 6px; }
+  .shot { margin-top: 40px; }
+  .shot h2 { font-size: 15px; line-height: 20px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .shot h2 b { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--page); background: var(--chip); border-radius: 6px; padding: 2px 7px; }
+  .shot > p { color: var(--ink2); font-size: 13px; line-height: 19px; margin: 4px 0 12px; max-width: 80ch; }
+  .stage { position: relative; width: 100%; aspect-ratio: 1280 / 800; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px rgba(0,0,0,.12), 0 20px 50px -20px rgba(0,0,0,.35); }
+  .stage > .frame { position: absolute; left: 0; top: 0; transform: scale(var(--s, 1)); transform-origin: 0 0; }
+  .notes { margin-top: 56px; border-top: 1px solid var(--rule); padding-top: 24px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .notes h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink2); margin-bottom: 8px; }
+  .notes li { font-size: 14px; line-height: 21px; margin-bottom: 6px; }
+  .notes a { color: inherit; }
+</style>
+<style type="text/tailwindcss">
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme { --font-sans: "Open Sans", -apple-system, system-ui, sans-serif; }
+  @theme inline {
+    --color-bg: var(--bg); --color-cell: var(--cell); --color-sep: var(--sep); --color-label: var(--label);
+    --color-label2: var(--label2); --color-label3: var(--label3); --color-fill: var(--fill); --color-accent: var(--accent);
+    --color-on-accent: var(--on-accent); --color-ok: var(--ok); --color-warn: var(--warn); --color-warnbg: var(--warnbg);
+    --color-tint: var(--tint); --color-glass: var(--glass); --color-glassline: var(--glassline);
+  }
+  /* Window palettes. Light is the phone's; dark trades the phone's pure black for macOS-style dark greys. */
+  .frame { --bg:#f2f2f7; --cell:#ffffff; --sep:#d1d1d6; --label:#1d1d1f; --label2:#6c6c70; --label3:#c4c4c7; --fill:#e5e5ea; --accent:#150958; --on-accent:#ffffff; --ok:#248a3d; --warn:#c93400; --warnbg:#fff4e5; --tint:#e9e8f4; --glass:rgba(255,255,255,.62); --glassline:rgba(0,0,0,.08); }
+  .frame.dark { --bg:#161618; --cell:#242426; --sep:#3a3a3c; --label:#f5f5f7; --label2:#98989f; --label3:#4a4a4e; --fill:#333336; --accent:#8e83ff; --on-accent:#0b0530; --ok:#30d158; --warn:#ff9f0a; --warnbg:#2b1d05; --tint:#2a2550; --glass:rgba(44,44,47,.72); --glassline:rgba(255,255,255,.09); color-scheme: dark; }
+  .frame { @apply flex h-[800px] w-[1280px] overflow-hidden bg-bg font-sans text-[13px] leading-4 font-medium text-label antialiased; }
+
+  /* macOS type scale (HIG Typography, macOS column). */
+  .t-large { @apply text-[26px] leading-8 font-bold tracking-tight; }
+  .t-title3 { @apply text-[15px] leading-5 font-semibold; }
+  .t-body { @apply text-[13px] leading-4; }
+  .t-sub { @apply text-[11px] leading-[14px]; }
+
+  /* Liquid Glass belongs to the functional layer only: the floating sidebar and the toolbar. */
+  .sidebar { @apply m-2.5 mr-0 flex w-[232px] shrink-0 flex-col rounded-2xl border border-glassline bg-glass p-2.5 shadow-[0_8px_30px_-12px_rgba(0,0,0,.18)] backdrop-blur-xl; }
+  .side-item { @apply flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-[13px] font-medium text-label; }
+  .side-item svg { @apply size-[18px] text-accent; }
+  .side-item.on { @apply bg-tint font-semibold text-accent dark:bg-white/10 dark:text-label; }
+  .iconbtn { @apply flex size-8 items-center justify-center rounded-lg text-label2; }
+  .iconbtn svg { @apply size-[18px]; }
+
+  .card { @apply rounded-[18px] bg-cell; }
+  .clockbtn { @apply relative flex size-[200px] shrink-0 items-center justify-center rounded-full text-[24px] font-bold; }
+  .halo { @apply absolute -inset-3 rounded-full border-2 border-accent/15; }
+  .kbd { @apply rounded-[5px] border border-sep bg-bg px-1.5 py-px text-[11px] font-semibold text-label2; }
+
+  .toolbar { @apply flex h-[52px] shrink-0 items-center border-b border-glassline bg-glass px-4 backdrop-blur-xl; }
+  .tab { @apply flex h-8 items-center gap-2 rounded-lg px-3 text-[13px] font-medium text-label2; }
+  .tab svg { @apply size-4; }
+  .tab.on { @apply bg-tint font-semibold text-accent dark:bg-white/10 dark:text-label; }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Checkin on desktop: the Home screen</h1>
+    <p>The phone's greeting, live clock, today's status and this week's hours, laid out for a 1280×800 browser window and styled after macOS 26. Each mockup is drawn at full size and scaled to fit. The figures are the e2e test data: Walter clocked in at 09:05 on Wednesday 4 November.</p>
+  </header>
+  <div id="shots"></div>
+  <section class="notes">
+    <div>
+      <h3>From Apple's macOS guidelines</h3>
+      <ul>
+        <li>macOS type scale: Large Title 26/32 for the greeting, Title 3 15/20 for card titles, Body 13/16.</li>
+        <li>Liquid Glass only on the functional layer: the sidebar or toolbar. The cards stay solid.</li>
+        <li>The sidebar icons use the accent colour, and a button shows or hides the sidebar.</li>
+        <li>The week chart starts at zero, with ticks at 0, 4 and 8 hours, a summary title, and the same figures as text in the rows below it.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Carried over from the phone</h3>
+      <ul>
+        <li>The same palette, accent navy (violet in the dark), round button and wording.</li>
+        <li>The missing check-out warning, the "Last check-out" line, and This week against the contract.</li>
+        <li>No new API calls: the chart and rows come from this week's check-ins, which Home already loads on phones.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Sources</h3>
+      <ul>
+        <li><a href="https://developer.apple.com/design/human-interface-guidelines/typography">HIG: Typography</a>, <a href="https://developer.apple.com/design/human-interface-guidelines/sidebars">Sidebars</a>, <a href="https://developer.apple.com/design/human-interface-guidelines/materials">Materials</a></li>
+        <li><a href="https://developer.apple.com/design/human-interface-guidelines/charts">HIG: Charts</a>, <a href="https://developer.apple.com/design/human-interface-guidelines/segmented-controls">Segmented controls</a>, <a href="https://developer.apple.com/design/human-interface-guidelines/widgets">Widgets</a></li>
+        <li><a href="https://webkit.org/blog/14445/webkit-features-in-safari-17-0/">WebKit: Add to Dock in Safari 17</a></li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+  const walter = {
+    first: "Walter", full: "Walter Worker", email: "worker@example.com", initials: "WW",
+    clockedIn: true, title: "Clocked in since 09:05", detail: "55m so far today",
+    today: [["In", "09:05"], ["Out", "—"], ["Worked", "55m"]],
+    total: "16h 55m", contract: 25, hours: [8, 8, 0.92, 0, 0, 0, 0], left: "8h 05m left",
+    rows: [["Wed 4 Nov", "09:05 – now", "Open"], ["Tue 3 Nov", "09:00 – 17:00", "8h 00m"], ["Mon 2 Nov", "09:00 – 17:00", "8h 00m"]],
+  };
+  const olga = {
+    first: "Olga", full: "Olga Other", email: "olga@example.com", initials: "OO",
+    clockedIn: false, title: "Not clocked in today", detail: "Last check-out Tue 3 Nov at 15:30",
+    today: null, missing: "Fri 23 Oct (in at 08:30)",
+    total: "14h 00m", contract: 30, hours: [7, 7, 0, 0, 0, 0, 0], left: "16h 00m left",
+    rows: [["Tue 3 Nov", "08:30 – 15:30", "7h 00m"], ["Mon 2 Nov", "08:30 – 15:30", "7h 00m"]],
+  };
+  const days = [["Mon", 2], ["Tue", 3], ["Wed", 4], ["Thu", 5], ["Fri", 6], ["Sat", 7], ["Sun", 8]];
+  const icon = (name, cls = "") => `<i data-lucide="${name}" class="${cls}"></i>`;
+
+  function nav(admin) {
+    const items = [["house", "Home", true], ["clock", "Check-ins"]];
+    if (admin) items.push(["users", "Users"]);
+    return items;
+  }
+
+  function sidebar(u, admin) {
+    return `<aside class="sidebar">
+      <div class="mb-3 flex items-center justify-between pl-1.5">
+        <span class="flex items-center gap-2 text-[15px] font-semibold"><span class="flex size-6 items-center justify-center rounded-md bg-accent text-on-accent">${icon("clock-3", "size-4")}</span>Checkin</span>
+        <span class="iconbtn" title="Hide sidebar">${icon("panel-left")}</span>
+      </div>
+      <nav class="flex flex-col gap-0.5">
+        ${nav(admin).map(([i, l, on]) => `<span class="side-item ${on ? "on" : ""}">${icon(i)}${l}</span>`).join("")}
+      </nav>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-2.5 rounded-xl p-1.5 hover:bg-fill">
+        <span class="flex size-8 items-center justify-center rounded-full bg-accent text-[12px] font-bold text-on-accent">${u.initials}</span>
+        <span class="min-w-0 flex-1"><span class="block truncate font-semibold">${u.full}</span><span class="t-sub block truncate text-label2">${u.email}</span></span>
+        ${icon("chevrons-up-down", "size-4 text-label2")}
+      </div>
+    </aside>`;
+  }
+
+  function topbar(u, admin) {
+    return `<div class="toolbar">
+      <span class="flex w-[220px] items-center gap-2 text-[15px] font-semibold"><span class="flex size-6 items-center justify-center rounded-md bg-accent text-on-accent">${icon("clock-3", "size-4")}</span>Checkin</span>
+      <nav class="flex flex-1 justify-center gap-1">
+        ${nav(admin).map(([i, l, on]) => `<span class="tab ${on ? "on" : ""}">${icon(i)}${l}</span>`).join("")}
+      </nav>
+      <span class="flex w-[220px] items-center justify-end gap-1.5">
+        <span class="iconbtn" title="Notifications">${icon("bell")}</span>
+        <span class="flex size-8 items-center justify-center rounded-full bg-accent text-[12px] font-bold text-on-accent">${u.initials}</span>
+      </span>
+    </div>`;
+  }
+
+  function warning(u) {
+    if (!u.missing) return "";
+    return `<div class="flex items-center gap-3 rounded-[14px] bg-warnbg px-4 py-3 text-warn">
+      ${icon("triangle-alert", "size-[18px] shrink-0")}
+      <p class="text-[13px] leading-[18px]"><b>Missing check-out</b> on ${u.missing}. Ask an admin to fix it.</p>
+    </div>`;
+  }
+
+  function todayCard(u) {
+    const button = u.clockedIn
+      ? `<span class="clockbtn bg-accent text-on-accent"><span class="halo"></span>Checkout</span>`
+      : `<span class="clockbtn border-3 border-accent bg-cell text-accent"><span class="halo"></span>Checkin</span>`;
+    const stats = u.today
+      ? `<dl class="grid grid-cols-3 border-t border-sep/70 px-2 pt-4">${u.today.map(([k, v]) => `<div class="text-center"><dt class="t-sub text-label2">${k}</dt><dd class="mt-1 text-[17px] leading-[22px] font-semibold tabular-nums">${v}</dd></div>`).join("")}</dl>`
+      : "";
+    return `<section class="card flex w-[380px] shrink-0 flex-col p-5">
+      <p class="text-center text-[64px] leading-none font-light tracking-tight tabular-nums">10:00</p>
+      <div class="flex flex-1 items-center justify-center py-6">${button}</div>
+      <div class="mb-4 flex items-start gap-3 px-1">
+        <span class="mt-[3px] size-2.5 shrink-0 rounded-full ${u.clockedIn ? "bg-ok ring-4 ring-ok/20" : "bg-label3"}"></span>
+        <div><p class="t-title3">${u.title}</p><p class="mt-0.5 text-label2">${u.detail}</p></div>
+      </div>
+      ${stats}
+    </section>`;
+  }
+
+  function weekCard(u) {
+    const max = 8, h = 220;
+    const pct = Math.min(100, (u.hours.reduce((a, b) => a + b, 0) / u.contract) * 100);
+    const grid = [8, 4, 0].map((t) => `<div class="absolute inset-x-0 flex items-center gap-2" style="bottom:${(t / max) * h}px;transform:translateY(50%)"><span class="w-6 text-right t-sub text-label2 tabular-nums">${t}h</span><span class="h-px flex-1 ${t ? "bg-sep/60" : "bg-sep"}"></span></div>`).join("");
+    const bars = days.map(([d, n], i) => {
+      const v = u.hours[i], isToday = n === 4, live = isToday && u.clockedIn;
+      const label = v ? (v >= 1 ? `${Math.floor(v)}h ${String(Math.round((v % 1) * 60)).padStart(2, "0")}m` : `${Math.round(v * 60)}m`) : "";
+      return `<div class="flex flex-1 flex-col items-center">
+        <div class="relative flex w-full justify-center" style="height:${h}px">
+          ${v ? `<div class="absolute bottom-0 flex w-10 flex-col items-center" style="height:${(v / max) * h}px"><span class="absolute -top-5 t-sub font-semibold whitespace-nowrap ${live ? "text-ok" : "text-label2"}">${label}</span><span class="h-full w-full rounded-t-md ${live ? "bg-[repeating-linear-gradient(135deg,var(--accent)_0_4px,color-mix(in_srgb,var(--accent)_55%,transparent)_4px_8px)]" : "bg-accent"}"></span></div>` : ""}
+        </div>
+        <span class="mt-2 t-sub ${isToday ? "font-bold text-accent" : i > 4 ? "text-label3" : "text-label2"}">${d} ${n}</span>
+      </div>`;
+    }).join("");
+    const rows = u.rows.map(([d, t, v]) => `<li class="flex items-center gap-3 border-t border-sep/70 py-2.5">
+      <span class="w-24 font-semibold">${d}</span><span class="flex-1 text-label2 tabular-nums">${t}</span>
+      <span class="font-semibold tabular-nums ${v === "Open" ? "text-ok" : ""}">${v}</span></li>`).join("");
+    return `<section class="card flex min-w-0 flex-1 flex-col p-5">
+      <div class="flex items-baseline justify-between">
+        <h2 class="t-title3">This week <span class="font-medium text-label2">· 2–8 Nov</span></h2>
+        <p class="text-label2"><span class="font-semibold text-label">${u.total}</span> of ${u.contract}h · ${u.left}</p>
+      </div>
+      <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-fill"><div class="h-full rounded-full bg-accent" style="width:${pct}%"></div></div>
+      <div class="relative mt-8 pl-8">
+        <div class="pointer-events-none absolute inset-x-0 top-0" style="height:${h}px">${grid}</div>
+        <div class="relative flex">${bars}</div>
+      </div>
+      <ul class="mt-4">${rows}</ul>
+    </section>`;
+  }
+
+  function header(u, withBell) {
+    return `<div class="flex items-start justify-between">
+      <div><h1 class="t-large">Good morning, ${u.first}</h1><p class="mt-0.5 text-[13px] text-label2">Wednesday 4 November</p></div>
+      ${withBell ? `<span class="iconbtn mt-0.5" title="Notifications">${icon("bell")}</span>` : ""}
+    </div>`;
+  }
+
+  function sidebarWindow(u, { dark, admin } = {}) {
+    return `<div class="frame ${dark ? "dark" : ""}">
+      ${sidebar(u, admin)}
+      <main class="flex min-w-0 flex-1 flex-col gap-5 px-8 pt-7 pb-6">
+        ${header(u, true)}
+        ${warning(u)}
+        <div class="flex min-h-0 flex-1 gap-5">${todayCard(u)}${weekCard(u)}</div>
+      </main>
+    </div>`;
+  }
+
+  function toolbarWindow(u, { dark, admin } = {}) {
+    return `<div class="frame flex-col ${dark ? "dark" : ""}">
+      ${topbar(u, admin)}
+      <main class="mx-auto flex w-full max-w-[1040px] min-h-0 flex-1 flex-col gap-5 px-8 pt-7 pb-6">
+        ${header(u, false)}
+        ${warning(u)}
+        <div class="flex min-h-0 flex-1 gap-5">${todayCard(u)}${weekCard(u)}</div>
+      </main>
+    </div>`;
+  }
+
+  const shots = [
+    ["A1", "Sidebar, light, clocked in", "A floating glass sidebar like macOS 26 apps (Mail, Notes), which also holds Check-ins and Users. The account menu at the bottom holds Appearance and Sign out, as the phone's Me sheet does.", sidebarWindow(walter, { admin: true })],
+    ["A2", "Sidebar, light, not clocked in, with a missing check-out", "Olga hasn't clocked in. The status line shows her last check-out, as on the phone, and the warning sits above the cards.", sidebarWindow(olga)],
+    ["A3", "Sidebar, dark", "The same window in dark mode. It uses macOS-style dark greys instead of the phone's pure black, and the violet accent.", sidebarWindow(walter, { dark: true, admin: true })],
+    ["B1", "Toolbar with tabs, light", "The alternative: a light glass toolbar replaces the navy header and keeps navigation across the top. Apple advises against a segmented control for switching main views, so these are tabs.", toolbarWindow(walter, { admin: true })],
+  ];
+
+  document.getElementById("shots").innerHTML = shots.map(([id, title, text, html]) =>
+    `<section class="shot" id="${id.toLowerCase()}"><h2><b>${id}</b>${title}</h2><p>${text}</p><div class="stage">${html}</div></section>`).join("");
+  lucide.createIcons();
+
+  const fit = () => document.querySelectorAll(".stage").forEach((s) => s.style.setProperty("--s", s.clientWidth / 1280));
+  new ResizeObserver(fit).observe(document.body);
+  fit();
+</script>
