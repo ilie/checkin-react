@@ -37,7 +37,7 @@ function CheckinFilters({ filters, onChange, users, isAdmin, onExport, onHistory
   }
 
   return (
-    <section aria-label="Filters" className="flex flex-col gap-4 rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200">
+    <section aria-label="Filters" className="flex flex-col gap-4 rounded-[18px] bg-cell p-4">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {isAdmin && (
           <label className={labelClasses}>
@@ -136,8 +136,8 @@ function CheckinFilters({ filters, onChange, users, isAdmin, onExport, onHistory
   );
 }
 
-const labelClasses = "flex flex-col gap-1 text-sm font-semibold text-gray-700";
-const checkboxLabelClasses = "flex cursor-pointer items-center gap-2 text-sm text-gray-700";
-const checkboxClasses = "size-4 accent-brand";
+const labelClasses = "flex flex-col gap-1 text-mac-body font-semibold text-label2";
+const checkboxLabelClasses = "flex cursor-pointer items-center gap-2 text-mac-body text-label";
+const checkboxClasses = "size-4 accent-accent";
 
 export default CheckinFilters;

@@ -23,13 +23,13 @@ function describeValues(oldValues, newValues) {
 function CheckinHistory({ changes, isLoading, onClose }) {
   return (
     <div className="flex max-h-[calc(100dvh-2rem)] flex-col">
-      <h2 className="bg-brand px-6 py-4 text-xl font-bold text-white">Change history</h2>
+      <h2 className="border-b border-sep/60 px-6 py-4 text-xl font-bold">Change history</h2>
       <div className="overflow-auto px-6 py-4">
         {isLoading ? (
           <p>Loading…</p>
         ) : (
-          <table className="w-full text-left text-sm">
-            <thead className="text-gray-600">
+          <table className="w-full text-left text-mac-body">
+            <thead className="text-label2">
               <tr>
                 <th className={cellClasses}>When</th>
                 <th className={cellClasses}>Who</th>
@@ -52,7 +52,7 @@ function CheckinHistory({ changes, isLoading, onClose }) {
           </table>
         )}
       </div>
-      <footer className="flex justify-end border-t border-gray-200 px-6 py-4">
+      <footer className="flex justify-end border-t border-sep/60 px-6 py-4">
         <Button variant="secondary" onClick={onClose}>
           Close
         </Button>
@@ -61,6 +61,6 @@ function CheckinHistory({ changes, isLoading, onClose }) {
   );
 }
 
-const cellClasses = "border-b border-gray-100 px-2 py-1.5 align-top";
+const cellClasses = "border-b border-sep/50 px-2 py-1.5 align-top";
 
 export default CheckinHistory;

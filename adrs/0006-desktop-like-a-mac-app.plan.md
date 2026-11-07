@@ -96,7 +96,12 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
   - `grep` finds no `gray-`, `bg-white` or `brand` classes left in desktop styles. `brand` may stay in the logo files only.
   - The existing desktop e2e tests pass: tables, filters, corrections, exports, users, sheets.
   - The status pills (Open and Invalid) keep enough contrast in both themes.
-- **Done:** no
+- **Done:** yes.
+  - Cards are `rounded-[18px] bg-cell` without the old ring and shadow, like Home's.
+  - Non-sheet dialogs get `bg-cell text-label`, and their navy title bars became a plain bar with a separator.
+  - In dark, sign-in drops its light background image and shows the white logo.
+  - The unused `brand` colour tokens are gone.
+  - Phone screenshots before and after this task differ by at most 149 anti-aliased pixels of about 3 million. Full e2e: 109 passed.
 
 ### 5. Screenshots and the owner's review
 - In `e2e/screenshots.spec.js`:

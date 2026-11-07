@@ -43,7 +43,7 @@ const columns = [
 ];
 
 function deletedRowClass(row) {
-  return row.deleted_at ? "text-gray-400 line-through" : "";
+  return row.deleted_at ? "text-label2 line-through" : "";
 }
 
 function CheckinsTable(props) {

@@ -34,7 +34,7 @@ function ForgotPasswordForm() {
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmitHandler)} noValidate>
       <AuthTitle short="Forgot password">Did you forget your password?</AuthTitle>
-      <p className="text-sm text-gray-600 max-md:text-subhead max-md:text-label2">
+      <p className="text-sm text-label2 max-md:text-subhead max-md:text-label2">
         Enter the email address associated with your account, and if we have it in our database we will send you a
         link to reset your password.
       </p>

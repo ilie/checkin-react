@@ -32,10 +32,6 @@
 @theme {
   --font-sans: "OpenSans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand: #150958;
-  --color-brand-dark: #09053b;
-  --color-brand-50: #ececf6;
-
   /* The app has always switched to its phone layout below 700px. */
   --breakpoint-md: 43.75rem;
 }

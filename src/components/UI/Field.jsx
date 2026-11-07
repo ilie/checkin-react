@@ -1,5 +1,5 @@
 const control =
-  "rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-brand focus-visible:outline-2 focus-visible:outline-brand/30 aria-invalid:border-red-600";
+  "rounded-lg border border-sep bg-cell text-label placeholder:text-label2 focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-accent/30 aria-invalid:border-bad";
 
 export const inputClasses = `w-full px-3 py-2 text-base ${control}`;
 // Without a width, for controls that sit inline.
@@ -26,10 +26,10 @@ function Field({ id, label, required = false, grouped: isGrouped = false, error,
 
   return (
     <div className={`flex flex-col gap-1.5${extra("wrapper")}`}>
-      <label htmlFor={id} className={`text-sm font-semibold text-gray-700${extra("label")}`}>
+      <label htmlFor={id} className={`text-sm font-semibold text-label${extra("label")}`}>
         {label}
         {required && (
-          <span className="text-red-600" aria-hidden="true">
+          <span className="text-bad" aria-hidden="true">
             {" "}
             *
           </span>
@@ -42,7 +42,7 @@ function Field({ id, label, required = false, grouped: isGrouped = false, error,
         "aria-describedby": error ? errorId : undefined,
       })}
       {error && (
-        <p id={errorId} className={`text-sm text-red-700${extra("error")}`}>
+        <p id={errorId} className={`text-sm text-bad${extra("error")}`}>
           {error}
         </p>
       )}

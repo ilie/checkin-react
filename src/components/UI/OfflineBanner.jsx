@@ -10,7 +10,7 @@ function OfflineBanner() {
   return (
     <output className="block">
       {!isOnline && (
-        <span className="flex items-center justify-center gap-2 border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900 max-md:mx-4 max-md:mt-2 max-md:justify-start max-md:rounded-xl max-md:border-0 max-md:bg-fill max-md:py-2.5 max-md:text-footnote max-md:text-label">
+        <span className="flex items-center justify-center gap-2 border-b border-warn/20 bg-warnbg px-4 py-2 text-sm text-warn max-md:mx-4 max-md:mt-2 max-md:justify-start max-md:rounded-xl max-md:border-0 max-md:bg-fill max-md:py-2.5 max-md:text-footnote max-md:text-label">
           <WifiOff className="size-4 shrink-0" aria-hidden="true" />
           You're offline. Clock-ins are saved and sent when you're back online.
         </span>

@@ -71,7 +71,7 @@ function Modal({ onClose, label, wide = false, sheet = false, cancelLabel, onDon
       tabIndex={sheet ? -1 : undefined}
       onCancel={handleCancel}
       onClick={handleBackdropClick}
-      className={`${centred} overflow-hidden p-0 shadow-2xl backdrop:bg-black/40 ${wide ? "max-w-4xl" : "max-w-xl"} ${sheet ? sheetClasses : ""}`}
+      className={`${centred} overflow-hidden p-0 shadow-2xl backdrop:bg-black/40 ${wide ? "max-w-4xl" : "max-w-xl"} ${sheet ? sheetClasses : "bg-cell text-label"}`}
     >
       {sheet && (
         <div
