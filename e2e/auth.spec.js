@@ -1,7 +1,7 @@
 import { apiUrl } from "./support/api.js";
 import { expect, loginAs, phone, test, toasts } from "./support/test.js";
 
-test("an admin logs in, sees the admin menu and logs out", async ({ page }) => {
+test("an admin logs in, sees the Users tab and signs out from Me", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Sign in to your account" })).toBeVisible();
 
@@ -10,10 +10,20 @@ test("an admin logs in, sees the admin menu and logs out", async ({ page }) => {
   await page.getByRole("button", { name: "Login" }).click();
 
   await expect(page.getByRole("button", { name: "Checkin" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Users" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Users" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Logout" }).click();
+  await page.getByRole("button", { name: "Me" }).click();
+  await expect(page.getByRole("dialog", { name: "Me" })).toContainText("Ana Admin");
+  await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page.getByRole("heading", { name: "Sign in to your account" })).toBeVisible();
+});
+
+test("a worker's toolbar has Home and Check-ins, and no Users", async ({ page }) => {
+  await loginAs(page, "worker@example.com");
+  const tabs = page.getByRole("navigation", { name: "Main" }).getByRole("link");
+
+  await expect(tabs).toHaveText(["Home", "Check-ins"]);
+  await expect(tabs.first()).toHaveAttribute("aria-current", "page");
 });
 
 test("a wrong password shows an error and doesn't log in", async ({ page }) => {

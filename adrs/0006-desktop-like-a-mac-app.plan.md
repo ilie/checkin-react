@@ -61,7 +61,7 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
   - Its `adrs/assets/0005/desktop-bell.png` screenshot is retaken.
   - Tabs: admins see Users and workers don't. `e2e/tabs.spec.js` gets a desktop case if it has none.
   - The toolbar is reachable by keyboard, with visible focus.
-- **Done:** no
+- **Done:** yes. The Header owns its own Me state, and `BellButton` is exported from `Nav.jsx`. Sheets use `bg-bg text-label` at every size. The tabs are a `navigation` named "Main". `e2e/auth.spec.js` covers Users for admins only, and sign-out through Me.
 
 ### 3. Desktop Home
 - **Data:** in `Home.jsx`, `useOwnCheckins` no longer waits for phones, so desktop loads the status, the missing check-outs and the week too.

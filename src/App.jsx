@@ -46,7 +46,7 @@ function App() {
       <Toaster
         position="top-right"
         richColors
-        offset={{ top: "4.5rem", right: "1rem" }}
+        offset={{ top: "4rem", right: "1rem" }}
         mobileOffset={{ top: "calc(env(safe-area-inset-top) + 0.5rem)" }}
       />
     </div>

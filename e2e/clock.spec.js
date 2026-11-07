@@ -14,7 +14,7 @@ test("a worker clocks in and out on an iPhone, which has no Vibration API", asyn
   // A retrying toHaveCount(0) would just wait for the toast to expire.
   expect(await toasts(page).count()).toBe(0);
 
-  await page.getByRole("link", { name: "Checkins" }).first().click();
+  await page.getByRole("link", { name: "Check-ins" }).first().click();
   await expect(checkinRows(page).filter({ hasText: "04/11/2026" })).toHaveCount(1);
 });
 

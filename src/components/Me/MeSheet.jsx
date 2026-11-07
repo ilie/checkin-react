@@ -10,7 +10,7 @@ import { Group, GroupLabel, Switch, buttonRowClasses, rowClasses } from "../UI/G
 
 const themeLabels = { light: "Light", dark: "Dark", system: "System" };
 
-function initials(name) {
+export function initials(name) {
   return name
     .split(/\s+/)
     .slice(0, 2)

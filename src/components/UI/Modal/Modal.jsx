@@ -5,7 +5,7 @@ const centred = "m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] rounded-2x
 
 // On phones a sheet is pinned to the bottom edge and slides up, unless the user asked for less motion.
 const sheetClasses =
-  "outline-none open:flex open:flex-col max-md:mx-0 max-md:mt-auto max-md:mb-0 max-md:max-h-[calc(100dvh-env(safe-area-inset-top)-0.75rem)] max-md:w-full max-md:max-w-none max-md:rounded-t-[14px] max-md:rounded-b-none max-md:bg-bg max-md:text-label max-md:motion-safe:transition-transform max-md:motion-safe:duration-300 max-md:motion-safe:ease-out max-md:starting:open:translate-y-full";
+  "outline-none open:flex open:flex-col max-md:mx-0 max-md:mt-auto max-md:mb-0 max-md:max-h-[calc(100dvh-env(safe-area-inset-top)-0.75rem)] max-md:w-full max-md:max-w-none max-md:rounded-t-[14px] max-md:rounded-b-none bg-bg text-label max-md:motion-safe:transition-transform max-md:motion-safe:duration-300 max-md:motion-safe:ease-out max-md:starting:open:translate-y-full";
 
 const barButtonClasses =
   "min-h-11 cursor-pointer rounded px-1 text-accent focus-visible:outline-2 focus-visible:outline-accent";
