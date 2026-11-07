@@ -107,13 +107,14 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
 - In `e2e/screenshots.spec.js`:
   - the desktop store screenshot is retaken, since the manifest's `desktop.png` shows the old navy look
   - add 1280×800 shots in light and dark of Home (Walter clocked in, and Olga with a missing check-out), Check-ins and Users
-  - save them to `adrs/assets/0006/app-desktop-light.png` and `app-desktop-dark.png`, as contact sheets like ADR 0003's
+  - save them to `adrs/assets/0006/app-{light,dark}-{home,home-olga,checkins,users}.png`
 - Update the `settle` comment, since nothing pulses any more.
 - Set this ADR to Accepted once the owner approves.
 - **Verify:**
   - The owner looks at the screenshots against the mockups.
   - A last full `npm run lint && npm test && npm run e2e && npm run build`.
-- **Done:** no
+- **Done:** screenshots taken and the full checks pass. The owner's review is still to come.
+  - The phone store screenshot `home.png` changed too. The old one had been taken before the Today card loaded.
 
 ## Open questions
 

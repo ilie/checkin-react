@@ -1,19 +1,12 @@
 import { loginAs, phone, test } from "./support/test.js";
 
-// The manifest's screenshots for Android's install sheet. Run with `npm run screenshots`, not with the suite.
-// Their sizes are in vite.config.js: 780×1688 for a phone at 2×, 1280×800 for desktop.
+// The manifest's screenshots for Android's install sheet, and ADR 0006's desktop screens in both themes.
+// Run with `npm run screenshots`, not with the suite.
+// The manifest's sizes are in vite.config.js: 780×1688 for a phone at 2×, 1280×800 for desktop.
 const out = (name) => `public/screenshots/${name}.png`;
 
 async function settle(page) {
-  // The desktop clock button pulses forever, so only finite animations are awaited.
-  await page.evaluate(() =>
-    Promise.all(
-      document
-        .getAnimations()
-        .filter((animation) => animation.effect.getTiming().iterations !== Infinity)
-        .map((animation) => animation.finished),
-    ),
-  );
+  await page.evaluate(() => Promise.all(document.getAnimations().map((animation) => animation.finished)));
 }
 
 test.describe("on a phone", () => {
@@ -40,4 +33,38 @@ test("desktop check-ins", async ({ page }) => {
   await page.getByRole("table", { name: "Check-ins" }).getByRole("cell").first().waitFor();
   await settle(page);
   await page.screenshot({ path: out("desktop") });
+});
+
+// Home clocked in, Home with a missing check-out, and the admin's Check-ins and Users.
+test.describe("desktop screens for ADR 0006", () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+
+  const screens = [
+    ["home", "worker@example.com", "/", (page) => page.getByRole("region", { name: "This week" })],
+    ["home-olga", "olga@example.com", "/", (page) => page.getByRole("region", { name: "This week" })],
+    [
+      "checkins",
+      "admin@example.com",
+      "/checkins",
+      (page) => page.getByRole("table", { name: "Check-ins" }).getByRole("cell").first(),
+    ],
+    [
+      "users",
+      "admin@example.com",
+      "/users",
+      (page) => page.getByRole("table", { name: "Users" }).getByRole("cell").first(),
+    ],
+  ];
+
+  for (const colorScheme of ["light", "dark"]) {
+    test(`in ${colorScheme}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme });
+      for (const [name, email, path, ready] of screens) {
+        await loginAs(page, email, path);
+        await ready(page).waitFor();
+        await settle(page);
+        await page.screenshot({ path: `adrs/assets/0006/app-${colorScheme}-${name}.png` });
+      }
+    });
+  }
 });
