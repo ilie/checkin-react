@@ -1,6 +1,6 @@
 # Plan for 0006: Make the desktop layout feel like a Mac app
 
-**Status:** In progress
+**Status:** Done
 
 ## Goal
 

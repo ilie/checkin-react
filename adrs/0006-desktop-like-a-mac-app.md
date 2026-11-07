@@ -1,6 +1,6 @@
 # 0006: Make the desktop layout feel like a Mac app
 
-**Status:** Proposed
+**Status:** Accepted (the owner approved it by merging on 2026-11-07)
 
 ## Context
 
