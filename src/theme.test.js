@@ -3,17 +3,13 @@ import { isDark, savedTheme, statusBarColors } from "./theme";
 
 describe("isDark", () => {
   test("follows the system only while the choice is System", () => {
-    expect(isDark("system", { onPhone: true, prefersDark: true })).toBe(true);
-    expect(isDark("system", { onPhone: true, prefersDark: false })).toBe(false);
+    expect(isDark("system", true)).toBe(true);
+    expect(isDark("system", false)).toBe(false);
   });
 
   test("keeps an explicit choice whatever the system says", () => {
-    expect(isDark("dark", { onPhone: true, prefersDark: false })).toBe(true);
-    expect(isDark("light", { onPhone: true, prefersDark: true })).toBe(false);
-  });
-
-  test("keeps desktop light", () => {
-    expect(isDark("dark", { onPhone: false, prefersDark: true })).toBe(false);
+    expect(isDark("dark", false)).toBe(true);
+    expect(isDark("light", true)).toBe(false);
   });
 });
 
@@ -27,8 +23,9 @@ describe("statusBarColors", () => {
     expect(statusBarColors("light", true)).toEqual({ light: "#f2f2f7", dark: "#f2f2f7" });
   });
 
-  test("matches the navy header on desktop", () => {
-    expect(statusBarColors("dark", false)).toEqual({ light: "#150958", dark: "#150958" });
+  test("uses the desktop's dark grey instead of black on desktop", () => {
+    expect(statusBarColors("system", false)).toEqual({ light: "#f2f2f7", dark: "#161618" });
+    expect(statusBarColors("dark", false)).toEqual({ light: "#161618", dark: "#161618" });
   });
 });
 

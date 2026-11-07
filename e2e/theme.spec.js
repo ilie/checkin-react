@@ -27,11 +27,12 @@ test.describe("on a phone", () => {
 test.describe("on a desktop", () => {
   test.use({ colorScheme: "dark" });
 
-  test("stays light, with the navy status bar", async ({ page }) => {
+  test("follows a dark system setting too, with its dark grey title bar", async ({ page }) => {
     await loginAs(page, "worker@example.com", "/checkins");
 
-    await expect(html(page)).not.toHaveClass(/\bdark\b/);
-    await expect(statusBarColor(page, "dark")).toHaveAttribute("content", "#150958");
+    await expect(html(page)).toHaveClass(/\bdark\b/);
+    await expect(statusBarColor(page, "dark")).toHaveAttribute("content", "#161618");
+    await expect(statusBarColor(page, "light")).toHaveAttribute("content", "#f2f2f7");
     await expect(page).toHaveTitle("Check-ins · Checkin");
   });
 });

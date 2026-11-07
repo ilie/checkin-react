@@ -58,8 +58,8 @@
   }
 }
 
-/* The phone palette, inspired by Apple's system colours (ADR 0003). The navy accent turns violet in the dark,
-   and green text is darker in the light, so both stay readable. Desktop never gets the dark class. */
+/* The palette, inspired by Apple's system colours (ADR 0003). The navy accent turns violet in the dark,
+   and green text is darker in the light, so both stay readable. */
 :root {
   --bg: #f2f2f7;
   --cell: #ffffff;
@@ -92,6 +92,15 @@
   --warn: #ff9f0a;
   --warnbg: #2b1d05;
   color-scheme: dark;
+}
+/* Desktop's dark is macOS-style greys rather than the phone's black (ADR 0006). */
+@media (width >= 43.75rem) {
+  .dark {
+    --bg: #161618;
+    --cell: #242426;
+    --sep: #3a3a3c;
+    --fill: #333336;
+  }
 }
 
 /* inline: the utilities read the variables, so they follow the theme class. */
@@ -126,6 +135,16 @@
   --text-footnote--line-height: calc(18 / 13);
   --text-caption: 0.6875rem;
   --text-caption--line-height: calc(13 / 11);
+
+  /* The macOS column of the same table, for desktop (ADR 0006): Large Title, Title 3, Body and Subheadline. */
+  --text-mac-large: 1.625rem;
+  --text-mac-large--line-height: calc(32 / 26);
+  --text-mac-title3: 0.9375rem;
+  --text-mac-title3--line-height: calc(20 / 15);
+  --text-mac-body: 0.8125rem;
+  --text-mac-body--line-height: calc(16 / 13);
+  --text-mac-sub: 0.6875rem;
+  --text-mac-sub--line-height: calc(14 / 11);
 }
 
 @layer base {
@@ -136,7 +155,7 @@
     touch-action: manipulation;
   }
   body {
-    @apply bg-gray-50 font-sans text-[0.9375rem] font-medium text-gray-900 antialiased max-md:bg-bg max-md:text-body max-md:text-label;
+    @apply bg-bg font-sans text-mac-body font-medium text-label antialiased max-md:text-body;
   }
   /* The page behind an open dialog or sheet stays still. */
   html:has(dialog[open]) {

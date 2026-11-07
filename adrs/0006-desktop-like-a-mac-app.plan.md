@@ -1,6 +1,6 @@
 # Plan for 0006: Make the desktop layout feel like a Mac app
 
-**Status:** Draft
+**Status:** In progress
 
 ## Goal
 
@@ -44,7 +44,7 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
 - **Verify:**
   - `src/theme.test.js` is updated: dark applies on desktop, and both status-bar colours follow the theme.
   - In `e2e/theme.spec.js`, "on a desktop" now expects `<html>` to get `dark` with `colorScheme: "dark"`, and the matching `theme-color`.
-- **Done:** no
+- **Done:** yes. Desktop screens other than the toolbar and Home only look right in dark after task 4.
 
 ### 2. The toolbar
 - `src/components/Header/Header.jsx` and `Nav.jsx` become the B1 toolbar:
