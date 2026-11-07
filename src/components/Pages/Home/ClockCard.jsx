@@ -1,5 +1,6 @@
 import Checkin from "../../Checkin/Checkin";
 import { shortTime } from "../../../helpers/time";
+import StatusLine from "./StatusLine";
 import { todayStatus, todayTimes } from "./today";
 
 // Desktop's Today card: the clock, the button, today's status and, once clocked in today, In, Out and Worked.
@@ -16,18 +17,7 @@ function ClockCard({ status, week, now }) {
       <div className="flex flex-1 items-center justify-center py-8">
         <Checkin />
       </div>
-      {today && (
-        <div className="flex items-start gap-3 px-1">
-          <span
-            aria-hidden="true"
-            className={`mt-1 size-2.5 shrink-0 rounded-full ${today.isOpen ? "bg-ok ring-4 ring-ok/20" : "bg-label3"}`}
-          ></span>
-          <div>
-            <p className="text-mac-title3 font-semibold">{today.title}</p>
-            {today.detail && <p className="mt-0.5 text-label2">{today.detail}</p>}
-          </div>
-        </div>
-      )}
+      {today && <StatusLine today={today} />}
       {times && (
         <dl className="mt-4 grid grid-cols-3 border-t border-sep/70 px-2 pt-4 text-center">
           {[
