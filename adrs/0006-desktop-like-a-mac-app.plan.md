@@ -116,6 +116,28 @@ The macOS sizes and their sources are in `adrs/assets/0006/apple-macos-notes.md`
 - **Done:** screenshots taken and the full checks pass. The owner's review is still to come.
   - The phone store screenshot `home.png` changed too. The old one had been taken before the Today card loaded.
 
+### 6. A sidebar as a choice in Me (added 2026-11-07, at the owner's request)
+- `src/layout.js` holds the choice:
+  - `toolbar` or `sidebar`, kept in `localStorage` like the theme, with a fallback in memory when storage is blocked
+  - `useLayout()` is built on `useSyncExternalStore`
+- `src/components/Header/Sidebar.jsx` is mockup A1:
+  - `Nav vertical` for the rows, with accent icons
+  - the user's row, which opens Me, and the bell at the bottom
+- In `App.jsx`, the shell is a row on desktop when the sidebar is on.
+- App now owns the single Me sheet. The tab bar, toolbar and sidebar open it through `onMeOpen`, so choosing a layout no longer unmounts the open sheet. Sign out resets it.
+- The Me sheet gets a Layout segmented control on desktop only. Appearance and Layout share `Segmented`.
+- **Verify:**
+  - A unit test for the storage fallback.
+  - `e2e/layout.spec.js`:
+    - the switch on desktop
+    - the choice survives a reload
+    - navigation from the sidebar works
+    - switching back works
+    - phones show neither the choice nor a saved sidebar
+  - Screenshots `app-{light,dark}-sidebar-{home,checkins}.png`.
+  - The phone pixel comparison is unchanged.
+- **Done:** yes
+
 ## Open questions
 
 None. The owner settled the frame, the themes and the scope on 2026-11-07.

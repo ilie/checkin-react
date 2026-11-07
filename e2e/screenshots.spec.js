@@ -35,7 +35,8 @@ test("desktop check-ins", async ({ page }) => {
   await page.screenshot({ path: out("desktop") });
 });
 
-// Home clocked in, Home with a missing check-out, and the admin's Check-ins and Users.
+// Home clocked in, Home with a missing check-out, and the admin's Check-ins and Users, then Home and Check-ins
+// with the sidebar.
 test.describe("desktop screens for ADR 0006", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
@@ -64,6 +65,15 @@ test.describe("desktop screens for ADR 0006", () => {
         await ready(page).waitFor();
         await settle(page);
         await page.screenshot({ path: `adrs/assets/0006/app-${colorScheme}-${name}.png` });
+      }
+
+      // The sidebar, the other layout that Me offers.
+      await page.evaluate(() => localStorage.setItem("layout", "sidebar"));
+      for (const [name, email, path, ready] of [screens[0], screens[2]]) {
+        await loginAs(page, email, path);
+        await ready(page).waitFor();
+        await settle(page);
+        await page.screenshot({ path: `adrs/assets/0006/app-${colorScheme}-sidebar-${name}.png` });
       }
     });
   }
